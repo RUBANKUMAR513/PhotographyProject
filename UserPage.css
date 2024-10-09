@@ -1,0 +1,426 @@
+/* Global reset and box-sizing */
+* {
+  box-sizing: border-box; /* Include padding and border in element's total width */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* Stack child elements vertically */
+  background-color: #FDF4E3;
+}
+
+/* Adjust body padding to avoid content overlap with the fixed header */
+body {
+  padding-top: 100px; /* Adjust according to your header height */
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  border: 2px solid #ccc;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.image-box {
+  width: calc(33.33% - 15px); /* Adjust width to accommodate 3 boxes per row */
+
+  border: 2px solid #ddd;
+  position: relative;
+  text-align: center;
+  transition: border-color 0.3s; /* Smooth border transition */
+}
+
+.image-box img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.image-box.selected {
+  border-color: #00bfff;
+}
+
+.heart-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #ddd;
+  transition: color 0.2s; /* Smooth color transition */
+}
+
+.heart-icon.filled {
+  color: #ff0000;
+}
+
+.heart-icon:hover {
+  color: #ff3333; /* Change color on hover */
+}
+
+.view-icon,
+.download-icon {
+  font-size: 18px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.view-icon:hover,
+.download-icon:hover {
+  color: #0056b3; /* Darker shade on hover */
+}
+
+.selected-images-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 30px;
+  padding: 10px;
+  border: 2px solid #ccc;
+}
+
+.no-images {
+  color: #777;
+}
+
+.icon-container {
+  position: relative; /* Ensure the tooltip is positioned correctly */
+}
+
+.tooltip {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 3px 5px; /* Reduced padding for smaller tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position above the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px; /* Reduced tooltip font size */
+}
+
+.icon-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto; /* Align button to the right */
+  margin-bottom: 10px;
+}
+
+/* Fullscreen overlay styling */
+.fullscreen-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's on top of other elements */
+}
+
+.fullscreen-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  gap: 15px; /* Increased space between icons */
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+.remove-icon {
+  font-size: 20px; /* Size of the icon */
+  color: #ff0000; /* Red color for the remove icon */
+  margin-left: 5px; /* Spacing from the other icons */
+  cursor: pointer; /* Show a pointer cursor */
+}
+
+/* Center the headings horizontally and vertically */
+.container-heading {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold; /* Make heading bold */
+  color: #f1c40f;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .image-box {
+    width: calc(50% - 15px); /* Two boxes per row on medium screens */
+  }
+
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-nav a {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-box {
+    width: calc(100% - 15px); /* One box per row on small screens */
+  }
+
+  .selected-image {
+    width: 100%;
+  }
+}
+
+/* Header styles */
+header {
+  width: 100%;
+  background-color: #eee7e2;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.main {
+  padding: 30px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.logo-img {
+  height: 80px;
+  width: auto;
+}
+
+.header-nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+}
+.header-nav {
+  display: flex;
+  gap: 20px; /* Add spacing between links */
+}
+
+.header-nav a {
+  color:#873e23 ;
+  text-decoration: none;
+  font-size: 18px;
+  position: relative;
+  display: flex;
+  align-items: center; /* Center align icons and text vertically */
+  transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.header-nav a i {
+  margin-right: 8px; /* Space between the icon and text */
+  font-size: 18px; /* Adjust icon size */
+  color:#ffc400 ;
+}
+
+.header-nav a:hover {
+  color: #f1c40f; /* Change color on hover */
+}
+
+.header-nav a i:hover {
+  transform: scale(1.1); /* Slight icon scale effect on hover */
+  transition: transform 0.2s ease-in-out; /* Smooth scaling effect */
+}
+
+.header-nav a:active {
+  color: #ffeb3b; /* Change color when active */
+}
+
+
+/* Footer styles */
+.footer-section {
+  background-color: #873e23;
+  color: white;
+  padding: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+  flex: 1;
+  min-width: 200px; /* Minimum width to maintain structure */
+  margin: 10px; /* Add some margin for spacing */
+}
+
+.company-info {
+  text-align: center;
+  color: #f1c40f;
+}
+
+.footer-logo img {
+  width: 80px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.contact-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #f1c40f;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.icon-link img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  
+}
+.follow-us{
+  color: #f1c40f;
+
+}
+
+.contact-line {
+  margin-top: 5px;
+  color: #fff;
+}
+.contact-line a{
+  text-decoration: none;
+  color: #fff;
+}
+.contact-line a:hover{
+  transform: scale(1.1);
+  color: #f1c40f;
+  text-decoration: underline;
+}
+.see-here-link {
+  color: #032dff;
+  text-decoration: underline;
+}
+
+.social-follow {
+  text-align: center;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.social-icon img,
+.social-icon video {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.social-icon:hover img,
+.social-icon:hover video {
+  transform: scale(1.1);
+}
+
+/* Responsive styles for footer */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items */
+    padding: 0 10px; /* Reduce padding on smaller screens */
+  }
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    text-align: center; /* Center text for smaller screens */
+    margin: 5px 0; /* Reduce margin between sections */
+  }
+
+  .contact-title {
+    font-size: 18px; /* Reduce font size */
+  }
+
+  .footer-contact-item {
+    font-size: 14px; /* Smaller font for contact items */
+  }
+
+  .icon-link img {
+    width: 25px; /* Smaller icon size */
+    height: 25px; /* Maintain aspect ratio */
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 0 5px; /* Further reduce padding */
+  }
+
+  .contact-title {
+    font-size: 16px; /* Smaller font size for very small screens */
+  }
+
+  .footer-contact-item {
+    font-size: 12px; /* Smaller font size */
+  }
+
+  .footer-logo img {
+    width: 60px; /* Smaller logo size */
+  }
+}

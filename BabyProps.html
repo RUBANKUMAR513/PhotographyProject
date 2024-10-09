@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyProps | VickyneoPhotography</title>
+    <link rel="stylesheet" href="final.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- Sidebar Section -->
+     <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="vickylogo.jpg" alt="Logo">
+        </div>
+        <!-- Remove the Menu heading by commenting out or deleting the <h2> tag -->
+        <!-- <h2>Menu</h2> -->
+        <ul>
+            <li><a href="final.html">Home</a></li>
+            <li><a href="final.html#gallery">Gallery</a></li> 
+            <li><a href="BabyProps.html">Baby Shoots</a></li>
+            <li><a href="Services.html">Our Services</a></li>
+            <li><a href="final.html#recentwork">Our Recent Works</a></li>
+            <li><a href="final.html#about">About Us</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <div class="sidebar-copyright">
+            <p>&copy; 2024 Designed by Ruban | All rights reserved.</p>
+        </div>
+    </div>
+    
+
+    <header>
+        <!-- Left-aligned menu button -->
+        <button class="menu-btn" id="menuBtn">&#9776;</button>
+    
+        <!-- Center-aligned company name with tagline -->
+        <div class="company-name">
+            <h1>Vickyneo Photography</h1>
+            <p class="tagline">(Baby Prop Store)</p> <!-- Added tagline here -->
+        </div>
+    
+        <!-- Right-aligned logo -->
+        <div class="logo-container">
+            <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+        </div>
+    </header>
+    <main>
+        <h1 class="page-heading" id="babyprops">Baby Shoots</h1>
+        <div class="baby-props-gallery">
+            <div class="new_gallery">
+                <div class="new_image-container">
+                    <img id="new_image1" src="baby1.jpeg" alt="Image 1">
+                    <div class="new_overlay">Baby Prop 1</div>
+                    <div class="new_button new_prev" onclick="prevImage(1)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(1)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image2" src="baby2.jpeg" alt="Image 2">
+                    <div class="new_overlay">Baby Prop 2</div>
+                    <div class="new_button new_prev" onclick="prevImage(2)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(2)">&#10095;</div>
+                </div>
+                <div class="new_image-container new_tall">
+                    <img id="new_image3" src="baby3.jpeg" alt="Image 3">
+                    <div class="new_overlay">Baby Prop 3</div>
+                    <div class="new_button new_prev" onclick="prevImage(3)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(3)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image4" src="baby4.jpeg" alt="Image 4">
+                    <div class="new_overlay">Baby Prop 4</div>
+                    <div class="new_button new_prev" onclick="prevImage(4)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(4)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image5" src="baby5.jpeg" alt="Image 5">
+                    <div class="new_overlay">Baby Prop 5</div>
+                    <div class="new_button new_prev" onclick="prevImage(5)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(5)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image6" src="baby6.jpeg" alt="Image 6">
+                    <div class="new_overlay">Baby Prop 6</div>
+                    <div class="new_button new_prev" onclick="prevImage(6)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(6)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image7" src="baby7.jpeg" alt="Image 7">
+                    <div class="new_overlay">Baby Prop 7</div>
+                    <div class="new_button new_prev" onclick="prevImage(7)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(7)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image8" src="baby8.jpeg" alt="Image 8">
+                    <div class="new_overlay">Baby Prop 8</div>
+                    <div class="new_button new_prev" onclick="prevImage(8)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(8)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image9" src="baby9.jpeg" alt="Image 9">
+                    <div class="new_overlay">Baby Prop 9</div>
+                    <div class="new_button new_prev" onclick="prevImage(9)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(9)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image10" src="baby10.jpeg" alt="Image 10">
+                    <div class="new_overlay">Baby Prop 10</div>
+                    <div class="new_button new_prev" onclick="prevImage(10)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(10)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image11" src="baby11.jpeg" alt="Image 11">
+                    <div class="new_overlay">Baby Prop 11</div>
+                    <div class="new_button new_prev" onclick="prevImage(11)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(11)">&#10095;</div>
+                </div>
+                <div class="new_image-container">
+                    <img id="new_image12" src="baby12.jpeg" alt="Image 12">
+                    <div class="new_overlay">Baby Prop 12</div>
+                    <div class="new_button new_prev" onclick="prevImage(12)">&#10094;</div>
+                    <div class="new_button new_next" onclick="nextImage(12)">&#10095;</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer-section">
+        <div class="footer-container">
+            <!-- Left side: Company Name with centered logo -->
+            <div class="footer-left">
+                <div class="company-info">
+                    <div class="footer-logo">
+                        <img src="logo-footer.jpg" alt="Company Logo" class="rounded-logo">
+                    </div>
+                    <h3 class="company-name">Vickyneo Photography</h3>
+                </div>
+            </div>
+    
+            <!-- Center: Contact Info with Title and Address -->
+            <div class="footer-center" id="contact">
+                <h3 class="contact-title">Contact Us</h3> <!-- Contact Us title -->
+    
+                <!-- Location Section -->
+                <div class="footer-contact-item">
+                    <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link">
+                        <img src="location-icon.gif" alt="Location" class="rounded-location-icon animated-icon">
+                    </a>
+                    <div class="contact-info">
+                        <span class="contact-line">Single Street,Urban bank opposite</span>
+                        <span class="contact-line">Near Mariamman kovil</span>
+                        <span class="contact-line">Batlagundu</span>
+                        <span class="contact-line">624202</span>
+                        <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="see-here-link">See here in map</a>
+                    </div>
+                </div>
+    
+                <!-- Phone Section -->
+                    <div class="footer-contact-item">
+                        <a href="tel:+917373865255" class="icon-link"> <!-- Corrected with 'tel:' -->
+                            <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
+                        </a>
+                        <div class="contact-info">
+                            <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span> <!-- Corrected with 'tel:' -->
+                        </div>
+                    </div>
+
+                    <!-- Email Section -->
+                    <div class="footer-contact-item">
+                        <a href="mailto:vickyneophotography@gmail.com" class="icon-link"> <!-- Corrected with 'mailto:' -->
+                            <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
+                        </a>
+                        <div class="contact-info">
+                            <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span> <!-- Corrected with 'mailto:' -->
+                        </div>
+                    </div>
+
+            </div>
+    
+            <!-- Right side: Follow Us and Social Media Icons -->
+            <!-- Right side: Follow Us and Social Media Icons -->
+        <div class="footer-right">
+            <div class="social-follow">
+                <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
+                <div class="social-icons">
+                    <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
+                        <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
+                    </a>
+                    <a href="https://www.facebook.com/[Your Facebook Page]" class="social-icon facebook-icon" target="_blank">
+                        <img src="facebook-icon.gif" alt="Facebook" class="rounded-icon animated-icon">
+                    </a>
+                    <a href="https://www.instagram.com/vickyneo_photography" class="social-icon insta-icon" target="_blank">
+                        <img src="instagram-icon.gif" alt="Instagram" class="rounded-icon animated-icon">
+                    </a>
+                    <a href="https://www.youtube.com/@vickyneophotography1351" class="social-icon youtube-icon" target="_blank">
+                        <img src="youtube-icon.gif" alt="YouTube" class="rounded-icon animated-icon">
+                    </a>
+                    <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
+                        <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
+                            <source src="X-icon.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </footer>
+    <script src="final.js"></script>
+    <script>
+        const new_images = {
+    1: ["baby1.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    2: ["baby2.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    3: ["baby3.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    4: ["baby4.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    5: ["baby5.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    6: ["baby6.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    7: ["baby7.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    8: ["baby8.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    9: ["baby9.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    10: ["baby10.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    11: ["baby11.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+    12: ["baby12.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
+};
+
+function nextImage(index) {
+    const imgElement = document.getElementById(`new_image${index}`);
+    const currentSrc = imgElement.src;
+    const images = new_images[index];
+    const nextIndex = (images.indexOf(currentSrc.split("/").pop()) + 1) % images.length;
+    imgElement.src = images[nextIndex];
+}
+
+function prevImage(index) {
+    const imgElement = document.getElementById(`new_image${index}`);
+    const currentSrc = imgElement.src;
+    const images = new_images[index];
+    const prevIndex = (images.indexOf(currentSrc.split("/").pop()) - 1 + images.length) % images.length;
+    imgElement.src = images[prevIndex];
+}
+    </script>
+</body>
+</html>

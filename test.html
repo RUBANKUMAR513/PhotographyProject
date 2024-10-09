@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Image Selector</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin-top: 30px;
+        }
+    
+        .image-box {
+            width: 150px;
+            border: 2px solid #ddd;
+            position: relative;
+            text-align: center;
+            transition: border-color 0.3s; /* Smooth border transition */
+        }
+    
+        .image-box img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+    
+        .image-box.selected {
+            border-color: #00bfff;
+        }
+    
+        .heart-icon {
+            font-size: 20px;
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s; /* Smooth color transition */
+        }
+    
+        .heart-icon.filled {
+            color: #ff0000;
+        }
+    
+        .heart-icon:hover {
+            color: #ff3333; /* Change color on hover */
+        }
+    
+        .view-icon,
+        .download-icon {
+            font-size: 18px;
+            cursor: pointer;
+            color: #007bff;
+        }
+    
+        .view-icon:hover,
+        .download-icon:hover {
+            color: #0056b3; /* Darker shade on hover */
+        }
+    
+        .selected-images-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+            padding: 10px;
+            border: 2px solid #ccc;
+        }
+    
+        .no-images {
+            color: #777;
+        }
+    
+        .icon-container {
+            position: relative; /* Ensure the tooltip is positioned correctly */
+        }
+    
+        .tooltip {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 3px 5px; /* Reduced padding for smaller tooltip */
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position above the icon */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px; /* Reduced tooltip font size */
+        }
+    
+        .icon-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    
+        .save-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto; /* Align button to the right */
+        }
+    
+        /* Fullscreen overlay styling */
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it's on top of other elements */
+        }
+    
+        .fullscreen-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+            gap: 15px; /* Increased space between icons */
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+    
+        .remove-icon {
+            font-size: 20px; /* Size of the icon */
+            color: #ff0000; /* Red color for the remove icon */
+            margin-left: 5px; /* Spacing from the other icons */
+            cursor: pointer; /* Show a pointer cursor */
+        }
+    
+        /* Center the headings horizontally and vertically */
+        .container-heading {
+            text-align: center;
+            font-size: 28px;
+            margin-top: 100px;
+            font-weight: bold; /* Make heading bold */
+        }
+    
+        @media (max-width: 600px) {
+            .image-box {
+                width: 100px; /* Smaller image box on mobile */
+            }
+        }
+    </style>
+    
+    
+    
+</head>
+<body>
+    <div class="container-heading">Gallery</div>
+    <div id="imageContainer" class="image-container">
+        <!-- Example image boxes -->
+        <div class="image-box" data-id="1">
+            <img src="test1.jpg" alt="Image 1">
+            <div class="button-group">
+                <div class="icon-container">
+                    <i class="heart-icon fas fa-heart"></i>
+                    <div class="tooltip">Favorite</div>
+                </div>
+                <div class="icon-container">
+                    <i class="view-icon fas fa-eye" onclick="viewImage('test1.jpg')"></i>
+                    <div class="tooltip">View</div>
+                </div>
+                <div class="icon-container">
+                    <i class="download-icon fas fa-download" onclick="downloadImage('test1.jpg')"></i>
+                    <div class="tooltip">Download</div>
+                </div>
+            </div>
+        </div>
+        <div class="image-box" data-id="2">
+            <img src="test2.jpg" alt="Image 2">
+            <div class="button-group">
+                <div class="icon-container">
+                    <i class="heart-icon fas fa-heart"></i>
+                    <div class="tooltip">Favorite</div>
+                </div>
+                <div class="icon-container">
+                    <i class="view-icon fas fa-eye" onclick="viewImage('test2.jpg')"></i>
+                    <div class="tooltip">View</div>
+                </div>
+                <div class="icon-container">
+                    <i class="download-icon fas fa-download" onclick="downloadImage('test2.jpg')"></i>
+                    <div class="tooltip">Download</div>
+                </div>
+            </div>
+        </div>
+        <div class="image-box" data-id="3">
+            <img src="test3.jpg" alt="Image 3">
+            <div class="button-group">
+                <div class="icon-container">
+                    <i class="heart-icon fas fa-heart"></i>
+                    <div class="tooltip">Favorite</div>
+                </div>
+                <div class="icon-container">
+                    <i class="view-icon fas fa-eye" onclick="viewImage('test3.jpg')"></i>
+                    <div class="tooltip">View</div>
+                </div>
+                <div class="icon-container">
+                    <i class="download-icon fas fa-download" onclick="downloadImage('test3.jpg')"></i>
+                    <div class="tooltip">Download</div>
+                </div>
+            </div>
+        </div>
+        <div class="image-box" data-id="4">
+            <img src="test4.jpg" alt="Image 4">
+            <div class="button-group">
+                <div class="icon-container">
+                    <i class="heart-icon fas fa-heart"></i>
+                    <div class="tooltip">Favorite</div>
+                </div>
+                <div class="icon-container">
+                    <i class="view-icon fas fa-eye" onclick="viewImage('test4.jpg')"></i>
+                    <div class="tooltip">View</div>
+                </div>
+                <div class="icon-container">
+                    <i class="download-icon fas fa-download" onclick="downloadImage('test4.jpg')"></i>
+                    <div class="tooltip">Download</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-heading">Favourite</div>
+    <div id="selectedImagesContainer" class="selected-images-container">
+        <p class="no-images">No images selected</p>
+    </div>
+
+    <button class="save-btn" onclick="saveSelection()">Save Selected Images</button>
+
+    <!-- Fullscreen overlay for viewing images -->
+    <div id="fullscreenOverlay" class="fullscreen-overlay">
+        <i class="close-btn fas fa-times" onclick="closeFullscreen()"></i>
+        <img id="fullscreenImage" src="" alt="Fullscreen Image">
+    </div>
+
+    <script>
+        let selectedImages = JSON.parse(localStorage.getItem('selectedImages')) || [];
+
+        window.onload = function () {
+            document.querySelectorAll('.image-box').forEach(imageBox => {
+                const imageId = imageBox.getAttribute('data-id');
+                const heartIcon = imageBox.querySelector('.heart-icon');
+
+                if (selectedImages.includes(imageId)) {
+                    imageBox.classList.add('selected');
+                    heartIcon.classList.add('filled');
+                } else {
+                    heartIcon.classList.remove('filled');
+                }
+             // Prevent right-click context menu on the image
+             const image = imageBox.querySelector('img');
+                image.addEventListener('contextmenu', function (e) {
+                    e.preventDefault();
+                });
+            });
+            
+            // Prevent right-click context menu on the image container
+            document.getElementById('imageContainer').addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+            // Prevent right-click context menu on the selected images container
+            document.getElementById('selectedImagesContainer').addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+            updateSelectedImagesContainer();
+        };
+
+
+        document.getElementById('imageContainer').addEventListener('click', function (e) {
+            if (e.target.classList.contains('heart-icon')) {
+                const clickedBox = e.target.closest('.image-box');
+                const imageId = clickedBox.getAttribute('data-id');
+                const heartIcon = clickedBox.querySelector('.heart-icon');
+
+                if (clickedBox.classList.contains('selected')) {
+                    clickedBox.classList.remove('selected');
+                    heartIcon.classList.remove('filled');
+                    selectedImages = selectedImages.filter(id => id !== imageId);
+                } else {
+                    clickedBox.classList.add('selected');
+                    heartIcon.classList.add('filled');
+                    selectedImages.push(imageId);
+                }
+
+                localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
+                updateSelectedImagesContainer();
+            }
+        });
+
+        function updateSelectedImagesContainer() {
+    const selectedImagesContainer = document.getElementById('selectedImagesContainer');
+    selectedImagesContainer.innerHTML = '';
+
+    if (selectedImages.length === 0) {
+        selectedImagesContainer.innerHTML = '<p class="no-images">No images selected</p>';
+    } else {
+        selectedImages.forEach(imageId => {
+            const imageBox = document.querySelector(`.image-box[data-id="${imageId}"]`).cloneNode(true);
+            imageBox.classList.add('selected-image');
+            imageBox.querySelector('i.heart-icon').remove();
+
+            // Create a remove icon container
+            const iconContainer = document.createElement('div');
+            iconContainer.classList.add('icon-container');
+
+            // Create a remove icon
+            const removeIcon = document.createElement('i');
+            removeIcon.classList.add('remove-icon', 'fas', 'fa-times');
+            removeIcon.addEventListener('click', () => removeSelectedImage(imageId));
+
+            // Create a tooltip for the remove icon
+            const removeTooltip = document.createElement('div');
+            removeTooltip.classList.add('tooltip');
+            removeTooltip.textContent = 'Remove';
+
+            // Append the tooltip and icon to the icon container
+            iconContainer.appendChild(removeIcon);
+            iconContainer.appendChild(removeTooltip);
+
+            // Append the icon container to the button group
+            imageBox.querySelector('.button-group').appendChild(iconContainer);
+
+            selectedImagesContainer.appendChild(imageBox);
+        });
+    }
+}
+
+        function removeSelectedImage(imageId) {
+            selectedImages = selectedImages.filter(id => id !== imageId);
+            localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
+            updateSelectedImagesContainer();
+
+            const originalImageBox = document.querySelector(`.image-box[data-id="${imageId}"]`);
+            const heartIcon = originalImageBox.querySelector('.heart-icon');
+            originalImageBox.classList.remove('selected');
+            heartIcon.classList.remove('filled');
+        }
+
+        function saveSelection() {
+            alert("Selected images saved!");
+            // Implement save functionality here (e.g., send to server)
+        }
+
+        function viewImage(imageUrl) {
+            const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+
+            fullscreenImage.src = imageUrl;
+            fullscreenOverlay.style.display = 'flex';
+            // Prevent right-click context menu on fullscreen image
+            fullscreenImage.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+        }
+
+        function closeFullscreen() {
+            const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+            fullscreenOverlay.style.display = 'none';
+        }
+
+        function downloadImage(imageUrl) {
+    const a = document.createElement('a');
+    a.href = imageUrl; // Directly set the file URL
+    a.download = imageUrl.split('/').pop(); // Get the filename
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    alert("Download initiated for " + a.download); // Feedback to user
+}
+
+    </script>
+</body>
+</html>

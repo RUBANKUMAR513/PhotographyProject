@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UserPage | VickyneoPhotography</title>
+  <link rel="stylesheet" href="UserPage.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <img src="vickyneophotographylogo.png" alt="Logo" class="logo-img">
+      </div>
+      <nav class="header-nav">
+        <a href="#gallery">
+          <i class="fas fa-image"></i> Gallery
+        </a>
+        <a href="#favorites">
+          <i class="fas fa-heart"></i> Favorites
+        </a>
+        <a href="#contactus">
+          <i class="fas fa-envelope"></i> Contact Us
+        </a>
+      </nav>
+    </div>
+    
+    </div>
+  </header>
+
+  <main class="main">
+    <div id="gallery" class="container-heading">Gallery</div>
+    <div id="imageContainer" class="image-container">
+        <!-- Example image boxes -->
+        <div class="image-box" data-id="1">
+            <img src="test1.jpg" alt="Image 1">
+            <div class="button-group">
+                <div class="icon-container">
+                    <i class="heart-icon fas fa-heart"></i>
+                    <div class="tooltip">Favorite</div>
+                </div>
+                <div class="icon-container">
+                    <i class="view-icon fas fa-eye" onclick="viewImage('test1.jpg')"></i>
+                    <div class="tooltip">View</div>
+                </div>
+                <div class="icon-container">
+                    <i class="download-icon fas fa-download" onclick="downloadImage('test1.jpg')"></i>
+                    <div class="tooltip">Download</div>
+                </div>
+            </div>
+        </div>
+        <div class="image-box" data-id="2">
+            <img src="test2.jpg" alt="Image 2">
+            <div class="button-group">
+                <div class="icon-container">
+                    <i class="heart-icon fas fa-heart"></i>
+                    <div class="tooltip">Favorite</div>
+                </div>
+                <div class="icon-container">
+                    <i class="view-icon fas fa-eye" onclick="viewImage('test2.jpg')"></i>
+                    <div class="tooltip">View</div>
+                </div>
+                <div class="icon-container">
+                    <i class="download-icon fas fa-download" onclick="downloadImage('test2.jpg')"></i>
+                    <div class="tooltip">Download</div>
+                </div>
+            </div>
+        </div>
+        <div class="image-box" data-id="3">
+            <img src="test3.jpg" alt="Image 3">
+            <div class="button-group">
+                <div class="icon-container">
+                    <i class="heart-icon fas fa-heart"></i>
+                    <div class="tooltip">Favorite</div>
+                </div>
+                <div class="icon-container">
+                    <i class="view-icon fas fa-eye" onclick="viewImage('test3.jpg')"></i>
+                    <div class="tooltip">View</div>
+                </div>
+                <div class="icon-container">
+                    <i class="download-icon fas fa-download" onclick="downloadImage('test3.jpg')"></i>
+                    <div class="tooltip">Download</div>
+                </div>
+            </div>
+        </div>
+        <div class="image-box" data-id="4">
+            <img src="test4.jpg" alt="Image 4">
+            <div class="button-group">
+                <div class="icon-container">
+                    <i class="heart-icon fas fa-heart"></i>
+                    <div class="tooltip">Favorite</div>
+                </div>
+                <div class="icon-container">
+                    <i class="view-icon fas fa-eye" onclick="viewImage('test4.jpg')"></i>
+                    <div class="tooltip">View</div>
+                </div>
+                <div class="icon-container">
+                    <i class="download-icon fas fa-download" onclick="downloadImage('test4.jpg')"></i>
+                    <div class="tooltip">Download</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="favorites" class="container-heading">Favorites</div>
+    <div id="selectedImagesContainer" class="selected-images-container">
+        <p class="no-images">No images selected</p>
+    </div>
+
+    <button class="save-btn" onclick="saveSelection()">Submit</button>
+
+    <!-- Fullscreen overlay for viewing images -->
+    <div id="fullscreenOverlay" class="fullscreen-overlay">
+        <i class="close-btn fas fa-times" onclick="closeFullscreen()"></i>
+        <img id="fullscreenImage" src="" alt="Fullscreen Image">
+    </div>
+    
+    
+  </main>
+
+  <footer class="footer-section">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="company-info">
+          <div class="footer-logo">
+            <img src="logo-footer.jpg" alt="Company Logo" class="rounded-logo">
+          </div>
+          <h3 class="company-name">Vickyneo Photography</h3>
+        </div>
+      </div>
+      <div class="footer-center" id="contact">
+        <h3 class="contact-title" id="contactus">Contact Us</h3>
+        <div class="footer-contact-item">
+          <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link">
+            <img src="location-icon.gif" alt="Location" class="rounded-icon animated-icon">
+          </a>
+          <div class="contact-info">
+            <span class="contact-line">Single Street, Urban bank opposite</span>
+            <span class="contact-line">Near Mariamman kovil</span>
+            <span class="contact-line">Batlagundu, 624202</span>
+            <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="see-here-link">See here in map</a>
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <a href="tel:+917373865255" class="icon-link"> 
+            <img src="phone-icon.gif" alt="Phone" class="rounded-icon animated-icon">
+          </a>
+          <div class="contact-info">
+            <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span>
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <a href="mailto:vickyneophotography@gmail.com" class="icon-link"> 
+            <img src="email-icon.gif" alt="Email" class="rounded-icon animated-icon">
+          </a>
+          <div class="contact-info">
+            <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-right">
+        <div class="social-follow">
+          <p class="follow-us">Follow us</p>
+          <div class="social-icons">
+            <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
+              <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
+          </a>
+          <a href="https://www.facebook.com/[Your Facebook Page]" class="social-icon facebook-icon" target="_blank">
+              <img src="facebook-icon.gif" alt="Facebook" class="rounded-icon animated-icon">
+          </a>
+          <a href="https://www.instagram.com/vickyneo_photography" class="social-icon insta-icon" target="_blank">
+              <img src="instagram-icon.gif" alt="Instagram" class="rounded-icon animated-icon">
+          </a>
+          <a href="https://www.youtube.com/@vickyneophotography1351" class="social-icon youtube-icon" target="_blank">
+              <img src="youtube-icon.gif" alt="YouTube" class="rounded-icon animated-icon">
+          </a>
+          <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
+              <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
+                  <source src="X-icon.mp4" type="video/mp4">
+              </video>
+          </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="UserPage.js"></script>
+</body>
+</html>
