@@ -50,55 +50,69 @@ document.getElementById('imageContainer').addEventListener('click', function (e)
         updateSelectedImagesContainer();
     }
 });
-
 function updateSelectedImagesContainer() {
-const selectedImagesContainer = document.getElementById('selectedImagesContainer');
-selectedImagesContainer.innerHTML = '';
+    const selectedImagesContainer = document.getElementById('selectedImagesContainer');
+    selectedImagesContainer.innerHTML = '';
 
-if (selectedImages.length === 0) {
-selectedImagesContainer.innerHTML = '<p class="no-images">No images selected</p>';
-} else {
-selectedImages.forEach(imageId => {
-    const imageBox = document.querySelector(`.image-box[data-id="${imageId}"]`).cloneNode(true);
-    imageBox.classList.add('selected-image');
-    imageBox.querySelector('i.heart-icon').remove();
+    if (selectedImages.length === 0) {
+        selectedImagesContainer.innerHTML = '<p class="no-images">No images selected</p>';
+    } else {
+        selectedImages.forEach(imageId => {
+            const imageBox = document.querySelector(`.image-box[data-id="${imageId}"]`);
+            if (imageBox) {
+                const clonedImageBox = imageBox.cloneNode(true);
+                clonedImageBox.classList.add('selected-image');
+                clonedImageBox.querySelector('i.heart-icon').remove();
 
-    // Create a remove icon container
-    const iconContainer = document.createElement('div');
-    iconContainer.classList.add('icon-container');
+                // Create a remove icon container
+                const iconContainer = document.createElement('div');
+                iconContainer.classList.add('icon-container');
 
-    // Create a remove icon
-    const removeIcon = document.createElement('i');
-    removeIcon.classList.add('remove-icon', 'fas', 'fa-times');
-    removeIcon.addEventListener('click', () => removeSelectedImage(imageId));
+                // Create a remove icon
+                const removeIcon = document.createElement('i');
+                removeIcon.classList.add('remove-icon', 'fas', 'fa-times');
+                removeIcon.addEventListener('click', () => removeSelectedImage(imageId));
 
-    // Create a tooltip for the remove icon
-    const removeTooltip = document.createElement('div');
-    removeTooltip.classList.add('tooltip');
-    removeTooltip.textContent = 'Remove';
+                // Create a tooltip for the remove icon
+                const removeTooltip = document.createElement('div');
+                removeTooltip.classList.add('tooltip');
+                removeTooltip.textContent = 'Remove';
 
-    // Append the tooltip and icon to the icon container
-    iconContainer.appendChild(removeIcon);
-    iconContainer.appendChild(removeTooltip);
+                // Append the tooltip and icon to the icon container
+                iconContainer.appendChild(removeIcon);
+                iconContainer.appendChild(removeTooltip);
 
-    // Append the icon container to the button group
-    imageBox.querySelector('.button-group').appendChild(iconContainer);
+                // Append the icon container to the button group
+                const buttonGroup = clonedImageBox.querySelector('.button-group');
+                if (buttonGroup) {
+                    buttonGroup.appendChild(iconContainer);
+                }
 
-    selectedImagesContainer.appendChild(imageBox);
-});
+                // Add the cloned image to the selected images container
+                selectedImagesContainer.appendChild(clonedImageBox);
+            }
+        });
+    }
 }
-}
+
 
 function removeSelectedImage(imageId) {
+    // Remove the image from the selectedImages array
     selectedImages = selectedImages.filter(id => id !== imageId);
     localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
     updateSelectedImagesContainer();
 
+    // Find the original image box and update its state
     const originalImageBox = document.querySelector(`.image-box[data-id="${imageId}"]`);
-    const heartIcon = originalImageBox.querySelector('.heart-icon');
-    originalImageBox.classList.remove('selected');
-    heartIcon.classList.remove('filled');
+    if (originalImageBox) {
+        const heartIcon = originalImageBox.querySelector('.heart-icon');
+        originalImageBox.classList.remove('selected');
+        if (heartIcon) {
+            heartIcon.classList.remove('filled');
+        }
+    }
 }
+
 
 function saveSelection() {
     alert("Selected images saved!");
@@ -132,3 +146,29 @@ document.body.removeChild(a);
 
 alert("Download initiated for " + a.download); // Feedback to user
 }
+
+
+// Disable right-click context menu
+// document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Disable keyboard shortcuts (like Print Screen)
+document.addEventListener('keydown', event => {
+    if (event.key === 'PrintScreen' || (event.ctrlKey && (event.key === 'p' || event.key === 's'))) {
+        event.preventDefault();
+        alert("Screenshot functionality is disabled on this page.");
+    }
+});
+
+document.addEventListener('keydown', function (e) {
+    // Disable Ctrl + PrtScn and Alt + PrtScn
+    if ((e.ctrlKey || e.altKey) && e.key === 'PrintScreen') {
+        e.preventDefault();
+        alert('Screenshots are not allowed on this page.');
+    }
+});
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'PrintScreen') {
+        alert('Screenshots are not allowed on this page.');
+    }
+});

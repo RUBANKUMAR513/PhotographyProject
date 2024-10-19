@@ -27,6 +27,7 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+
 }
 
 .logo {
@@ -35,7 +36,9 @@ body {
     border-radius: 50%;
     object-fit: cover;
 }
-
+.logo:hover {
+    transform: scale(1.1); /* Scale the logo by 1.2 times when hovered */
+}
 /* Welcome Text */
 .welcome-text {
     color: #f1c40f;

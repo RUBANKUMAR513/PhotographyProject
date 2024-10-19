@@ -7,9 +7,181 @@
     <link rel="stylesheet" href="final.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
+<style>
+    
+
+    .gallery-container {
+      
+        display: flex;
+        /* justify-content: center;
+        align-items: center; */
+        min-height: 100vh;
+        /* border: 1px solid black; */
+        margin: 20px;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-gap: 15px;
+        width: 100%;
+        /* max-width: 1200px; */
+
+    }
+
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        cursor: pointer;
+       
+    }
+
+    /* Hover effect */
+    .gallery-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        border: 2px solid #873e23;
+    }
+
+    .carousel {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    .carousel {
+height: 100%;
+width: 100%;
+}
+    .carousel-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+    }
+
+    /* Overlay with name */
+    .gallery-item .overlayforbaby {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover .overlayforbaby {
+        opacity: 1;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal.active {
+        display: flex;
+    }
+
+    .modal-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .modal-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .prev, .next, .close {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        font-size: 18px;
+    }
+
+    .prev {
+        left: 10px;
+    }
+
+    .next {
+        right: 10px;
+    }
+
+    .close {
+        top: 10px;
+        right: 10px;
+        transform: none;
+        padding: 15px;
+    }
+
+    .prev:hover, .next:hover, .close:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+    .gallery-item-large {
+     grid-row: span 2;
+     position: relative;
+    }
+
+    /* Responsive styling for screens less than or equal to 768px */
+/* Responsive styling for screens less than or equal to 768px */
+@media screen and (max-width: 768px) {
+.gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.carousel-image {
+    object-fit: cover;
+}
+
+.gallery-item-large {
+    grid-row: span 2; /* Keep large items spanning 2 rows on smaller screens */
+}
+}
+
+/* Responsive styling for screens less than or equal to 480px */
+@media screen and (max-width: 480px) {
+.gallery {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}
+
+.carousel-image {
+    object-fit: cover;
+}
+
+.gallery-item-large {
+    grid-row: span 2; /* Keep large items spanning 2 rows on very small screens */
+}
+}
+
+</style>
 <body>
      <!-- Sidebar Section -->
      <div class="sidebar" id="sidebar">
@@ -20,10 +192,10 @@
         <!-- <h2>Menu</h2> -->
         <ul>
             <li><a href="final.html">Home</a></li>
-            <li><a href="final.html#gallery">Gallery</a></li> 
+            <!-- <li><a href="final.html#gallery">Gallery</a></li>  -->
             <li><a href="BabyProps.html">Baby Shoots</a></li>
             <li><a href="Services.html">Our Services</a></li>
-            <li><a href="final.html#recentwork">Our Recent Works</a></li>
+            <!-- <li><a href="final.html#recentwork">Our Recent Works</a></li> -->
             <li><a href="final.html#about">About Us</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
@@ -46,202 +218,304 @@
     
         <!-- Right-aligned logo -->
         <div class="logo-container">
-            <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+            <a href="login.html" target="_blank">
+                <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+            </a>
         </div>
     </header>
-    <main>
+    <main id="home">
         <h1 class="page-heading" id="babyprops">Baby Shoots</h1>
-        <div class="baby-props-gallery">
-            <div class="new_gallery">
-                <div class="new_image-container">
-                    <img id="new_image1" src="baby1.jpeg" alt="Image 1">
-                    <div class="new_overlay">Baby Prop 1</div>
-                    <div class="new_button new_prev" onclick="prevImage(1)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(1)">&#10095;</div>
+        <div class="gallery-container">
+            <div class="gallery">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby1.jpeg" alt="Photo 1" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 2" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 3" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 1</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image2" src="baby2.jpeg" alt="Image 2">
-                    <div class="new_overlay">Baby Prop 2</div>
-                    <div class="new_button new_prev" onclick="prevImage(2)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(2)">&#10095;</div>
+    
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby2.jpeg" alt="Photo 4" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 5" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 6" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 2</div>
                 </div>
-                <div class="new_image-container new_tall">
-                    <img id="new_image3" src="baby3.jpeg" alt="Image 3">
-                    <div class="new_overlay">Baby Prop 3</div>
-                    <div class="new_button new_prev" onclick="prevImage(3)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(3)">&#10095;</div>
+    
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby3.jpeg" alt="Photo 7" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 8" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 9" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 3</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image4" src="baby4.jpeg" alt="Image 4">
-                    <div class="new_overlay">Baby Prop 4</div>
-                    <div class="new_button new_prev" onclick="prevImage(4)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(4)">&#10095;</div>
+    
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby4.jpeg" alt="Photo 10" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 11" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 12" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 4</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image5" src="baby5.jpeg" alt="Image 5">
-                    <div class="new_overlay">Baby Prop 5</div>
-                    <div class="new_button new_prev" onclick="prevImage(5)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(5)">&#10095;</div>
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item gallery-item-large">
+                    <div class="carousel">
+                        <img src="baby5.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 5</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image6" src="baby6.jpeg" alt="Image 6">
-                    <div class="new_overlay">Baby Prop 6</div>
-                    <div class="new_button new_prev" onclick="prevImage(6)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(6)">&#10095;</div>
+    
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby5.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 6</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image7" src="baby7.jpeg" alt="Image 7">
-                    <div class="new_overlay">Baby Prop 7</div>
-                    <div class="new_button new_prev" onclick="prevImage(7)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(7)">&#10095;</div>
+                 <!-- Gallery Item 7 -->
+                 <div class="gallery-item gallery-item-large">
+                    <div class="carousel">
+                        <img src="baby6.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 7</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image8" src="baby8.jpeg" alt="Image 8">
-                    <div class="new_overlay">Baby Prop 8</div>
-                    <div class="new_button new_prev" onclick="prevImage(8)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(8)">&#10095;</div>
+                 <!-- Gallery Item 8 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby7.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 8</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image9" src="baby9.jpeg" alt="Image 9">
-                    <div class="new_overlay">Baby Prop 9</div>
-                    <div class="new_button new_prev" onclick="prevImage(9)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(9)">&#10095;</div>
+                 <!-- Gallery Item 9 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby8.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 9</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image10" src="baby10.jpeg" alt="Image 10">
-                    <div class="new_overlay">Baby Prop 10</div>
-                    <div class="new_button new_prev" onclick="prevImage(10)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(10)">&#10095;</div>
+                 <!-- Gallery Item 10 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby9.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 10</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image11" src="baby11.jpeg" alt="Image 11">
-                    <div class="new_overlay">Baby Prop 11</div>
-                    <div class="new_button new_prev" onclick="prevImage(11)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(11)">&#10095;</div>
+                 <!-- Gallery Item 11 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby10.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 11</div>
                 </div>
-                <div class="new_image-container">
-                    <img id="new_image12" src="baby12.jpeg" alt="Image 12">
-                    <div class="new_overlay">Baby Prop 12</div>
-                    <div class="new_button new_prev" onclick="prevImage(12)">&#10094;</div>
-                    <div class="new_button new_next" onclick="nextImage(12)">&#10095;</div>
+                 <!-- Gallery Item 12-->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby11.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 12</div>
                 </div>
+                 <!-- Gallery Item 13 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby12.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 13</div>
+                </div>
+                 <!-- Gallery Item 14 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby1.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 14</div>
+                </div>
+                 <!-- Gallery Item 15 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby2.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 15</div>
+                </div>
+                 <!-- Gallery Item 16 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby3.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 16</div>
+                </div>
+                 <!-- Gallery Item 17 -->
+                 <div class="gallery-item">
+                    <div class="carousel">
+                        <img src="baby4.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
+                    </div>
+                    <div class="overlayforbaby">Photo 17</div>
+                </div>
+    
+                <!-- Add more gallery items as needed -->
             </div>
+        </div>
+        <!-- Modal (Full-Screen) -->
+        <div class="modal" id="modal">
+            <button class="close" onclick="closeModal()">&#10006;</button>
+            <button class="prev" onclick="prevModalImage()">&#10094;</button>
+            <div class="modal-content">
+                <img class="modal-image" id="modalImage" src="" alt="Full Screen Image">
+            </div>
+            <button class="next" onclick="nextModalImage()">&#10095;</button>
         </div>
     </main>
     <footer class="footer-section">
         <div class="footer-container">
-            <!-- Left side: Company Name with centered logo -->
+            <!-- Left side: Follow Us and Social Media Icons -->
             <div class="footer-left">
+                <div class="social-follow">
+                    <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
+                    <div class="social-icons">
+                        <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
+                            <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
+                        </a>
+                        <a href="https://www.facebook.com/[Your Facebook Page]" class="social-icon facebook-icon" target="_blank">
+                            <img src="facebook-icon.gif" alt="Facebook" class="rounded-icon animated-icon">
+                        </a>
+                        <a href="https://www.instagram.com/vickyneo_photography" class="social-icon insta-icon" target="_blank">
+                            <img src="instagram-icon.gif" alt="Instagram" class="rounded-icon animated-icon">
+                        </a>
+                        <a href="https://www.youtube.com/@vickyneophotography1351" class="social-icon youtube-icon" target="_blank">
+                            <img src="youtube-icon.gif" alt="YouTube" class="rounded-icon animated-icon">
+                        </a>
+                        <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
+                            <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
+                                <source src="X-icon.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Center: Company Name with Logo -->
+            <div class="footer-center">
                 <div class="company-info">
                     <div class="footer-logo">
                         <img src="logo-footer.jpg" alt="Company Logo" class="rounded-logo">
                     </div>
-                    <h3 class="company-name">Vickyneo Photography</h3>
+                    <h3>Vickyneo Photography</h3>
                 </div>
             </div>
     
-            <!-- Center: Contact Info with Title and Address -->
-            <div class="footer-center" id="contact">
+            <!-- Right side: Contact Info -->
+            <div class="footer-right" id="contact">
                 <h3 class="contact-title">Contact Us</h3> <!-- Contact Us title -->
     
                 <!-- Location Section -->
                 <div class="footer-contact-item">
-                    <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link">
+                    <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link" target="_blank">
                         <img src="location-icon.gif" alt="Location" class="rounded-location-icon animated-icon">
                     </a>
                     <div class="contact-info">
-                        <span class="contact-line">Single Street,Urban bank opposite</span>
-                        <span class="contact-line">Near Mariamman kovil</span>
-                        <span class="contact-line">Batlagundu</span>
-                        <span class="contact-line">624202</span>
-                        <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="see-here-link">See here in map</a>
+                        <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="contact-link" target="_blank">
+                            <span class="contact-line">Single Street, Urban bank opposite</span><br>
+                            <span class="contact-line">Near Mariamman kovil</span><br>
+                            <span class="contact-line">Batlagundu</span><br>
+                            <span class="contact-line">624202</span>
+                        </a>
                     </div>
                 </div>
     
                 <!-- Phone Section -->
-                    <div class="footer-contact-item">
-                        <a href="tel:+917373865255" class="icon-link"> <!-- Corrected with 'tel:' -->
-                            <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
-                        </a>
-                        <div class="contact-info">
-                            <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span> <!-- Corrected with 'tel:' -->
-                        </div>
+                <div class="footer-contact-item">
+                    <a href="tel:+917373865255" class="icon-link">
+                        <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
+                    </a>
+                    <div class="contact-info">
+                        <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span>
                     </div>
-
-                    <!-- Email Section -->
-                    <div class="footer-contact-item">
-                        <a href="mailto:vickyneophotography@gmail.com" class="icon-link"> <!-- Corrected with 'mailto:' -->
-                            <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
-                        </a>
-                        <div class="contact-info">
-                            <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span> <!-- Corrected with 'mailto:' -->
-                        </div>
-                    </div>
-
-            </div>
+                </div>
     
-            <!-- Right side: Follow Us and Social Media Icons -->
-            <!-- Right side: Follow Us and Social Media Icons -->
-        <div class="footer-right">
-            <div class="social-follow">
-                <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
-                <div class="social-icons">
-                    <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
-                        <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
+                <!-- Email Section -->
+                <div class="footer-contact-item">
+                    <a href="mailto:vickyneophotography@gmail.com" class="icon-link">
+                        <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
                     </a>
-                    <a href="https://www.facebook.com/[Your Facebook Page]" class="social-icon facebook-icon" target="_blank">
-                        <img src="facebook-icon.gif" alt="Facebook" class="rounded-icon animated-icon">
-                    </a>
-                    <a href="https://www.instagram.com/vickyneo_photography" class="social-icon insta-icon" target="_blank">
-                        <img src="instagram-icon.gif" alt="Instagram" class="rounded-icon animated-icon">
-                    </a>
-                    <a href="https://www.youtube.com/@vickyneophotography1351" class="social-icon youtube-icon" target="_blank">
-                        <img src="youtube-icon.gif" alt="YouTube" class="rounded-icon animated-icon">
-                    </a>
-                    <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
-                        <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
-                            <source src="X-icon.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </a>
+                    <div class="contact-info">
+                        <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span>
+                    </div>
                 </div>
             </div>
-        </div>
-
         </div>
     </footer>
     <script src="final.js"></script>
     <script>
-        const new_images = {
-    1: ["baby1.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    2: ["baby2.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    3: ["baby3.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    4: ["baby4.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    5: ["baby5.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    6: ["baby6.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    7: ["baby7.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    8: ["baby8.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    9: ["baby9.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    10: ["baby10.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    11: ["baby11.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-    12: ["baby12.jpeg", "baby1_alt1.jpg", "baby1_alt2.jpg", "baby1_alt3.jpg"],
-};
+        let currentImageIndex = 0;
+        let currentGalleryImages = [];
 
-function nextImage(index) {
-    const imgElement = document.getElementById(`new_image${index}`);
-    const currentSrc = imgElement.src;
-    const images = new_images[index];
-    const nextIndex = (images.indexOf(currentSrc.split("/").pop()) + 1) % images.length;
-    imgElement.src = images[nextIndex];
-}
+        // Open modal and display clicked image in full screen
+        function openModal(image) {
+            const modal = document.getElementById("modal");
+            modal.classList.add("active");
 
-function prevImage(index) {
-    const imgElement = document.getElementById(`new_image${index}`);
-    const currentSrc = imgElement.src;
-    const images = new_images[index];
-    const prevIndex = (images.indexOf(currentSrc.split("/").pop()) - 1 + images.length) % images.length;
-    imgElement.src = images[prevIndex];
-}
+            const galleryItem = image.closest('.carousel');
+            currentGalleryImages = Array.from(galleryItem.getElementsByClassName('carousel-image'));
+            currentImageIndex = currentGalleryImages.indexOf(image);
+            updateModalImage();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById("modal").classList.remove("active");
+        }
+
+        // Display next image in modal
+        function nextModalImage() {
+            currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
+            updateModalImage();
+        }
+
+        // Display previous image in modal
+        function prevModalImage() {
+            currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+            updateModalImage();
+        }
+
+        // Update modal image source
+        function updateModalImage() {
+            const modalImage = document.getElementById("modalImage");
+            modalImage.src = currentGalleryImages[currentImageIndex].src;
+        }
     </script>
 </body>
 </html>

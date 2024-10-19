@@ -21,10 +21,10 @@
         <ul>
             <!-- Remove the Home and Gallery items -->
             <li><a href="#home">Home</a></li>
-            <li><a href="#gallery">Gallery</a></li> 
+            <!-- <li><a href="#gallery">Gallery</a></li>  -->
             <li><a href="BabyProps.html">Baby Shoots</a></li>
             <li><a href="Services.html">Our Services</a></li>
-            <li><a href="#about">About Us</a></li>
+            <li><a href="#abouthref">About Us</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
         <button class="close-btn" id="closeBtn">&times;</button>
@@ -41,13 +41,16 @@
         <!-- Center-aligned company name with tagline -->
         <div class="company-name">
             <h1>Vickyneo Photography</h1>
-            <p class="tagline">(Baby Prop Store)</p> <!-- Added tagline here -->
+            <p class="tagline">(Baby Props Store)</p> <!-- Added tagline here -->
         </div>
     
         <!-- Right-aligned logo -->
         <div class="logo-container">
-            <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+            <a href="login.html" target="_blank">
+                <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+            </a>
         </div>
+
     </header>
     
     <!-- Main Content -->
@@ -80,18 +83,6 @@
      
     
 
-    <div class="welcome-container">
-        <div class="welcome-content">
-            <div class="text-content">
-                <h2 class="welcome-heading">Welcome to</h2>
-                <h2 class="welcome-heading">Vickyneo Photography</h2>
-                <p class="welcome-quotes">(Baby Props Store)</p>
-            </div>
-            <div class="welcome-image">
-                <img src="cartoon-girl.png" alt="Cartoon Image"> <!-- Replace with your actual image path -->
-            </div>
-        </div>
-    </div>
     
     
     
@@ -133,7 +124,7 @@
                 <div class="overlay">Notebook</div>
             </div>
             <div class="image-container">
-                <img class="galleryimg" src="8.jpeg" alt="Image 8">
+                <img class="galleryimg" src="18.jpeg" alt="Image 8">
                 <div class="overlay">Notebook</div>
             </div>
             <div class="image-container">
@@ -206,159 +197,7 @@
             </div>
         </div>
 
-
-        <!-- Intro section with violet overlay background -->
-        <div class="intro-banner">
-            <!-- Combined image and content in a flex container -->
-            <div class="banner-content">
-                <div class="center-image">
-                    <img src="cartoon-front.png" alt="Cartoon Image"> <!-- Replace with actual cartoon image -->
-                </div>
-                <div class="content">
-                    <h1>I'm passionate about photography <br> and I love what I do.</h1>
-                    <button id="learnMoreBtn">About Me</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- About Me section (initially hidden) -->
-        <div id="photographerInfo" class="info-section hidden"> <!-- Add "hidden" class to hide by default -->
-            <div class="info-text">
-                <p>
-                    Hi, I'm John Doe, a passionate photographer who loves to capture life's special moments. 
-                    With over 10 years of experience in landscape and portrait photography, I am dedicated 
-                    to bringing out the beauty in every shot. Photography is more than just a job for me – 
-                    it’s a way of life, a way to tell stories without words.
-                </p>
-            </div>
-            <div class="info-photo">
-                <img src="photographer.jpg" alt="Photographer Image"> <!-- Replace with actual image -->
-            </div>
-        </div>
-
-
-
-        <h1 class="page-heading" id="about">About us</h1>
-        <div class="about-section">
-            <div class="about-container">
-                <div class="about-content">
-                    <p class="welcome-message">At [Your Studio Name], we believe that every moment is worth capturing. Based in the heart of [Location], our photography studio has been providing exceptional photography services for over [X] years. Whether it's the magic of a wedding day, the joy of a newborn, or the professionalism of corporate headshots, our team is dedicated to creating timeless memories that last a lifetime.
-
-                        Our experienced photographers are passionate about turning ordinary moments into extraordinary works of art. We specialize in [list specialties like portrait photography, wedding photography, event photography, etc.], ensuring every photo tells its own unique story.
-                        
-                        At [Your Studio Name], we blend creativity with professionalism to give our clients a comfortable, personalized experience. With top-notch equipment and an eye for detail, we strive to capture the essence of your special moments with authenticity and style.
-                        
-                        Come visit us at [Your Location] or contact us at [Phone Number/Email] to discuss how we can help you capture your next memorable moment.</p>
-                </div>
         
-                <div class="about-image">
-                    <img src="photographer.jpg" alt="Photographer in action" class="rounded-image">
-                </div>
-            </div>
-        </div>
-
-        
-        <h1 class="page-heading" id="recentwork">Our Recent Works</h1>
-        <div class="recent-works-container">
-            <div class="recent-works-slider-container">
-                <div class="recent-work-slider" id="slider">
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image1.jpg');" onclick="openFullScreen('image1.jpg', 'Image 1 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 1 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 1</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image2.jpg');" onclick="openFullScreen('image2.jpg', 'Image 2 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 2 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 2</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image3.jpg');" onclick="openFullScreen('image3.jpg', 'Image 3 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 3 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 3</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image4.jpg');" onclick="openFullScreen('image4.jpg', 'Image 4 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 4 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 4</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image5.jpg');" onclick="openFullScreen('image5.jpg', 'Image 5 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 5 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 5</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image6.jpg');" onclick="openFullScreen('image6.jpg', 'Image 6 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 6 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 6</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image7.jpg');" onclick="openFullScreen('image7.jpg', 'Image 7 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 7 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 7</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image8.jpg');" onclick="openFullScreen('image8.jpg', 'Image 8 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 8 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 8</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image9.jpg');" onclick="openFullScreen('image9.jpg', 'Image 9 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 9 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 9</div>
-                    </div>
-                    <div>
-                        <div class="recent-work-slide" style="background-image: url('image10.jpg');" onclick="openFullScreen('image10.jpg', 'Image 10 Description')">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Image 10 Description</span>
-                            </div>
-                        </div>
-                        <div class="image-title">Image 10</div>
-                    </div>
-                    <!-- Add more slides as needed -->
-                </div>
-            </div>
-            <button id="prevButton" class="prev-btn" onclick="moveSlider(-1)">←</button>
-            <button id="nextButton" class="next-btn" onclick="moveSlider(1)">→</button>
-
-
-        </div>
-
-        <!-- Fullscreen Image Modal -->
-        <div class="imageoverlay" id="imageModal">
-            <span class="closebtn" onclick="document.getElementById('imageModal').style.display='none'">&times;</span>
-            <img class="modal-content-works" id="fullImage">
-            <div id="caption"></div>
-        </div>
-        
-
         <div class="quote-container">
             <h2 class="happy-clients">My Happy Clients</h2> <!-- Heading at the top -->
             <div class="content-happy">
@@ -368,73 +207,55 @@
                         <span class="quote-author">- John Doe</span>
                     </blockquote>
                 </div>
-                <div class="center-image">
+                <div class="center-image" id="abouthref">
                     <img src="cartoon-quote.png" alt="Cartoon Image"> <!-- Replace with your actual image path -->
                 </div>
             </div>
         </div>
+
+
+        <h1 class="page-heading" id="about">About us</h1>
+        <div id="photographerInfo" class="info-section">
+            
+            <div class="info-text">
+                <p>
+                    Hi, I'm John Doe, a passionate photographer who loves to capture life's special moments. 
+                    With over 10 years of experience in landscape and portrait photography, I am dedicated 
+                    to bringing out the beauty in every shot. Photography is more than just a job for me – 
+                    it’s a way of life, a way to tell stories without words.Hi, I'm John Doe, a passionate photographer who loves to capture life's special moments. 
+                    With over 10 years of experience in landscape and portrait photography, I am dedicated 
+                    to bringing out the beauty in every shot. Photography is more than just a job for me – 
+                    it’s a way of life, a way to tell stories without words.Hi, I'm John Doe, a passionate photographer who loves to capture life's special moments. 
+                    With over 10 years of experience in landscape and portrait photography, I am dedicated 
+                    to bringing out the beauty in every shot. Photography is more than just a job for me – 
+                    it’s a way of life, a way to tell stories without words.
+                </p>
+            </div>
+            <div class="info-photo">
+                <img src="photographer.jpg" alt="Photographer Image"> <!-- Replace with actual image -->
+            </div>
+        </div>
+        
+
+
+
+
+        
+        
+
+ 
         
         
         
         
 
 
-
-        
         <footer class="footer-section">
             <div class="footer-container">
-                <!-- Left side: Company Name with centered logo -->
+                <!-- Left side: Follow Us and Social Media Icons -->
                 <div class="footer-left">
-                    <div class="company-info">
-                        <div class="footer-logo">
-                            <img src="logo-footer.jpg" alt="Company Logo" class="rounded-logo">
-                        </div>
-                        <h3 class="company-name">Vickyneo Photography</h3>
-                    </div>
-                </div>
-        
-                <!-- Center: Contact Info with Title and Address -->
-                <div class="footer-center" id="contact">
-                    <h3 class="contact-title">Contact Us</h3> <!-- Contact Us title -->
-        
-                    <!-- Location Section -->
-                    <div class="footer-contact-item">
-                        <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link">
-                            <img src="location-icon.gif" alt="Location" class="rounded-location-icon animated-icon">
-                        </a>
-                        <div class="contact-info">
-                            <span class="contact-line">Single Street, Urban bank opposite</span>
-                            <span class="contact-line">Near Mariamman kovil</span>
-                            <span class="contact-line">Batlagundu, 624202</span>
-                            <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="see-here-link">See here in map</a>
-                        </div>
-                    </div>
-        
-                    <!-- Phone Section -->
-                    <div class="footer-contact-item">
-                        <a href="tel:+917373865255" class="icon-link"> 
-                            <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
-                        </a>
-                        <div class="contact-info">
-                            <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span> 
-                        </div>
-                    </div>
-        
-                    <!-- Email Section -->
-                    <div class="footer-contact-item">
-                        <a href="mailto:vickyneophotography@gmail.com" class="icon-link"> 
-                            <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
-                        </a>
-                        <div class="contact-info">
-                            <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span>
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Right side: Follow Us and Social Media Icons -->
-                <div class="footer-right">
                     <div class="social-follow">
-                        <p class="follow-us">Follow us</p> 
+                        <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
                         <div class="social-icons">
                             <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
                                 <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
@@ -451,13 +272,66 @@
                             <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
                                 <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
                                     <source src="X-icon.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
                                 </video>
                             </a>
                         </div>
                     </div>
                 </div>
+        
+                <!-- Center: Company Name with Logo -->
+                <div class="footer-center">
+                    <div class="company-info">
+                        <div class="footer-logo">
+                            <img src="logo-footer.jpg" alt="Company Logo" class="rounded-logo">
+                        </div>
+                        <h3>Vickyneo Photography</h3>
+                    </div>
+                </div>
+        
+                <!-- Right side: Contact Info -->
+                <div class="footer-right" id="contact">
+                    <h3 class="contact-title">Contact Us</h3> <!-- Contact Us title -->
+        
+                    <!-- Location Section -->
+                    <div class="footer-contact-item">
+                        <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link" target="_blank">
+                            <img src="location-icon.gif" alt="Location" class="rounded-location-icon animated-icon">
+                        </a>
+                        <div class="contact-info">
+                            <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="contact-link" target="_blank">
+                                <span class="contact-line">Single Street, Urban bank opposite</span><br>
+                                <span class="contact-line">Near Mariamman kovil</span><br>
+                                <span class="contact-line">Batlagundu</span><br>
+                                <span class="contact-line">624202</span>
+                            </a>
+                        </div>
+                    </div>
+        
+                    <!-- Phone Section -->
+                    <div class="footer-contact-item">
+                        <a href="tel:+917373865255" class="icon-link">
+                            <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
+                        </a>
+                        <div class="contact-info">
+                            <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span>
+                        </div>
+                    </div>
+        
+                    <!-- Email Section -->
+                    <div class="footer-contact-item">
+                        <a href="mailto:vickyneophotography@gmail.com" class="icon-link">
+                            <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
+                        </a>
+                        <div class="contact-info">
+                            <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </footer>
+        
+        
         
         
         

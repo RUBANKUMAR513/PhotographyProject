@@ -21,7 +21,7 @@ body {
 .image-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 30px;
   border: 2px solid #ccc;
   padding: 10px;
   margin-top: 20px;
@@ -29,7 +29,7 @@ body {
 }
 
 .image-box {
-  width: calc(33.33% - 15px); /* Adjust width to accommodate 3 boxes per row */
+  width: calc(24.43% - 15px); /* Adjust width to accommodate 3 boxes per row */
 
   border: 2px solid #ddd;
   position: relative;
@@ -178,6 +178,7 @@ body {
 
 /* Responsive styles */
 @media (max-width: 768px) {
+
   .image-box {
     width: calc(50% - 15px); /* Two boxes per row on medium screens */
   }
@@ -188,18 +189,25 @@ body {
   }
 
   .header-nav a {
-    margin-left: 0;
-    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: 14px 0;
   }
 }
 
 @media (max-width: 480px) {
+ 
   .image-box {
     width: calc(100% - 15px); /* One box per row on small screens */
   }
 
   .selected-image {
     width: 100%;
+  }
+  .header-nav a {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
   }
 }
 
@@ -241,36 +249,41 @@ header {
 }
 
 .header-nav a {
-  color:#873e23 ;
+  color: #873e23;
   text-decoration: none;
   font-size: 18px;
   position: relative;
   display: flex;
   align-items: center; /* Center align icons and text vertically */
-  transition: color 0.3s ease; /* Smooth transition for hover effect */
+  transition: color 0.3s ease; /* Smooth transition for hover effect on text */
 }
 
 .header-nav a i {
   margin-right: 8px; /* Space between the icon and text */
   font-size: 18px; /* Adjust icon size */
-  color:#ffc400 ;
+  color: #ffc400;
+  transition: transform 0.2s ease-in-out, color 0.3s ease; /* Smooth scaling and color transition */
 }
 
 .header-nav a:hover {
-  color: #f1c40f; /* Change color on hover */
+  color: #f1c40f; /* Change text color on hover */
 }
 
-.header-nav a i:hover {
+.header-nav a:hover i {
   transform: scale(1.1); /* Slight icon scale effect on hover */
-  transition: transform 0.2s ease-in-out; /* Smooth scaling effect */
+  color: #ffeb3b; /* Change icon color on hover */
 }
 
 .header-nav a:active {
-  color: #ffeb3b; /* Change color when active */
+  color: #ffeb3b; /* Change text color when active */
+}
+
+.header-nav a:active i {
+  transform: scale(1.2); /* Slightly larger icon when active */
+  color: #ffeb3b; /* Ensure icon color matches active text color */
 }
 
 
-/* Footer styles */
 .footer-section {
   background-color: #873e23;
   color: white;
@@ -281,19 +294,20 @@ header {
 .footer-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  max-width: 1200px;
+  align-items: center;
   margin: 0 auto;
   padding: 0 20px;
-  flex-wrap: wrap; /* Allow wrapping on small screens */
+  flex-wrap: wrap;
+  /* border: 1px solid black; */
 }
 
 .footer-left,
 .footer-center,
 .footer-right {
   flex: 1;
-  min-width: 200px; /* Minimum width to maintain structure */
-  margin: 10px; /* Add some margin for spacing */
+  min-width: 200px;
+  margin: 10px;
+  /* border: 1px solid black; */
 }
 
 .company-info {
@@ -311,19 +325,22 @@ header {
   font-size: 20px;
   margin-bottom: 10px;
   color: #f1c40f;
+  margin-left: 80px;
 }
 
 .footer-contact-item {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  /* border: 1px solid black; */
+  justify-content: center;
 }
 
 .icon-link img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  margin-right: 10px;
+  
 }
 
 .contact-info {
@@ -331,30 +348,25 @@ header {
   flex-direction: column;
   
 }
-.follow-us{
-  color: #f1c40f;
 
+.contact-link {
+  color: #fff;
+  text-decoration: none;
+
+}
+
+.contact-link:hover {
+  color: #f1c40f;
+  text-decoration: underline;
+  
 }
 
 .contact-line {
-  margin-top: 5px;
-  color: #fff;
+  
+  line-height: 1.5;  /* You can adjust this for spacing between lines */
 }
-.contact-line a{
-  text-decoration: none;
-  color: #fff;
-}
-.contact-line a:hover{
-  transform: scale(1.1);
+.follow-us {
   color: #f1c40f;
-  text-decoration: underline;
-}
-.see-here-link {
-  color: #032dff;
-  text-decoration: underline;
-}
-
-.social-follow {
   text-align: center;
 }
 
@@ -377,50 +389,405 @@ header {
 .social-icon:hover video {
   transform: scale(1.1);
 }
+.footer-contact-item {
+  display: flex;             /* Align the icon and text side by side */
+  align-items: center;;   /* Align items at the start of the flex container */
+  margin-bottom: 10px;       /* Spacing between contact items */
+}
+
+.icon-link {
+  flex-shrink: 0;            /* Prevent the icon from shrinking */
+  margin-right: 10px;        /* Space between icon and text */
+}
+
+.icon-link img {
+  width: 30px;               /* Icon size */
+  height: 30px;
+  border-radius: 50%;
+}
+
+.contact-info {
+  flex-grow: 1;              /* Allow the text to take up remaining space */
+}
+
+
+.icon-link:hover img {
+  transform: scale(1.2) rotate(10deg); /* Enlarges and rotates icon on hover */
+}
 
 /* Responsive styles for footer */
 @media (max-width: 768px) {
   .footer-container {
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items */
-    padding: 0 10px; /* Reduce padding on smaller screens */
+      flex-direction: column;
+      align-items: center;
+      padding: 0 10px;
   }
 
   .footer-left,
   .footer-center,
   .footer-right {
-    text-align: center; /* Center text for smaller screens */
-    margin: 5px 0; /* Reduce margin between sections */
+      
+      margin: 5px 0;
   }
 
   .contact-title {
-    font-size: 18px; /* Reduce font size */
+      font-size: 16px;
+      margin-left: 80px;
   }
 
   .footer-contact-item {
-    font-size: 14px; /* Smaller font for contact items */
+      font-size: 14px;
   }
 
   .icon-link img {
-    width: 25px; /* Smaller icon size */
-    height: 25px; /* Maintain aspect ratio */
+      width: 25px;
+      height: 25px;
   }
+}
+.logo-img:hover {
+  transform: scale(1.2); /* Scale the logo by 1.2 times when hovered */
 }
 
 @media (max-width: 480px) {
   .footer-container {
-    padding: 0 5px; /* Further reduce padding */
+      padding: 0 5px;
   }
 
   .contact-title {
-    font-size: 16px; /* Smaller font size for very small screens */
+      font-size: 16px;
+      margin-left: 70px;
   }
 
   .footer-contact-item {
-    font-size: 12px; /* Smaller font size */
+      font-size: 12px;
   }
 
   .footer-logo img {
-    width: 60px; /* Smaller logo size */
+      width: 60px;
   }
 }
+.watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none; /* Prevent mouse events on the watermark */
+  user-select: none; /* Prevent selection of the watermark */
+  z-index: 9999; /* Ensure it stays above all other content */
+}
+/* Responsive styles for the navigation menu */
+@media (max-width: 768px) {
+  .header-nav {
+    flex-direction: column; /* Stack links vertically */
+    align-items: flex-start; /* Align links to the left */
+    width: 100%; /* Make the nav take full width */
+  }
+
+  .header-nav a {
+    display: block;
+    width: 100%; /* Each link takes the full width */
+    padding: 14px 0; /* Add some padding for better spacing */
+    margin-left: 0; /* Reset the left margin */
+    text-align: center; /* Center align the text */
+  }
+}
+
+/* Further adjustment for smaller screens */
+@media (max-width: 480px) {
+  .header-nav {
+    padding: 0; /* Remove padding around the nav on very small screens */
+  }
+
+  .header-nav a {
+    font-size: 16px; /* Slightly smaller font size for small screens */
+    padding: 12px 0; /* Adjust padding for better appearance */
+  }
+}
+
+
+  
+/* Style the header */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: auto;
+  padding: 20px 20px;
+  background-color: #eee7e2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Align the menu button to the left */
+.menu-btn {
+  font-size: 30px;
+  background-color: transparent;
+  color: #873e23;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.menu-btn:hover {
+  color: #ffcc66;
+}
+
+/* Style the company name and center it */
+.company-name {
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap; /* Prevents text wrapping */
+}
+
+.company-name h1 {
+  font-size: 42px;
+  font-weight: bold;
+  font-family: 'Georgia', serif;
+  margin: 5px;
+  color: #f1c40f;
+}
+
+/* Style the logo and align it to the right */
+.logo-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: auto;
+}
+
+.logo {
+  height: 80px; /* Control height for responsiveness */
+  width: auto; /* Maintain aspect ratio */
+}
+
+
+.logo:hover {
+  transform: scale(1.2); /* Scale the logo by 1.2 times when hovered */
+}
+
+/* Style the tagline under the company name */
+.tagline {
+  font-size: 20px;
+  color: #5D3A00;
+  font-style: italic;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  header {
+      padding: 15px 20px;
+  }
+
+  .logo {
+      height: 60px;
+  }
+
+  .company-name h1 {
+      font-size: 40px;
+  }
+
+  .tagline {
+      font-size: 16px;
+  }
+  .menu-btn{
+      font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+      padding: 10px;
+  }
+
+  .logo {
+      height: 40px;
+  }
+
+  .company-name h1 {
+      font-size: 28px;
+  }
+
+  .tagline {
+      font-size: 14px;
+  }
+  .menu-btn{
+      font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+      padding: 5px;
+  }
+
+  .logo {
+      height: 20px;
+  }
+
+  .company-name h1 {
+      margin-top: 10px;
+      font-size: 16px;
+  }
+
+  .tagline {
+      font-size: 10px;
+      margin-bottom: 10px;
+  }
+  .menu-btn{
+      font-size: 20px;
+  }
+}
+
+
+
+
+/* Sidebar styling */
+.sidebar {
+  background-color: #873e23;
+  color: white;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  transition: transform 0.4s ease;
+  transform: translateX(-250px); /* Hide sidebar by default */
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow-y: auto; /* Allows vertical scrolling if content overflows */
+}
+
+/* Sidebar visible when open */
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* Sidebar logo styling */
+.sidebar-logo {
+  width: 150px; /* Adjust this value to reduce the logo size */
+  height: 150px; /* Maintain equal width and height for circular shape */
+  margin: 50px auto;
+  transition: transform 0.4s ease;
+}
+
+/* Scale or bounce animation when sidebar opens */
+.sidebar.open .sidebar-logo {
+  animation: bounceEffect 0.6s ease-out forwards;
+}
+
+/* Keyframes for bounce/scale effect */
+@keyframes bounceEffect {
+  0% {
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.2);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
+
+/* Ensures the image fits perfectly within the circular container */
+.sidebar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Keeps the aspect ratio while covering the area */
+  border-radius: 50%; /* Ensures the image remains circular */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Drop shadow effect */
+}
+/* Overflow scroll styling */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(241, 196, 15, 0.5); /* Gold-colored scrollbar */
+  border-radius: 10px;
+}
+
+/* Sidebar heading */
+.sidebar h2 {
+  color: #f1c40f;
+  font-size: 24px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+/* Sidebar menu list */
+.sidebar ul {
+  list-style: none;
+}
+
+/* Sidebar list items */
+.sidebar ul li {
+  margin: 20px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+  color: #f1c40f;
+}
+
+/* Sidebar list items with stylish dividers */
+.sidebar ul li {
+  margin: 20px 0;
+  position: relative;
+}
+
+/* Stylish solid line between specific menu items with reduced opacity */
+.sidebar ul li + li {
+  border-top: 2px solid rgba(241, 196, 15, 0.5); /* Gold color with reduced opacity */
+  padding-top: 20px;
+}
+
+/* Custom hover effect */
+.sidebar ul li a:hover {
+  transition: color 0.3s;
+}
+
+/* Close button styling */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 30px;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+}
+
+.close-btn.visible {
+  display: block;
+}
+/* Copyright section styling */
+.sidebar-copyright {
+  margin-top: auto;
+  padding: 20px 0;
+  font-size: 12px;
+  text-align: center;
+  color: #f1c40f;
+}
+
+

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Header with Sidebar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Basic Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #873e23;
+    }
+
+    .logo-img {
+      height: 50px;
+      border-radius: 50%; /* Round logo */
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 15px;
+      margin-left: auto; /* Align nav buttons to the right */
+    }
+
+    .header-nav a {
+      color: #f1c40f;
+      text-decoration: none;
+      font-size: 18px;
+      transition: background-color 0.3s;
+    }
+
+    .header-nav a:hover {
+      background-color: rgba(241, 196, 15, 0.2);
+    }
+
+    /* Responsive Sidebar for Smaller Screens */
+    @media (max-width: 768px) {
+      .header-nav {
+        display: none; /* Hide the top navigation by default */
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hide the sidebar offscreen */
+        width: 250px;
+        height: 100%;
+        background-color: #873e23;
+        padding-top: 20px;
+        transition: left 0.3s ease-in-out;
+        z-index: 1000;
+      }
+
+      .header-nav.active {
+        left: 0; /* Show the sidebar when active */
+      }
+
+      .header-nav a {
+        padding: 15px 20px;
+        text-align: left;
+        color: #f1c40f;
+        display: block;
+      }
+
+      .header-nav a:hover {
+        background-color: #b24e36; /* Hover color */
+      }
+
+      /* Menu toggle button visible on small screens */
+      .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #f1c40f; /* Color of the menu icon */
+        z-index: 1100;
+      }
+    }
+
+    /* Hide the menu toggle button by default */
+    .menu-toggle {
+      display: none;
+    }
+
+    /* Show the menu toggle button on smaller screens */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block; /* Show the button */
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="menu-toggle">&#9776;</div> <!-- Sidebar toggle button -->
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="vickyneophotographylogo.png" alt="Logo" class="logo-img">
+        </a>
+      </div>
+
+      <nav class="header-nav">
+        <!-- Sidebar Logo on Small Screens -->
+        <div class="sidebar-logo" style="text-align: center; margin-bottom: 20px;">
+          <a href="index.html">
+            <img src="vickyneophotographylogo.png" alt="Logo" class="logo-img">
+          </a>
+        </div>
+        <a href="#gallery">
+          <i class="fas fa-image"></i> Gallery
+        </a>
+        <a href="#favorites">
+          <i class="fas fa-heart"></i> Favorites
+        </a>
+        <a href="#contactus">
+          <i class="fas fa-envelope"></i> Contact Us
+        </a>
+        <a href="login.html">
+          <i class="fas fa-sign-out-alt"></i> LogOut
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <!-- Your main content goes here -->
+    <p style="padding: 20px;">Main content area. This is where your website content will be displayed.</p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const headerNav = document.querySelector('.header-nav');
+
+      menuToggle.addEventListener('click', () => {
+        headerNav.classList.toggle('active'); // Toggle sidebar visibility
+      });
+    });
+  </script>
+</body>
+</html>

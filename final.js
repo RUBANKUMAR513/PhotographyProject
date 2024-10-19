@@ -1,4 +1,70 @@
 
+setInterval(changeReview, 5000); // Change review every 5 seconds
+
+const reviews = [
+    {
+        text: '"Photography is the story I fail to put into words."',
+        author: '- John Doe',
+        backgroundImage: 'url("marriage.jpg")' // Set background image URL
+    },
+    {
+        text: '"Every picture tells a story, and your photos are the best."',
+        author: '- Jane Smith',
+        backgroundImage: 'url("marriage1.jpg")'
+    },
+    {
+        text: '"Your eye for detail is impressive; thank you for capturing our special day!"',
+        author: '- Michael Johnson',
+        backgroundImage: 'url("marriage2.jpg")'
+    },
+    {
+        text: '"Amazing photos! You truly captured the essence of the event."',
+        author: '- Sarah Brown',
+        backgroundImage: 'url("marriage3.jpg")'
+    },
+    {
+        text: '"The photos are breathtaking. We couldn’t be happier!"',
+        author: '- Emily White',
+        backgroundImage: 'url("marriage4.jpg")'
+    }
+];
+
+let ActualIndex = 0;
+
+function changeReview() {
+    const reviewText = document.getElementById('reviewText');
+    const quoteAuthor = document.querySelector('.quote-author');
+    const quoteContainer = document.querySelector('.quote-container');
+
+    // Update text and author
+    reviewText.innerText = reviews[ActualIndex].text;
+    quoteAuthor.innerText = reviews[ActualIndex].author;
+
+    // Update background image
+    quoteContainer.style.backgroundImage = reviews[ActualIndex].backgroundImage;
+
+    // Loop back to the first review
+    ActualIndex = (ActualIndex + 1) % reviews.length;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const menuBtn = document.getElementById('menuBtn');
 const closeBtn = document.getElementById('closeBtn');
 const sidebar = document.getElementById('sidebar');
@@ -25,6 +91,23 @@ sidebarItems.forEach(item => {
     });
 });
 
+// Add event listener to close the sidebar when clicking on the main content
+home.addEventListener('click', () => {
+    if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        menuBtn.classList.remove('hidden');
+        closeBtn.classList.remove('visible');
+    }
+});
+
+// Add event listener to close the sidebar when scrolling the window
+window.addEventListener('scroll', () => {
+    if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        menuBtn.classList.remove('hidden');
+        closeBtn.classList.remove('visible');
+    }
+});
         document.addEventListener("DOMContentLoaded", function () {
             const services = document.querySelectorAll('.service');
         
@@ -222,41 +305,8 @@ document.getElementById("learnMoreBtn").addEventListener("click", function() {
 });
 
 
-const reviews = [
-    {
-        text: '"Photography is the story I fail to put into words."',
-        author: '- John Doe'
-    },
-    {
-        text: '"Every picture tells a story, and your photos are the best."',
-        author: '- Jane Smith'
-    },
-    {
-        text: '"Your eye for detail is impressive; thank you for capturing our special day!"',
-        author: '- Michael Johnson'
-    },
-    {
-        text: '"Amazing photos! You truly captured the essence of the event."',
-        author: '- Sarah Brown'
-    },
-    {
-        text: '"The photos are breathtaking. We couldn’t be happier!"',
-        author: '- Emily White'
-    }
-];
 
-let ActualIndex = 0;
 
-function changeReview() {
-    const reviewText = document.getElementById('reviewText');
-    const quoteAuthor = document.querySelector('.quote-author');
 
-    reviewText.innerText = reviews[ActualIndex].text;
-    quoteAuthor.innerText = reviews[ActualIndex].author;
-
-    ActualIndex = (ActualIndex + 1) % reviews.length; // Loop back to the first review
-}
-
-setInterval(changeReview, 5000); // Change review every 5 seconds
 
 

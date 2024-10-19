@@ -116,10 +116,10 @@
         <!-- <h2>Menu</h2> -->
         <ul>
             <li><a href="final.html">Home</a></li>
-            <li><a href="final.html#gallery">Gallery</a></li> 
+            <!-- <li><a href="final.html#gallery">Gallery</a></li>  -->
             <li><a href="BabyProps.html">Baby Shoots</a></li>
             <li><a href="Services.html">Our Services</a></li>
-            <li><a href="final.html#recentwork">Our Recent Works</a></li>
+            <!-- <li><a href="final.html#recentwork">Our Recent Works</a></li> -->
             <li><a href="final.html#about">About Us</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
@@ -142,10 +142,12 @@
     
         <!-- Right-aligned logo -->
         <div class="logo-container">
-            <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+            <a href="login.html" target="_blank">
+                <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+            </a>
         </div>
     </header>
-    <main>
+    <main id="home">
         <h1 class="page-heading" id="services">Our Services</h1>
 <div class="services-section">
     <!-- Service 1 (Image Left) -->
@@ -240,84 +242,82 @@
     </main>
     <footer class="footer-section">
         <div class="footer-container">
-            <!-- Left side: Company Name with centered logo -->
+            <!-- Left side: Follow Us and Social Media Icons -->
             <div class="footer-left">
+                <div class="social-follow">
+                    <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
+                    <div class="social-icons">
+                        <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
+                            <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
+                        </a>
+                        <a href="https://www.facebook.com/[Your Facebook Page]" class="social-icon facebook-icon" target="_blank">
+                            <img src="facebook-icon.gif" alt="Facebook" class="rounded-icon animated-icon">
+                        </a>
+                        <a href="https://www.instagram.com/vickyneo_photography" class="social-icon insta-icon" target="_blank">
+                            <img src="instagram-icon.gif" alt="Instagram" class="rounded-icon animated-icon">
+                        </a>
+                        <a href="https://www.youtube.com/@vickyneophotography1351" class="social-icon youtube-icon" target="_blank">
+                            <img src="youtube-icon.gif" alt="YouTube" class="rounded-icon animated-icon">
+                        </a>
+                        <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
+                            <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
+                                <source src="X-icon.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Center: Company Name with Logo -->
+            <div class="footer-center">
                 <div class="company-info">
                     <div class="footer-logo">
                         <img src="logo-footer.jpg" alt="Company Logo" class="rounded-logo">
                     </div>
-                    <h3 class="company-name">Vickyneo Photography</h3>
+                    <h3>Vickyneo Photography</h3>
                 </div>
             </div>
     
-            <!-- Center: Contact Info with Title and Address -->
-            <div class="footer-center" id="contact">
+            <!-- Right side: Contact Info -->
+            <div class="footer-right" id="contact">
                 <h3 class="contact-title">Contact Us</h3> <!-- Contact Us title -->
     
                 <!-- Location Section -->
                 <div class="footer-contact-item">
-                    <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link">
+                    <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link" target="_blank">
                         <img src="location-icon.gif" alt="Location" class="rounded-location-icon animated-icon">
                     </a>
                     <div class="contact-info">
-                        <span class="contact-line">Single Street,Urban bank opposite</span>
-                        <span class="contact-line">Near Mariamman kovil</span>
-                        <span class="contact-line">Batlagundu</span>
-                        <span class="contact-line">624202</span>
-                        <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="see-here-link">See here in map</a>
+                        <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="contact-link" target="_blank">
+                            <span class="contact-line">Single Street, Urban bank opposite</span><br>
+                            <span class="contact-line">Near Mariamman kovil</span><br>
+                            <span class="contact-line">Batlagundu</span><br>
+                            <span class="contact-line">624202</span>
+                        </a>
                     </div>
                 </div>
     
                 <!-- Phone Section -->
-                    <div class="footer-contact-item">
-                        <a href="tel:+917373865255" class="icon-link"> <!-- Corrected with 'tel:' -->
-                            <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
-                        </a>
-                        <div class="contact-info">
-                            <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span> <!-- Corrected with 'tel:' -->
-                        </div>
+                <div class="footer-contact-item">
+                    <a href="tel:+917373865255" class="icon-link">
+                        <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
+                    </a>
+                    <div class="contact-info">
+                        <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span>
                     </div>
-
-                    <!-- Email Section -->
-                    <div class="footer-contact-item">
-                        <a href="mailto:vickyneophotography@gmail.com" class="icon-link"> <!-- Corrected with 'mailto:' -->
-                            <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
-                        </a>
-                        <div class="contact-info">
-                            <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span> <!-- Corrected with 'mailto:' -->
-                        </div>
-                    </div>
-
-            </div>
+                </div>
     
-            <!-- Right side: Follow Us and Social Media Icons -->
-            <!-- Right side: Follow Us and Social Media Icons -->
-        <div class="footer-right">
-            <div class="social-follow">
-                <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
-                <div class="social-icons">
-                    <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
-                        <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
+                <!-- Email Section -->
+                <div class="footer-contact-item">
+                    <a href="mailto:vickyneophotography@gmail.com" class="icon-link">
+                        <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
                     </a>
-                    <a href="https://www.facebook.com/[Your Facebook Page]" class="social-icon facebook-icon" target="_blank">
-                        <img src="facebook-icon.gif" alt="Facebook" class="rounded-icon animated-icon">
-                    </a>
-                    <a href="https://www.instagram.com/vickyneo_photography" class="social-icon insta-icon" target="_blank">
-                        <img src="instagram-icon.gif" alt="Instagram" class="rounded-icon animated-icon">
-                    </a>
-                    <a href="https://www.youtube.com/@vickyneophotography1351" class="social-icon youtube-icon" target="_blank">
-                        <img src="youtube-icon.gif" alt="YouTube" class="rounded-icon animated-icon">
-                    </a>
-                    <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
-                        <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
-                            <source src="X-icon.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </a>
+                    <div class="contact-info">
+                        <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span>
+                    </div>
                 </div>
             </div>
-        </div>
-
         </div>
     </footer>
     <script src="final.js"></script>
