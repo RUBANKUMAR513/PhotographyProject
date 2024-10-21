@@ -55,23 +55,26 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .image-box img {
+            .image-box img {
             width: 100%;
-            height: auto;
+            height: 200px; /* Set a fixed height */
+            object-fit: cover; /* Ensure the image covers the entire area */
             border-bottom: 1px solid #ddd;
         }
+
 
         /* Button Group for Image Icons */
         .button-group {
             display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            background-color: #fafafa;
+            justify-content: center;
+            /* margin: 15px; */
+           
         }
 
         .icon-container {
             position: relative;
             cursor: pointer;
+            margin: 5px;
         }
 
         .icon-container i {
@@ -134,9 +137,7 @@
         .selected-images-container .remove-icon {
             color: #ff4081;
             font-size: 1.5rem;
-            position: absolute;
-            top: 10px;
-            right: 10px;
+         
             cursor: pointer;
         }
 
@@ -440,6 +441,33 @@
 
                     const buttonGroup = document.createElement('div');
                     buttonGroup.classList.add('button-group');
+                    
+
+                    // View Button
+                    const viewIconContainer = document.createElement('div');
+                    viewIconContainer.classList.add('icon-container');
+                    const viewIcon = document.createElement('i');
+                    viewIcon.classList.add('view-icon', 'fas', 'fa-eye');
+                    viewIcon.addEventListener('click', () => viewImage(imageBox.querySelector('img').src));
+                    const viewTooltip = document.createElement('div');
+                    viewTooltip.classList.add('tooltip');
+                    viewTooltip.textContent = 'View';
+                    viewIconContainer.appendChild(viewIcon);
+                    viewIconContainer.appendChild(viewTooltip);
+                    buttonGroup.appendChild(viewIconContainer);
+
+                    // Download Button
+                    const downloadIconContainer = document.createElement('div');
+                    downloadIconContainer.classList.add('icon-container');
+                    const downloadIcon = document.createElement('i');
+                    downloadIcon.classList.add('download-icon', 'fas', 'fa-download');
+                    downloadIcon.addEventListener('click', () => downloadImage(imageBox.querySelector('img').src));
+                    const downloadTooltip = document.createElement('div');
+                    downloadTooltip.classList.add('tooltip');
+                    downloadTooltip.textContent = 'Download';
+                    downloadIconContainer.appendChild(downloadIcon);
+                    downloadIconContainer.appendChild(downloadTooltip);
+                    buttonGroup.appendChild(downloadIconContainer);
 
                     // Remove Icon
                     const removeContainer = document.createElement('div');
