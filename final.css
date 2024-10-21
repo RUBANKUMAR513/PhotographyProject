@@ -24,13 +24,14 @@ header {
     top: 0;
     width: 100%;
     height: auto;
-    padding: 20px 20px;
+    /* padding: 20px 20px; */
     background-color: #eee7e2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
 }
 
 /* Align the menu button to the left */
@@ -41,6 +42,7 @@ header {
     border: none;
     cursor: pointer;
     transition: color 0.3s ease;
+    margin-left: 20px;
 }
 
 .menu-btn:hover {
@@ -58,10 +60,12 @@ header {
 
 .company-name h1 {
     font-size: 42px;
-    font-weight: bold;
-    font-family: 'Georgia', serif;
-    margin: 5px;
     color: #f1c40f;
+    font-family: 'Mansalva', sans-serif; 
+    font-weight: 400; 
+    font-style: normal;
+    margin: 0px;
+    margin-top: 10px;
 }
 
 /* Style the logo and align it to the right */
@@ -70,10 +74,11 @@ header {
     justify-content: flex-end;
     align-items: center;
     margin-left: auto;
+   
 }
 
 .logo {
-    height: 80px; /* Control height for responsiveness */
+    height: 100px; /* Control height for responsiveness */
     width: auto; /* Maintain aspect ratio */
 }
 
@@ -89,16 +94,20 @@ header {
     font-style: italic;
     margin: 0;
     font-family: 'Courier New', monospace;
+    font-family: 'Mansalva', sans-serif; 
+    font-weight: 400; 
+    font-style: normal;
+    margin-bottom: 10px;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
     header {
-        padding: 15px 20px;
+        padding: 20px 20px;
     }
 
     .logo {
-        height: 60px;
+        height: 70px;
     }
 
     .company-name h1 {
@@ -115,11 +124,11 @@ header {
 
 @media (max-width: 768px) {
     header {
-        padding: 10px;
+        padding: 20px;
     }
 
     .logo {
-        height: 40px;
+        height: 60px;
     }
 
     .company-name h1 {
@@ -136,16 +145,16 @@ header {
 
 @media (max-width: 480px) {
     header {
-        padding: 5px;
+        padding: 10px;
     }
 
     .logo {
-        height: 20px;
+        height: 40px;
     }
 
     .company-name h1 {
-        margin-top: 10px;
-        font-size: 16px;
+        /* border: 1px solid black; */
+        font-size: 15px;
     }
 
     .tagline {
@@ -154,6 +163,8 @@ header {
     }
     .menu-btn{
         font-size: 20px;
+        margin-left: 5px;
+        /* border: 1px solid black; */
     }
 }
 
@@ -513,7 +524,7 @@ header {
     line-height: 1.9; /* Adjust line spacing */
     text-align: justify; /* Justify the paragraph text */
     font-size: 20px; /* Adjust the font size */
-    
+    /* border: 1px solid black; */
 }
 /* Add more control for responsive design, if needed */
 @media (max-width: 768px) {
@@ -869,6 +880,7 @@ header {
 .follow-us {
     color: #f1c40f;
     text-align: center;
+    font-weight: bold;
 }
 
 .social-icons {
