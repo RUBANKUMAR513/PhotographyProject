@@ -78,12 +78,15 @@ width: 100%;
         left: 0;
         width: 100%;
         padding: 10px;
-        background: #A94064;
+        background: rgba(169, 64, 100, 0.8);
         color: white;
-        text-align: center;
+        text-align: start;
         font-size: 16px;
         opacity: 0;
         transition: opacity 0.3s ease;
+        display: flex;
+        align-items: center; /* Vertically center */
+        justify-content: center; /* Horizontally center */
     }
 
     .gallery-item:hover .overlayforbaby {
@@ -171,7 +174,7 @@ width: 100%;
      position: relative;
     }
 
-    /* Responsive styling for screens less than or equal to 768px */
+
 /* Responsive styling for screens less than or equal to 768px */
 @media screen and (max-width: 768px) {
 .gallery {
@@ -185,6 +188,7 @@ width: 100%;
 .gallery-item-large {
     grid-row: span 2; /* Keep large items spanning 2 rows on smaller screens */
 }
+
 }
 
 /* Responsive styling for screens less than or equal to 480px */
@@ -200,8 +204,42 @@ width: 100%;
 .gallery-item-large {
     grid-row: span 2; /* Keep large items spanning 2 rows on very small screens */
 }
+
 }
 
+/* Always show overlay on touch screens and center text */
+@media (hover: none) and (pointer: coarse) {
+    .gallery-item .overlayforbaby {
+        opacity: 1; /* Show overlay on touch screens */
+        background-color: rgba(169, 64, 100, 0.8);
+        color: transparent; /* Make static text invisible */
+        display: flex;
+        align-items: center; /* Ensure vertical centering on touch devices */
+        justify-content: center; /* Ensure horizontal centering on touch devices */
+        padding: 5px;
+    }
+
+    /* Display animated text */
+    .gallery-item .overlayforbaby::after {
+        content: "Click for more images"; /* First animated text */
+        display: block;
+        color: white; /* Color for animated text */
+        animation: changeText 4s infinite; /* 4s animation loop */
+        text-align: start; /* Ensure the text is centered */
+        width: 100%; /* Take up full width for proper centering */
+        padding: 5px;
+    }
+}
+
+/* Keyframes for text animation */
+@keyframes changeText {
+    0%, 100% {
+        content: "Click for more images"; /* First animated text */
+    }
+    50% {
+        content: attr(data-photo); /* Display the static text from data-photo attribute */
+    }
+}
 </style>
 <body style="background-color: #FFA6C9;">
      <!-- Sidebar Section -->
@@ -217,7 +255,7 @@ width: 100%;
             <li><a href="BabyProps.html">Baby Shoots</a></li>
             <li><a href="Services.html">Our Services</a></li>
             <!-- <li><a href="final.html#recentwork">Our Recent Works</a></li> -->
-            <li><a href="final.html#abouthref">About Us</a></li>
+            <li><a id="aboutlink" href="final.html#abouthref">About Us</a></li>
             <li><a href="#contact">Contact Us</a></li>
         </ul>
         <button class="close-btn" id="closeBtn">&times;</button>
@@ -255,7 +293,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 2" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 3" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 1</div>
+                    <div class="overlayforbaby" data-photo="Honey Themes">Honey themes</div>
                 </div>
     
                 <!-- Gallery Item 2 -->
@@ -265,7 +303,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 5" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 6" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 2</div>
+                    <div class="overlayforbaby "data-photo="Photo 2">Photo 2</div>
                 </div>
     
                 <!-- Gallery Item 3 -->
@@ -275,7 +313,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 8" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 9" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 3</div>
+                    <div class="overlayforbaby" data-photo="Photo 3">Photo 3</div>
                 </div>
     
                 <!-- Gallery Item 4 -->
@@ -285,7 +323,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 11" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 12" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 4</div>
+                    <div class="overlayforbaby" data-photo="Photo 4">Photo 4</div>
                 </div>
                 <!-- Gallery Item 5 -->
                 <div class="gallery-item gallery-item-large">
@@ -294,7 +332,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 5</div>
+                    <div class="overlayforbaby" data-photo="Photo 5">Photo 5</div>
                 </div>
     
                 <!-- Gallery Item 6 -->
@@ -304,7 +342,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 6</div>
+                    <div class="overlayforbaby" data-photo="Photo 6">Photo 6</div>
                 </div>
                  <!-- Gallery Item 7 -->
                  <div class="gallery-item gallery-item-large">
@@ -313,7 +351,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 7</div>
+                    <div class="overlayforbaby" data-photo="Photo 7">Photo 7</div>
                 </div>
                  <!-- Gallery Item 8 -->
                  <div class="gallery-item">
@@ -322,7 +360,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 8</div>
+                    <div class="overlayforbaby" data-photo="Photo 8">Photo 8</div>
                 </div>
                  <!-- Gallery Item 9 -->
                  <div class="gallery-item">
@@ -331,7 +369,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 9</div>
+                    <div class="overlayforbaby" data-photo="Photo 9">Photo 9</div>
                 </div>
                  <!-- Gallery Item 10 -->
                  <div class="gallery-item">
@@ -340,7 +378,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 10</div>
+                    <div class="overlayforbaby" data-photo="Photo 10">Photo 10</div>
                 </div>
                  <!-- Gallery Item 11 -->
                  <div class="gallery-item">
@@ -349,7 +387,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 11</div>
+                    <div class="overlayforbaby" data-photo="Photo 11">Photo 11</div>
                 </div>
                  <!-- Gallery Item 12-->
                  <div class="gallery-item">
@@ -358,7 +396,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 12</div>
+                    <div class="overlayforbaby" data-photo="Photo 12">Photo 12</div>
                 </div>
                  <!-- Gallery Item 13 -->
                  <div class="gallery-item">
@@ -367,7 +405,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 13</div>
+                    <div class="overlayforbaby" data-photo="Photo 13" >Photo 13</div>
                 </div>
                  <!-- Gallery Item 14 -->
                  <div class="gallery-item">
@@ -376,7 +414,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 14</div>
+                    <div class="overlayforbaby" data-photo="Photo 14">Photo 14</div>
                 </div>
                  <!-- Gallery Item 15 -->
                  <div class="gallery-item">
@@ -385,7 +423,7 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 15</div>
+                    <div class="overlayforbaby" data-photo="Photo 15">Photo 15</div>
                 </div>
                  <!-- Gallery Item 16 -->
                  <div class="gallery-item">
@@ -394,16 +432,16 @@ width: 100%;
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 16</div>
+                    <div class="overlayforbaby" data-photo="Photo 16">Photo 16</div>
                 </div>
                  <!-- Gallery Item 17 -->
                  <div class="gallery-item">
                     <div class="carousel">
-                        <img src="baby4.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
+                        <img src="baby4.jpeg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
                         <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
                     </div>
-                    <div class="overlayforbaby">Photo 17</div>
+                    <div class="overlayforbaby" data-photo="Photo 17">Photo 17</div>
                 </div>
     
                 <!-- Add more gallery items as needed -->

@@ -1,3 +1,9 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 /* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
@@ -42,14 +48,17 @@ body {
 /* Welcome Text */
 .welcome-text {
     color: #f1c40f;
-    font-size: 1.2rem; /* Smaller size for "Welcome to" */
+    font-size: 1.7rem; /* Smaller size for "Welcome to" */
     margin: 0;
+    /* border: 1px solid black; */
 }
 
 .company-name {
     color: #f1c40f;
     font-size: 2rem; /* Larger size for company name */
-    margin: 10px 0 20px; /* Margin for spacing */
+    /* margin: 10px 0 20px;  */
+    /* border: 1px solid black; */
+    margin-bottom: 20px;
 }
 
 /* Form Styles */

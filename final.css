@@ -149,16 +149,16 @@ header {
     }
 
     .logo {
-        height: 40px;
+        height: 45px;
     }
 
     .company-name h1 {
         /* border: 1px solid black; */
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .tagline {
-        font-size: 10px;
+        font-size: 13px;
         margin-bottom: 10px;
     }
     .menu-btn{
@@ -310,7 +310,11 @@ header {
     text-align: center;
     color: #f1c40f;
 }
-
+@media (max-width: 768px) {
+    .sidebar{
+        width: 200px;
+    }
+}
 
 
 
@@ -637,8 +641,9 @@ header {
     position: absolute;
     top: 20px;
     right: 20px;
-    color: #873e23; /* Text color */
-    background: none; /* No background */
+    color:black; /* Text color */
+    background: #fff;
+    border-radius: 50%;
     border: none; /* Remove border */
     padding: 10px 15px;
     cursor: pointer;
@@ -650,6 +655,45 @@ header {
 .close-button:hover {
     color: #ffff00; /* Slightly lighter color on hover */
 }
+/* Responsive Design for mobile: stack images and text vertically */
+@media (max-width: 768px) {
+    .service {
+        flex-direction: column;
+    }
+
+    .service-content, .service-image {
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .service-content {
+        padding: 10px;
+        font-size: 14px; /* Smaller font size on smaller screens */
+    }
+    .service-image{
+        margin: 0;
+    }
+    .service-image img {
+        width: 100%; /* Increase image size on mobile */
+        height: 100px;
+        /* border: 1px solid black; */
+    }
+
+    /* Reduce title font size for mobile */
+    .service-content h2 {
+        font-size: 14px; /* Reduce title size */
+        margin-bottom: 15px; /* Adjust spacing between title and content */
+    }
+    .service-content p{
+          font-size: 12px;
+    }
+}
+
+
+
+
+
+
 
 .about-section {
    

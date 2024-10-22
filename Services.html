@@ -107,7 +107,13 @@
 .view-more-pics:active {
     transform: translateY(0); /* Reset position when button is pressed */
 }
-
+@media (max-width: 768px) {
+    .view-more-pics {
+        padding: 8px 15px; /* Reduce padding for top/bottom and left/right */
+        font-size: 14px; /* Smaller font size */
+        border-radius: 15px; /* Reduce border radius */
+    }
+}
 
     </style>
 </head>

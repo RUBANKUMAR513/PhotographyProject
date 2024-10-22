@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UserPage | VickyneoPhotography</title>
   <link rel="stylesheet" href="UserPage.css">
-
+  <link rel="stylesheet" href="final.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,8 +23,8 @@
     <!-- <h2>Menu</h2> -->
     <ul>
         <!-- Remove the Home and Gallery items -->
-        <li><a href="#gallery"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-image"></i>Gallery</a></li> 
-        <li><a href="#favorites"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-heart"></i>Favorites</a></li>
+        <li><a id="gallerylink" href="#gallery"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-image"></i>Gallery</a></li> 
+        <li><a id="link" href="#favorites"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-heart"></i>Favorites</a></li>
         <li><a href="#contact"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-envelope"></i>Contact Us</a></li>
         <li><a href="login.html"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-sign-out-alt"></i>LogOut</a></li>
 
@@ -55,94 +55,33 @@
 
 </header>
 
-  <main class="main" id="home">
+<main class="main" id="home">
+    <!-- Gallery heading -->
     <div id="gallery" class="container-heading">Gallery</div>
-    <div id="imageContainer" class="image-container">
-        <!-- Example image boxes -->
-        <div class="image-box" data-id="1">
-            <img src="test1.jpg" alt="Image 1">
-            <div class="button-group">
-                <div class="icon-container">
-                    <i class="heart-icon fas fa-heart"></i>
-                    <div class="tooltip">Favorite</div>
-                </div>
-                <div class="icon-container">
-                    <i class="view-icon fas fa-eye" onclick="viewImage('test1.jpg')"></i>
-                    <div class="tooltip">View</div>
-                </div>
-                <div class="icon-container">
-                    <i class="download-icon fas fa-download" onclick="downloadImage('test1.jpg')"></i>
-                    <div class="tooltip">Download</div>
-                </div>
-            </div>
-        </div>
-        <div class="image-box" data-id="2">
-            <img src="test2.jpg" alt="Image 2">
-            <div class="button-group">
-                <div class="icon-container">
-                    <i class="heart-icon fas fa-heart"></i>
-                    <div class="tooltip">Favorite</div>
-                </div>
-                <div class="icon-container">
-                    <i class="view-icon fas fa-eye" onclick="viewImage('test2.jpg')"></i>
-                    <div class="tooltip">View</div>
-                </div>
-                <div class="icon-container">
-                    <i class="download-icon fas fa-download" onclick="downloadImage('test2.jpg')"></i>
-                    <div class="tooltip">Download</div>
-                </div>
-            </div>
-        </div>
-        <div class="image-box" data-id="3">
-            <img src="test3.jpg" alt="Image 3">
-            <div class="button-group">
-                <div class="icon-container">
-                    <i class="heart-icon fas fa-heart"></i>
-                    <div class="tooltip">Favorite</div>
-                </div>
-                <div class="icon-container">
-                    <i class="view-icon fas fa-eye" onclick="viewImage('test3.jpg')"></i>
-                    <div class="tooltip">View</div>
-                </div>
-                <div class="icon-container">
-                    <i class="download-icon fas fa-download" onclick="downloadImage('test3.jpg')"></i>
-                    <div class="tooltip">Download</div>
-                </div>
-            </div>
-        </div>
-        <div class="image-box" data-id="4">
-            <img src="test4.jpg" alt="Image 4">
-            <div class="button-group">
-                <div class="icon-container">
-                    <i class="heart-icon fas fa-heart"></i>
-                    <div class="tooltip">Favorite</div>
-                </div>
-                <div class="icon-container">
-                    <i class="view-icon fas fa-eye" onclick="viewImage('test4.jpg')"></i>
-                    <div class="tooltip">View</div>
-                </div>
-                <div class="icon-container">
-                    <i class="download-icon fas fa-download" onclick="downloadImage('test4.jpg')"></i>
-                    <div class="tooltip">Download</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    <!-- Container for displaying images -->
+    <div id="imageContainer" class="image-container-for-gallery"></div>
+
+    <!-- Pagination controls -->
+    <div id="pagination" class="pagination-controls"></div>
+
+    <!-- Favorites heading -->
     <div id="favorites" class="container-heading">Favorites</div>
+
+    <!-- Container for selected images -->
     <div id="selectedImagesContainer" class="selected-images-container">
         <p class="no-images">No images selected</p>
     </div>
 
+    <!-- Submit button for saving selected images -->
     <button class="save-btn" onclick="saveSelection()">Submit</button>
 
     <!-- Fullscreen overlay for viewing images -->
-    <div id="fullscreenOverlay" class="fullscreen-overlay">
+    <div id="fullscreenOverlay" class="fullscreen-overlay" style="display: none;">
         <i class="close-btn fas fa-times" onclick="closeFullscreen()"></i>
         <img id="fullscreenImage" src="" alt="Fullscreen Image">
     </div>
-    
-    
-  </main>
+</main>
 
   <footer class="footer-section">
     <div class="footer-container">
@@ -227,18 +166,5 @@
 
   <script src="UserPage.js"></script>
   <script src="final.js"></script>
-  <script>
-    // Get the sidebar and menu toggle elements
-    const menuToggle = document.querySelector('.menu-toggle');
-    const headerNav = document.querySelector('.header-nav');
-    const mainContent = document.querySelector('.main-content');
-  
-    // Toggle the sidebar when the menu button is clicked
-    menuToggle.addEventListener('click', () => {
-      headerNav.classList.toggle('active');  // Toggle sidebar visibility
-      mainContent.classList.toggle('sidebar-open');  // Adjust main content
-    });
-  </script>
-  
 </body>
 </html>
