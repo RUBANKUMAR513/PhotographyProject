@@ -42,30 +42,31 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'website',
 ]
-# JAZZMIN_SETTINGS = {
-#     # "site_logo": "images/logo.png",  # Path relative to your static files
-#     # "site_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
+JAZZMIN_SETTINGS = {
+    # "site_logo": "images/logo.png",  # Path relative to your static files
+    # "site_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
 
-#     "site_title": "Admin",
-#     "site_header": "Administration",
-#     "site_brand": "VKM Flower Shop",
-#     "welcome_sign": "WELCOME BACK VICKYNEO",
-#     "show_sidebar": True,
-#     "navigation_expanded": True,
-#     "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
-#     "icons": {
-#         "auth": "fas fa-users-cog",
-#         "auth.user": "fas fa-user",
-#         "auth.Group": "fas fa-users",
-#     },
-#     "custom_css": None,
-#     "custom_js": None,
-#     "use_google_fonts_cdn": True,
-#     "show_ui_builder": True,
-#     # "brand_logo": "images/logo.png",  # Path relative to your static files
-#     # "brand_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
-# }
+    "site_title": "Admin",
+    "site_header": "Administration",
+    "site_brand": "Vickyneo Photography",
+    "welcome_sign": "WELCOME BACK VICKYNEO",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "custom_css": None,
+    "custom_js": None,
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": True,
+    "brand_logo": "logo.png",  # Path relative to your static files
+    "brand_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
