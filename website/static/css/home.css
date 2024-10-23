@@ -1,0 +1,1699 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Warm white background and basic styles */
+body {
+    background-color: #FDF4E3;
+    color: #333;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    padding-top: 50px; /* Fallback in case JavaScript fails */
+   
+}
+
+  
+/* Style the header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: auto;
+    /* padding: 20px 20px; */
+    background-color: #eee7e2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+/* Align the menu button to the left */
+.menu-btn {
+    font-size: 30px;
+    background-color: transparent;
+    color: #873e23;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    margin-left: 20px;
+}
+
+.menu-btn:hover {
+    color: #ffcc66;
+}
+
+/* Style the company name and center it */
+.company-name {
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+.company-name h1 {
+    font-size: 42px;
+    color: #f1c40f;
+    font-family: 'Mansalva', sans-serif; 
+    font-weight: 400; 
+    font-style: normal;
+    margin: 0px;
+    margin-top: 10px;
+}
+
+/* Style the logo and align it to the right */
+.logo-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto;
+   
+}
+
+.logo {
+    height: 100px; /* Control height for responsiveness */
+    width: auto; /* Maintain aspect ratio */
+}
+
+
+.logo:hover {
+    transform: scale(1.2); /* Scale the logo by 1.2 times when hovered */
+}
+
+/* Style the tagline under the company name */
+.tagline {
+    font-size: 20px;
+    color: #5D3A00;
+    font-style: italic;
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    font-family: 'Mansalva', sans-serif; 
+    font-weight: 400; 
+    font-style: normal;
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    header {
+        padding: 20px 20px;
+    }
+
+    .logo {
+        height: 70px;
+    }
+
+    .company-name h1 {
+        font-size: 40px;
+    }
+
+    .tagline {
+        font-size: 16px;
+    }
+    .menu-btn{
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 20px;
+    }
+
+    .logo {
+        height: 60px;
+    }
+
+    .company-name h1 {
+        font-size: 28px;
+    }
+
+    .tagline {
+        font-size: 14px;
+    }
+    .menu-btn{
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+    }
+
+    .logo {
+        height: 45px;
+    }
+
+    .company-name h1 {
+        /* border: 1px solid black; */
+        font-size: 16px;
+    }
+
+    .tagline {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+    .menu-btn{
+        font-size: 20px;
+        margin-left: 5px;
+        /* border: 1px solid black; */
+    }
+}
+
+
+
+
+/* Sidebar styling */
+.sidebar {
+    background-color: #873e23;
+    color: white;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    transition: transform 0.4s ease;
+    transform: translateX(-250px); /* Hide sidebar by default */
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow-y: auto; /* Allows vertical scrolling if content overflows */
+}
+
+/* Sidebar visible when open */
+.sidebar.open {
+    transform: translateX(0);
+}
+
+/* Sidebar logo styling */
+.sidebar-logo {
+    width: 150px; /* Adjust this value to reduce the logo size */
+    height: 150px; /* Maintain equal width and height for circular shape */
+    margin: 50px auto;
+    transition: transform 0.4s ease;
+}
+
+/* Scale or bounce animation when sidebar opens */
+.sidebar.open .sidebar-logo {
+    animation: bounceEffect 0.6s ease-out forwards;
+}
+
+/* Keyframes for bounce/scale effect */
+@keyframes bounceEffect {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Ensures the image fits perfectly within the circular container */
+.sidebar-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Keeps the aspect ratio while covering the area */
+    border-radius: 50%; /* Ensures the image remains circular */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Drop shadow effect */
+}
+/* Overflow scroll styling */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(241, 196, 15, 0.5); /* Gold-colored scrollbar */
+    border-radius: 10px;
+}
+
+/* Sidebar heading */
+.sidebar h2 {
+    color: #f1c40f;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+/* Sidebar menu list */
+.sidebar ul {
+    list-style: none;
+}
+
+/* Sidebar list items */
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    color: #f1c40f;
+}
+
+/* Sidebar list items with stylish dividers */
+.sidebar ul li {
+    margin: 20px 0;
+    position: relative;
+}
+
+/* Stylish solid line between specific menu items with reduced opacity */
+.sidebar ul li + li {
+    border-top: 2px solid rgba(241, 196, 15, 0.5); /* Gold color with reduced opacity */
+    padding-top: 20px;
+}
+
+/* Custom hover effect */
+.sidebar ul li a:hover {
+    transition: color 0.3s;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 30px;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+
+.close-btn.visible {
+    display: block;
+}
+/* Copyright section styling */
+.sidebar-copyright {
+    margin-top: auto;
+    padding: 20px 0;
+    font-size: 12px;
+    text-align: center;
+    color: #f1c40f;
+}
+@media (max-width: 768px) {
+    .sidebar{
+        width: 200px;
+    }
+}
+
+
+
+
+
+
+/* Page heading */
+.page-heading {
+    text-align: center;
+    margin-top: 100px; /* Space below the header */
+    margin-bottom: 20px;
+    color: #873e23;
+}
+
+/* Gallery styling */
+.gallery {
+    display: grid;
+    grid-gap: 10px; /* Space between images */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    grid-auto-rows: 200px; /* Default row height */
+    grid-auto-flow: dense; /* Fill empty space efficiently */
+    margin: 30px;
+    position: relative; /* Position relative for absolute child positioning */
+}
+
+/* Image container */
+.image-container {
+    position: relative; /* Required for overlay positioning */
+    overflow: hidden; /* Prevent overflow */
+    border-radius: 5px; /* Rounded corners for the container */
+}
+
+.image-container:hover {
+    border: 5px solid #873e23; /* Highlight border on hover */
+}
+
+/* Overlay styling */
+.overlay {
+    position: absolute; /* Position it absolutely within the container */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background with transparency */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    transform: translateY(100%); /* Initially hide the overlay */
+    transition: transform 0.3s ease; /* Smooth transition for visibility */
+}
+
+/* Show overlay on hover */
+.image-container:hover .overlay {
+    transform: translateY(0); /* Slide overlay into view */
+}
+
+/* Image styling */
+.gallery > div > img {
+    width: 100%; /* Full width of the container */
+    height: 100%; /* Full height of the container */
+    object-fit: cover; /* Cover to fill container while maintaining aspect ratio */
+    border-radius: 5px; /* Rounded corners for images */
+    transition: transform 0.3s ease; /* Scale effect on hover */
+}
+
+/* Image scale on hover */
+.image-container:hover img {
+    transform: scale(1.05); /* Slightly enlarge image on hover */
+}
+
+/* Tall images */
+.gallery .tall {
+    grid-row: span 2; /* Span 2 rows for tall images */
+}
+
+
+/* Slider container full viewport width and height */
+.slider-container {
+    position: relative;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    margin: auto;
+    overflow: hidden;
+}
+
+/* Slides should take the full height and width */
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 400%; /* Four slides, so 4 times 100% */
+    height: 100%; /* Full viewport height */
+}
+
+/* Individual slide styling */
+.slide {
+    min-width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    transition: 0.5s;
+}
+
+.slide img {
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    object-fit: cover; /* Ensures the image covers the slide area without distortion */
+}
+
+/* Navigation buttons styling */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive Design for smaller devices */
+@media (max-width: 768px) {
+    .slider-container {
+        height: 60vh; /* Reduce height for smaller screens */
+    }
+
+    .slide img {
+        height: 60vh; /* Ensure image fills reduced height */
+    }
+
+    .prev, .next {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slider-container {
+        height: 50vh; /* Further reduce height for very small screens */
+    }
+
+    .slide img {
+        height: 50vh; /* Ensure image fills reduced height */
+    }
+} 
+
+
+
+
+
+.services-section {
+    width: auto;
+    margin: 40px;
+}
+
+.service {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+   /* border: 2px solid black; /* Optional: For visibility */
+    opacity: 0; /* Start invisible for animation */
+    transform: translateY(50px); /* Start slightly down for sliding effect */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transition for opacity and position */
+}
+
+/* Image on the left, content on the right */
+.service.image-left {
+    flex-direction: row; /* Image on the left, content on the right */
+}
+
+/* Image on the right, content on the left */
+.service.image-right {
+    flex-direction: row; /* Image on the right, content on the left */
+}
+
+/* Image Styling */
+.service-image {
+    flex: 1;
+    padding: 10px;
+    opacity: 0; /* Start image invisible for animation */
+    transform: translateX(-20px) rotate(5deg); /* Start image slightly to the left and rotated */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transition for image */
+    cursor: pointer; 
+}
+
+.service-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+
+}
+
+/* Content Styling */
+.service-content {
+    flex: 1;
+    padding: 20px;
+    color: #873e23;
+    margin-bottom: 20px; /* Space after each paragraph */
+    text-align: center; /* Center the paragraph text */
+    line-height: 1.9; /* Adjust line spacing */
+    text-align: justify; /* Justify the paragraph text */
+    font-size: 20px; /* Adjust the font size */
+    /* border: 1px solid black; */
+}
+/* Add more control for responsive design, if needed */
+@media (max-width: 768px) {
+    .service-content{
+        font-size: 16px; /* Smaller font size on smaller screens */
+    }
+}
+
+/* Responsive Design for mobile: stack images and text vertically */
+@media (max-width: 768px) {
+    .service {
+        flex-direction: column;
+    }
+
+    .service-content, .service-image {
+        text-align: center;
+    }
+
+    .service-content {
+        padding: 10px;
+    }
+
+    .service-image img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* Animation delay for each section */
+.service:nth-child(1) {
+    animation-delay: 0s;
+}
+.service:nth-child(2) {
+    animation-delay: 0.1s; /* Slight delay for second section */
+}
+.service:nth-child(3) {
+    animation-delay: 0.2s; /* Slight delay for third section */
+}
+.service:nth-child(4) {
+    animation-delay: 0.3s; /* Slight delay for fourth section */
+}
+.service:nth-child(5) {
+    animation-delay: 0.4s; /* Slight delay for fifth section */
+}
+.service:nth-child(6) {
+    animation-delay: 0.5s; /* Slight delay for sixth section */
+}
+
+/* Visible class to trigger animation */
+.service.visible {
+    opacity: 1; /* Fade in to full opacity */
+    transform: translateY(0); /* Move to original position */
+}
+
+.service-image.visible {
+    opacity: 1; /* Fade in image to full opacity */
+    transform: translateX(0) rotate(0); /* Move to original position and reset rotation */
+}
+
+/* Hover effect for images */
+.service.image-left .service-image:hover img {
+    transform: rotate(-5deg); /* Anticlockwise rotation for odd sections */
+    border: 3px solid #873e23;
+}
+
+.service.image-right .service-image:hover img {
+    transform: rotate(5deg); /* Clockwise rotation for even sections */
+    border: 3px solid #873e23;
+
+}
+
+/* Fullscreen Modal Styles */
+.fullscreen-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.fullscreen-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Add spacing between heading and paragraph */
+.service-content h2 {
+    margin-bottom: 30px; /* Adjust the spacing (increase/decrease the value as needed) */
+    color: #ffbf00;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color:black; /* Text color */
+    background: #fff;
+    border-radius: 50%;
+    border: none; /* Remove border */
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Optional: Change color on hover */
+.close-button:hover {
+    color: #ffff00; /* Slightly lighter color on hover */
+}
+/* Responsive Design for mobile: stack images and text vertically */
+@media (max-width: 768px) {
+    .service {
+        flex-direction: column;
+    }
+
+    .service-content, .service-image {
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .service-content {
+        padding: 10px;
+        font-size: 14px; /* Smaller font size on smaller screens */
+    }
+    .service-image{
+        margin: 0;
+    }
+    .service-image img {
+        width: 100%; /* Increase image size on mobile */
+        height: 100px;
+        /* border: 1px solid black; */
+    }
+
+    /* Reduce title font size for mobile */
+    .service-content h2 {
+        font-size: 14px; /* Reduce title size */
+        margin-bottom: 15px; /* Adjust spacing between title and content */
+    }
+    .service-content p{
+          font-size: 12px;
+    }
+}
+
+
+
+
+
+
+
+.about-section {
+   
+    margin: 40px;
+    max-width: 100%; /* Prevent the section from overflowing horizontally */
+    opacity: 0; /* Initially hide the section */
+    transform: translateY(20px); /* Move it slightly down initially */
+    transition: opacity 1s ease-out, transform 1s ease-out; /* Transition effect */
+}
+
+.about-container {
+    display: grid;
+    grid-template-columns: 1fr auto; /* 1fr for content, auto for image */
+    gap: 20px; /* Space between text and image */
+    align-items: flex-start;
+    max-width: 100%; /* Prevent overflow */
+    /* border: 1px solid black; */
+}
+
+.about-content {
+    max-width: 100%; /* Ensure the content takes available space */
+    word-wrap: break-word; /* Force long words to break and wrap */
+    overflow-wrap: break-word; /* Ensure long words wrap to the next line */
+    hyphens: auto; /* Add hyphens to break long words if necessary */
+}
+
+.about-image {
+    display: flex;
+    justify-content: flex-end; /* Push image to the right */
+    max-width: 100%; /* Prevent image container overflow */
+}
+
+.rounded-image {
+    width: 100px; /* Set image size */
+    height: 100px;
+    border-radius: 50%; /* Make the image circular */
+    object-fit: cover; /* Ensure the image covers the circle */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    transition: transform 0.3s ease; /* Add smooth hover effect */
+}
+
+.rounded-image:hover {
+    transform: scale(1.1); /* Scale image on hover */
+}
+
+/* General text and heading colors */
+.about-content p {
+    color: #873e23; /* Adjust the text color */
+    font-size: 16px; /* Optional: Adjust text size */
+}
+
+.about-content h3 {
+    color: #f1c40f; /* Adjust the heading color */
+    margin-bottom: 10px; /* Space between heading and text */
+    font-size: 24px; /* Optional: Adjust heading size */
+}
+
+/* Additional spacing between sections */
+.about-content p {
+    margin-bottom: 20px; /* Space after each paragraph */
+    text-align: center; /* Center the paragraph text */
+    line-height: 1.9; /* Adjust line spacing */
+    text-align: justify; /* Justify the paragraph text */
+    font-size: 20px; /* Adjust the font size */
+    color: #873e23; /* Change text color */
+}
+
+/* Add more control for responsive design, if needed */
+@media (max-width: 768px) {
+    .about-content p {
+        font-size: 16px; /* Smaller font size on smaller screens */
+    }
+}
+
+
+.about-content h3 {
+    margin-top: 30px; /* Space above headings */
+}
+
+/* Optional: Hover effect for headings */
+.about-content h3:hover {
+    color: #873e23; /* Change heading color on hover */
+}
+
+/* Optional: Customizing links */
+.contact-link {
+    color: #fff; /* Link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.contact-link:hover {
+    text-decoration: underline; /* Underline on hover */
+    color: #873e23; /* Darker color on hover */
+}
+
+
+@media (min-width: 768px) {
+    .about-container {
+        grid-template-columns: 1fr auto; /* Maintain content on left and image on right for larger screens */
+    }
+
+    .rounded-image {
+        width: 200px; /* Larger image for bigger screens */
+        height: 200px;
+    }
+}
+
+@media (max-width: 767px) {
+    .about-container {
+        grid-template-columns: 1fr; /* Stack content vertically on small screens */
+        text-align: center; /* Center text for smaller devices */
+    }
+
+    .about-image {
+        justify-content: center; /* Center image on smaller screens */
+        margin-top: 20px; /* Space between text and image */
+    }
+
+    .rounded-image {
+        width: 200px; /* Smaller image size on mobile */
+        height: 200px;
+    }
+
+    .about-content {
+        text-align: left; /* Align text to the left */
+        padding: 10px; /* Add padding for smaller screens */
+        word-wrap: break-word; /* Ensure long text wraps within the container */
+    }
+}
+
+/* Animations */
+.reveal {
+    opacity: 1;
+    transform: translateY(0); /* Return to original position */
+}
+
+/* Animation keyframes (optional if you want more complex animations) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.footer-section {
+    background-color: #873e23;
+    color: white;
+    padding: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    /* border: 1px solid black; */
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+    /* border: 1px solid black; */
+}
+
+.company-info {
+    text-align: center;
+    color: #f1c40f;
+}
+
+.footer-logo img {
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.contact-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #f1c40f;
+    margin-left: 80px;
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    /* border: 1px solid black; */
+    justify-content: center;
+}
+
+.icon-link img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.contact-link {
+    color: #fff;
+    text-decoration: none;
+  
+}
+
+.contact-link:hover {
+    color: #f1c40f;
+    text-decoration: underline;
+    
+}
+
+.contact-line {
+    
+    line-height: 1.5;  /* You can adjust this for spacing between lines */
+}
+.follow-us {
+    color: #f1c40f;
+    text-align: center;
+    font-weight: bold;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.social-icon img,
+.social-icon video {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.social-icon:hover img,
+.social-icon:hover video {
+    transform: scale(1.1);
+}
+.footer-contact-item {
+    display: flex;             /* Align the icon and text side by side */
+    align-items: center;;   /* Align items at the start of the flex container */
+    margin-bottom: 10px;       /* Spacing between contact items */
+}
+
+.icon-link {
+    flex-shrink: 0;            /* Prevent the icon from shrinking */
+    margin-right: 10px;        /* Space between icon and text */
+}
+
+.icon-link img {
+    width: 30px;               /* Icon size */
+    height: 30px;
+    border-radius: 50%;
+}
+
+.contact-info {
+    flex-grow: 1;              /* Allow the text to take up remaining space */
+}
+
+
+.icon-link:hover img {
+    transform: scale(1.2) rotate(10deg); /* Enlarges and rotates icon on hover */
+}
+
+/* Responsive styles for footer */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 10px;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        
+        margin: 5px 0;
+    }
+
+    .contact-title {
+        font-size: 16px;
+        margin-left: 80px;
+    }
+
+    .footer-contact-item {
+        font-size: 14px;
+    }
+
+    .icon-link img {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        padding: 0 5px;
+    }
+
+    .contact-title {
+        font-size: 16px;
+        margin-left: 70px;
+    }
+
+    .footer-contact-item {
+        font-size: 12px;
+    }
+
+    .footer-logo img {
+        width: 60px;
+    }
+}
+
+  
+
+.recent-works-container {
+    position: relative;
+   
+    margin: 40px;
+    overflow: hidden;
+}
+
+.recent-works-slider-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.recent-work-slider {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.recent-work-slide {
+    width: 200px; /* Fixed width */
+    height: 200px; /* Fixed height */
+    margin: 0 5px; /* Space between images */
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    position: relative; /* Ensure overlay works correctly */
+}
+
+.image-title {
+    text-align: center;
+    color: #333;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.recent-work-slide:hover .image-overlay {
+    opacity: 1;
+}
+
+.overlay-text {
+    font-size: 16px;
+    text-align: center;
+}
+
+.prev-btn,
+.next-btn {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 5px;
+}
+.prev-btn:disabled, .next-btn:disabled {
+    background-color: #cccccc; /* Grey background when disabled */
+    cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+}
+
+.prev-btn:hover:not(:disabled), .next-btn:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+.prev-btn {
+    left: 10px;
+    margin-left: 5px;
+}
+
+.next-btn {
+    right: 10px;
+    margin-left: 5px;
+
+}
+
+.imageoverlay {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content-works {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+#caption {
+    margin: 10px;
+    color: #fff;
+    text-align: center;
+}
+
+.closebtn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+/* Add this to ensure buttons don't overlap with header */
+.recent-works-container {
+    position: relative;
+    z-index: 1; /* Ensure content scrolls over buttons */
+}
+
+
+/* Responsive Design */
+@media (max-width: 1200px) and (min-width: 768px) {
+    .recent-work-slide {
+        width: 150px; /* Adjusted width for medium screens */
+        height: 150px; /* Adjusted height for medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .recent-work-slide {
+        width: 100px; /* Adjusted width for small screens */
+        height: 100px; /* Adjusted height for small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .recent-work-slide {
+        width: 80px; /* Adjusted width for extra small screens */
+        height: 80px; /* Adjusted height for extra small screens */
+    }
+}
+/* Reduce button visibility on smaller screens */
+@media (max-width: 480px) {
+    .prev-btn,
+    .next-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .prev-btn,
+    .next-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+    to {
+        opacity: 1; /* Fade to full opacity */
+        transform: translateY(0); /* Move to original position */
+    }
+}
+
+
+
+
+.quote-container {
+    position: relative; /* Allows absolute positioning for child elements */
+    background-image: url('marriage.jpg'); /* Replace with your marriage image */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+    color: #fff; /* Text color */
+    margin-top: 100px;
+    padding: 20px; /* Padding inside the container */
+    text-align: center; /* Center-align text */
+    max-width: 100%; /* Fit to screen width */
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.quote-container::before {
+    content: ""; /* Pseudo-element for overlay */
+    position: absolute; /* Position overlay absolutely */
+    top: 0; /* Align to top */
+    left: 0; /* Align to left */
+    right: 0; /* Align to right */
+    bottom: 0; /* Align to bottom */
+    background-color: rgba(128, 0, 128, 0.6); /* Violet overlay with opacity */
+    z-index: 1; /* Set a lower z-index than text */
+}
+
+.happy-clients {
+    font-size: 1.8em; /* Heading size */
+    margin: 0; /* Remove default margin */
+    text-align: center; /* Center the heading */
+    padding-bottom: 10px; /* Space below the heading */
+    z-index: 2; /* Ensure the heading is above the overlay */
+    position: relative; /* Allow z-index to work */
+}
+
+.content-happy {
+    display: flex; /* Use flexbox to align items */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    position: relative; /* Allow for z-index to work */
+    z-index: 2; /* Higher z-index than overlay */
+    height: calc(100% - 50px); /* Adjust height to allow for heading space */
+}
+
+.text-content {
+    max-width: 600px; /* Limit text content width */
+    text-align: left; /* Align text to the left */
+    margin-right: 20px; /* Space between text and image */
+}
+
+.quote {
+    font-style: italic; /* Italic style for the quote */
+    margin-bottom: 10px; /* Space below quote */
+}
+.center-image {
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+.quote-author {
+    display: block; /* Block for the author */
+    margin-top: 5px; /* Space above the author */
+    font-weight: bold; /* Bold text for the author */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .happy-clients {
+        font-size: 1.5em; /* Reduce heading size on smaller screens */
+    }
+
+    .quote {
+        font-size: 1.2em; /* Reduce quote size on smaller screens */
+    }
+
+    .center-image img {
+        width: 80px; /* Adjust center image size on smaller screens */
+    }
+}
+
+.intro-banner {
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    height: 400px; /* Decrease height */
+    background-image: url('marriage.jpg'); /* Add marriage image as background */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 20px; /* Adjust padding as needed */
+    background-blend-mode: overlay; /* Violet overlay */
+    background-color: rgba(138, 43, 226, 0.7); /* Violet overlay color */
+    margin-top: 100px;
+}
+
+.banner-content {
+    display: flex;
+    align-items: center; /* Center image and text vertically */
+    justify-content: center; /* Center image and text horizontally */
+    text-align: center; /* Center text */
+}
+
+.center-image {
+    margin-right: 20px; /* Space between image and text */
+}
+
+.center-image img {
+    width: 200px; /* Default image size */
+    height: auto;
+    border-radius: 8px; /* Optional: rounded corners */
+}
+
+.content {
+    z-index: 1; /* Keep text above background */
+}
+
+.intro-banner h1 {
+    font-size: 2.2em; /* Default text size */
+    margin-bottom: 10px;
+}
+
+.intro-banner button {
+    padding: 10px 20px; /* Default button padding */
+    margin-top: 10px; /* Space above the button */
+    font-size: 1em; /* Default button font size */
+    background-color: #fff;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    display: block; /* Ensure it's treated as a block element */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+}
+
+.intro-banner button:hover {
+    background-color:violet;
+    color: white;
+}
+/* About Section Styling */
+.info-section {
+    display: flex;
+    flex-direction: row; /* Arrange content and image in two columns */
+    justify-content: space-between; /* Space between text and image */
+    align-items: center; /* Vertically center both columns */
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.663); /* Make box transparent */
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+}
+
+/* Styling for content section */
+.info-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center heading and text horizontally */
+    justify-content: center; /* Center heading and text vertically */
+}
+
+/* Heading Styling */
+.about-heading {
+    font-size: 2.5em; /* Increase heading font size */
+    margin-bottom: 20px; /* Space between heading and text */
+    text-align: center;
+    color: #333; /* Change heading font color */
+}
+
+/* Text Styling */
+.info-text {
+    text-align: center; /* Center align text */
+    padding-right: 10px;
+    max-width: 100%; /* Ensure the content takes available space */
+    word-wrap: break-word; /* Force long words to break and wrap */
+    overflow-wrap: break-word; /* Ensure long words wrap to the next line */
+    hyphens: auto; /* Add hyphens to break long words if necessary */
+    line-height: 1.6; /* Increase line spacing */
+    font-size: 1.2em; /* Increase font size */
+    color: #555; /* Change text font color */
+}
+.info-text {
+    width: 100%;                  /* Make the container full width or set a specific width */
+    max-width: 80%;              /* Set the maximum width to keep the text contained */
+    margin: 0 auto;                /* Center the container if needed */
+    text-align: justify;           /* Ensure text is justified (lines start and end at the same point) */
+    line-height: 1.8;              /* Adjust line spacing to make it more readable */
+    word-wrap: break-word;         /* Prevent overflow by breaking long words */
+}
+
+.info-photo {
+    position: relative; /* Required for absolute positioning of the overlay */
+    flex-shrink: 0; /* Prevent image from shrinking */
+    display: flex;
+    justify-content: flex-end; /* Always keep image on the right */
+}
+
+.info-photo img {
+    width: 200px;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease, border 0.3s ease; /* Add transition for border and scaling */
+}
+
+/* Overlay Styling */
+.photographer-overlay {
+    position: absolute; /* Position the overlay absolutely */                                 
+    left: 0;
+    right: 0; /* Ensure it spans the full width */
+    bottom: 0; /* Extend to the bottom */
+    font-size: 16px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+    color: white; /* Text color */
+    display: flex; /* Center the text */
+    align-items: center; /* Vertically center the text */
+    justify-content: center; /* Horizontally center the text */
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+/* Show overlay on hover */
+.info-photo:hover .photographer-overlay {
+    opacity: 1; /* Show overlay */
+    
+    
+}
+
+/* Hover effects */
+.info-photo:hover img {
+    transform: scale(1.04); /* Slightly enlarge image on hover */
+    border: 4px solid rgba(255, 255, 255, 0.7); /* White border around image on hover */
+    border-radius: 8px; /* Maintain rounded corners */
+}
+
+
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .info-section {
+        flex-direction: column; /* Stack content vertically on small screens */
+        align-items: center; /* Center everything horizontally */
+    }
+
+    .info-photo img {
+        width: 100%; /* Full width for small screens */
+        margin-top: 15px; /* Add margin above image */
+    }
+}
+
+
+
+
+
+
+
+.welcome-container {
+    position: relative; /* Allows absolute positioning for child elements */
+    background-image: url('marriage.jpg'); /* Replace with your desired background image */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+    color: #fff; /* Text color */
+    text-align: center; /* Center-align text */
+    width: 100vw; /* Set width to viewport width */
+    height: 400px; /* Set height to 400px */
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.welcome-container::before {
+    content: ""; /* Pseudo-element for overlay */
+    position: absolute; /* Position overlay absolutely */
+    top: 0; /* Align to top */
+    left: 0; /* Align to left */
+    right: 0; /* Align to right */
+    bottom: 0; /* Align to bottom */
+    background-color: rgba(128, 0, 128, 0.6); /* Violet overlay with opacity */
+    z-index: 1; /* Set a lower z-index than text */
+}
+
+.welcome-content {
+    display: flex; /* Use flexbox to align items */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    position: relative; /* Allow for z-index to work */
+    z-index: 2; /* Higher z-index than overlay */
+    max-width: 1200px; /* Optional: Limit max width for larger screens */
+    margin: 0 auto; /* Center the content */
+    height: 100%; /* Use full height of the container */
+}
+
+.text-content {
+    display: flex; /* Use flexbox for text alignment */
+    flex-direction: column; /* Stack lines vertically */
+    align-items: left; /* Center text horizontally */
+    text-align: left; /* Center text */
+    margin-right: 20px; /* Space between text and image */
+}
+
+.welcome-heading {
+    font-size: 3em; /* Increase heading size */
+    margin: 0; /* Remove default margin */
+    z-index: 2; /* Ensure the heading is above the overlay */
+    line-height: 1.2; /* Space between lines */
+}
+.welcome-quotes{
+    font-size: 20px;
+    color: #fff;
+    margin: 10px;
+    
+    
+}
+
+.welcome-image {
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.welcome-image img {
+    width: 150px; /* Increase width for the welcome image */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .text-content{
+        margin-right: 0;
+        margin-left: 40px;
+        width: 50%;
+
+    }
+    
+    .welcome-heading {
+        font-size: 1.8em; /* Reduce heading size on smaller screens */
+    }
+
+    .welcome-image img {
+        width: 100px; /* Adjust welcome image size on smaller screens */
+    }
+
+    .welcome-container {
+        height: 400px; /* Maintain height for smaller screens */
+    }
+    .welcome-quotes{
+        margin: 0;
+        margin-top: 10px;
+    }
+}
+
+.baby-props-gallery {
+    margin: 30px;
+}
+
+.baby-props-gallery h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Gallery styling */
+.new_gallery {
+    display: grid; /* Use grid layout */
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    margin: 30px;
+}
+
+/* Image container */
+.new_image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Highlight border on hover */
+.new_image-container:hover {
+    border: 5px solid #873e23; 
+}
+ /* Tall images */
+ .new_gallery .new_tall {
+            grid-row: span 2; /* Span 2 rows for tall images */
+        }
+
+/* Overlay styling */
+.new_overlay {
+    position: absolute;
+    bottom: 0; /* Position at the bottom */
+    left: 0;
+    width: 100%;
+    height: 40px; /* Adjust height for the overlay */
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background with transparency */
+    color: white;
+    display: flex; /* Use flexbox to center text */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    font-size: 20px; /* Increase font size */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Smooth transition for visibility */
+}
+
+/* Show overlay on hover */
+.new_image-container:hover .new_overlay {
+    opacity: 1; /* Make overlay visible */
+}
+
+/* Image styling */
+.new_image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure images cover the container */
+    border-radius: 5px;
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+/* Image scale on hover */
+.new_image-container:hover img {
+    transform: scale(1.05); /* Slightly enlarge image on hover */
+}
+
+/* Button styling */
+.new_button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    z-index: 1;
+    font-size: 20px; /* Larger size for better visibility */
+    color: #FFF; /* Change color to white for better visibility */
+    opacity: 0.3; /* Set lower opacity for normal state */
+    transition: opacity 0.3s ease; /* Smooth transition on hover */
+}
+
+.new_button:hover {
+    opacity: 1; /* Make button fully visible on hover */
+}
+
+.new_prev {
+    left: 10px; /* Position to the left */
+}
+
+.new_next {
+    right: 10px; /* Position to the right */
+}
+
+/* View button styling */
+.view-button {
+    position: absolute;
+    top: 5px; /* Adjust vertical position */
+    right: 5px; /* Adjust horizontal position */
+    border: none; /* Remove border */
+    background: none; /* Remove background */
+    padding: 0; /* Remove padding to minimize button size */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: flex; /* Align icon and text */
+    align-items: center; /* Center vertically */
+    color: black; /* Change icon color as needed */
+}
+
+.view-button i {
+    margin-right: 0; /* No space since we're only using the icon */
+    font-size: 14px; /* Adjust icon size as needed */
+    line-height: 1; /* Remove any extra spacing around icon */
+}
+
+/* Optional: Add hover effect for the icon */
+.view-button:hover i {
+    color: #873e23; /* Change color on hover for visibility */
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    body {
+        padding-top: 50px; /* Fallback in case JavaScript fails */
+    }
+}
+
+@media (max-width: 992px) {
+    body {
+        padding-top: 20px; /* Fallback in case JavaScript fails */
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 10px; /* Fallback in case JavaScript fails */
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 0px; /* Fallback in case JavaScript fails */
+    }
+}

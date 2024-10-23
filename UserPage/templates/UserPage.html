@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UserPage | VickyneoPhotography</title>
+  <link rel="stylesheet" href="UserPage.css">
+  <link rel="stylesheet" href="final.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+  <!-- Sidebar Section -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <img src="vickylogo.jpg" alt="Logo">
+    </div>
+    <!-- Remove the Menu heading by commenting out or deleting the <h2> tag -->
+    <!-- <h2>Menu</h2> -->
+    <ul>
+        <!-- Remove the Home and Gallery items -->
+        <li><a id="gallerylink" href="#gallery"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-image"></i>Gallery</a></li> 
+        <li><a id="link" href="#favorites"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-heart"></i>Favorites</a></li>
+        <li><a href="#contact"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-envelope"></i>Contact Us</a></li>
+        <li><a href="login.html"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-sign-out-alt"></i>LogOut</a></li>
+
+    </ul>
+    <button class="close-btn" id="closeBtn">&times;</button>
+    <div class="sidebar-copyright">
+        <p>&copy; 2024 Designed by Ruban | All rights reserved.</p>
+    </div>
+</div>
+
+
+<header>
+    <!-- Left-aligned menu button -->
+    <button class="menu-btn" id="menuBtn">&#9776;</button>
+
+    <!-- Center-aligned company name with tagline -->
+    <div class="company-name">
+        <h1>Vickyneo Photography</h1>
+        <p class="tagline">(Baby Props Store)</p> <!-- Added tagline here -->
+    </div>
+
+    <!-- Right-aligned logo -->
+    <div class="logo-container">
+        <a href="index.html" target="_blank">
+            <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+        </a>
+    </div>
+
+</header>
+
+<main class="main" id="home">
+    <!-- Gallery heading -->
+    <div id="gallery" class="container-heading">Gallery</div>
+    
+    <!-- Container for displaying images -->
+    <div id="imageContainer" class="image-container-for-gallery"></div>
+
+    <!-- Pagination controls -->
+    <div id="pagination" class="pagination-controls"></div>
+
+    <!-- Favorites heading -->
+    <div id="favorites" class="container-heading">Favorites</div>
+
+    <!-- Container for selected images -->
+    <div id="selectedImagesContainer" class="selected-images-container">
+        <p class="no-images">No images selected</p>
+    </div>
+
+    <!-- Submit button for saving selected images -->
+    <button class="save-btn" onclick="saveSelection()">Submit</button>
+
+    <!-- Fullscreen overlay for viewing images -->
+    <div id="fullscreenOverlay" class="fullscreen-overlay" style="display: none;">
+        <i class="close-btn fas fa-times" onclick="closeFullscreen()"></i>
+        <img id="fullscreenImage" src="" alt="Fullscreen Image">
+    </div>
+</main>
+
+  <footer class="footer-section">
+    <div class="footer-container">
+        <!-- Left side: Follow Us and Social Media Icons -->
+        <div class="footer-left">
+            <div class="social-follow">
+                <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
+                <div class="social-icons">
+                    <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
+                        <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
+                    </a>
+                    <a href="https://www.facebook.com/[Your Facebook Page]" class="social-icon facebook-icon" target="_blank">
+                        <img src="facebook-icon.gif" alt="Facebook" class="rounded-icon animated-icon">
+                    </a>
+                    <a href="https://www.instagram.com/vickyneo_photography" class="social-icon insta-icon" target="_blank">
+                        <img src="instagram-icon.gif" alt="Instagram" class="rounded-icon animated-icon">
+                    </a>
+                    <a href="https://www.youtube.com/@vickyneophotography1351" class="social-icon youtube-icon" target="_blank">
+                        <img src="youtube-icon.gif" alt="YouTube" class="rounded-icon animated-icon">
+                    </a>
+                    <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
+                        <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
+                            <source src="X-icon.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Company Name with Logo -->
+        <div class="footer-center">
+            <div class="company-info">
+                <div class="footer-logo">
+                    <img src="logo-footer.jpg" alt="Company Logo" class="rounded-logo">
+                </div>
+                <h3>Vickyneo Photography</h3>
+            </div>
+        </div>
+
+        <!-- Right side: Contact Info -->
+        <div class="footer-right" id="contact">
+            <h3 class="contact-title">Contact Us</h3> <!-- Contact Us title -->
+
+            <!-- Location Section -->
+            <div class="footer-contact-item">
+                <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link" target="_blank">
+                    <img src="location-icon.gif" alt="Location" class="rounded-location-icon animated-icon">
+                </a>
+                <div class="contact-info">
+                    <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="contact-link" target="_blank">
+                        <span class="contact-line">Single Street, Urban bank opposite</span><br>
+                        <span class="contact-line">Near Mariamman kovil</span><br>
+                        <span class="contact-line">Batlagundu</span><br>
+                        <span class="contact-line">624202</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Phone Section -->
+            <div class="footer-contact-item">
+                <a href="tel:+917373865255" class="icon-link">
+                    <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
+                </a>
+                <div class="contact-info">
+                    <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span>
+                </div>
+            </div>
+
+            <!-- Email Section -->
+            <div class="footer-contact-item">
+                <a href="mailto:vickyneophotography@gmail.com" class="icon-link">
+                    <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
+                </a>
+                <div class="contact-info">
+                    <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+  <script src="UserPage.js"></script>
+  <script src="final.js"></script>
+</body>
+</html>

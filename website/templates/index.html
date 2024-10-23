@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro | VickyneoPhotography</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color:#fff; /* Background color */
+        }
+
+        img {
+            position: absolute; /* Change to absolute to cover entire viewport */
+            top: 50%; /* Center the image vertically */
+            left: 50%; /* Center the image horizontally */
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+            object-fit: cover; /* Cover the entire area while maintaining aspect ratio */
+            border: none; /* Remove any borders */
+            box-shadow: none; /* Ensure no shadow is applied */
+            transform: translate(-50%, -50%); /* Center the image */
+        }
+
+        /* Media query for mobile devices */
+        @media (max-width: 768px) {
+            img {
+                width: 80%; /* Decrease width for smaller screens */
+                height: auto; /* Maintain aspect ratio */
+                max-height: 80vh; /* Set a maximum height */
+                transform: translate(-50%, -50%); /* Keep it centered */
+            }
+        }
+
+        /* Media query for tablet devices */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            img {
+                width: 90%; /* Decrease width for tablets */
+                height: auto; /* Maintain aspect ratio */
+                max-height: 90vh; /* Set a maximum height */
+                transform: translate(-50%, -50%); /* Keep it centered */
+            }
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+
+    <!-- Your animation GIF -->
+    <img id="animationGif" src="{% static 'logos/vickyneologoanimation.gif' %}" alt="Animation GIF">
+
+
+    <script>
+        // JavaScript to handle GIF end event
+        const gif = document.getElementById('animationGif');
+        
+        // Assuming the duration of your GIF is 6.7 seconds (6700 milliseconds)
+        const gifDuration = 7200; // Adjust this value based on your GIF duration
+
+        // Redirect to the homepage after the GIF duration
+        setTimeout(() => {
+            window.location.href = '/home/'; // Redirect to home page
+        }, gifDuration);
+    </script>
+
+</body>
+</html>

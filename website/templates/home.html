@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | VickyneoPhotography</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar Section -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="{{ company_info.sidebar_logo.url }}" alt="Logo">
+        </div>
+        
+        <!-- Remove the Menu heading by commenting out or deleting the <h2> tag -->
+        <!-- <h2>Menu</h2> -->
+        <ul>
+            <!-- Remove the Home and Gallery items -->
+            <li><a href="/home/">Home</a></li>
+            <li><a href="/babyProps/">Baby Shoots</a></li>
+            <li><a href="/ourServices/">Our Services</a></li>
+            <li><a id="aboutlink" href="#abouthref">About Us</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+        
+        
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <div class="sidebar-copyright">
+            <p>&copy; 2024 Designed by Ruban | All rights reserved.</p>
+        </div>
+    </div>
+    
+
+    <header>
+        <!-- Left-aligned menu button -->
+        <button class="menu-btn" id="menuBtn">&#9776;</button>
+    
+        <!-- Center-aligned company name with tagline -->
+        <div class="company-name">
+            <h1>{{ company_info.name }}</h1>
+            {% if company_info.enable_tagline %}
+                <p class="tagline">({{ company_info.tagline }})</p> <!-- Display tagline if enabled -->
+            {% endif %}
+        </div>
+        
+        <!-- Right-aligned logo -->
+        <div class="logo-container">
+            <a href="login.html" target="_blank">
+                <img src="{{ company_info.header_logo.url }}" alt="Website Logo" class="logo">
+            </a>
+        </div>
+        
+
+    </header>
+    
+    <!-- Main Content -->
+    <main id="home">
+       <!-- Slider Container -->
+    <div class="slider-container">
+        <div class="slides" id="slides">
+            {% load static %}
+            {% for slider in sliders %}
+            <div class="slide">
+                <img src="{{ slider.image.url }}" alt="{{ slider.name }}">
+            </div>
+            {% empty %}
+            <p>No slides available.</p>
+            {% endfor %}
+        </div>
+        
+        
+        <!-- Navigation Buttons -->
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+     
+    
+
+    
+    
+    
+
+
+
+
+
+
+
+        <h1 class="page-heading" id="gallery">Gallery</h1>
+        {% load static %}
+        <div class="gallery">
+            {% if gallery_images.exists %}  <!-- Check if any images exist -->
+                {% for image in gallery_images %}
+                    <div class="image-container {% if image.orientation == 'portrait' %}tall{% endif %}">
+                        <img class="galleryimg" src="{{ image.image.url }}" alt="{{ image.name }}">
+                        <div class="overlay">{{ image.name }}</div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center;">No gallery images available.</p>
+            {% endif %}
+        </div>
+        
+        
+
+
+        
+        <div class="quote-container">
+            <h2 class="happy-clients">My Happy Clients</h2> <!-- Heading at the top -->
+            <div class="content-happy">
+                <!-- Text content: Review and Author -->
+                <div class="text-content">
+                    <blockquote class="quote">
+                        <!-- Review text will be dynamically updated -->
+                        <p id="reviewText">Loading reviews...</p>
+                        <!-- Author name will be dynamically updated -->
+                        <span class="quote-author">Loading author...</span>
+                    </blockquote>
+                </div>
+        
+                <!-- Cartoon Image -->
+                <div class="center-image" id="abouthref">
+                    <!-- Cartoon image will be dynamically updated -->
+                    <img id="cartoonImage" src="{% static 'images/cartoon-quote.png' %}" alt="A cartoon illustration of a quote">
+                </div>
+            </div>
+        </div>
+        
+
+
+        <h1 class="page-heading" id="about">About us</h1>
+        <div id="photographerInfo" class="info-section">
+            <div class="info-text">
+                <p>
+                    {{ about_us.content }}
+                </p>
+            </div>
+            <div class="info-photo">
+                <img src="{{ about_us.photographer_image.url }}" alt="Photographer Image">  <!-- Use the image from the model -->
+                <div class="photographer-overlay">{{ about_us.photographer_name }}</div>
+            </div>
+        </div>
+        
+
+
+
+
+        
+        
+
+ 
+        
+        
+        
+        
+
+
+        <footer class="footer-section">
+           
+
+            <div class="footer-container">
+                <!-- Left side: Follow Us and Social Media Icons -->
+                <div class="footer-left">
+                    <div class="social-follow">
+                        <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
+                        <div class="social-icons">
+                            {% if company_info.enable_whatsapp and company_info.whatsapp_link %}
+                            <a href="{{ company_info.whatsapp_link }}" class="social-icon whatsapp-icon" target="_blank">
+                                <img src="{{ company_info.whatsapp_icon.url }}" alt="WhatsApp" class="rounded-icon animated-icon">
+                            </a>
+                            {% endif %}
+                        
+                            {% if company_info.enable_facebook and company_info.facebook_link %}
+                            <a href="{{ company_info.facebook_link }}" class="social-icon facebook-icon" target="_blank">
+                                <img src="{{ company_info.facebook_icon.url }}" alt="Facebook" class="rounded-icon animated-icon">
+                            </a>
+                            {% endif %}
+                        
+                            {% if company_info.enable_instagram and company_info.instagram_link %}
+                            <a href="{{ company_info.instagram_link }}" class="social-icon insta-icon" target="_blank">
+                                <img src="{{ company_info.instagram_icon.url }}" alt="Instagram" class="rounded-icon animated-icon">
+                            </a>
+                            {% endif %}
+                        
+                            {% if company_info.enable_youtube and company_info.youtube_link %}
+                            <a href="{{ company_info.youtube_link }}" class="social-icon youtube-icon" target="_blank">
+                                <img src="{{ company_info.youtube_icon.url }}" alt="YouTube" class="rounded-icon animated-icon">
+                            </a>
+                            {% endif %}
+                        
+                            {% if company_info.enable_x and company_info.x_link %}
+                            <a href="{{ company_info.x_link }}" class="social-icon x-icon" target="_blank">
+                                <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
+                                    <source src="{{ company_info.x_icon.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </a>
+                            {% endif %}
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- Center: Company Name with Logo -->
+                <div class="footer-center">
+                    <div class="company-info">
+                        <div class="footer-logo">
+                            <img src="{{ company_info.footer_logo.url }}" alt="Company Logo" class="rounded-logo">
+                        </div>
+                        <h3>{{ company_info.name }}</h3> <!-- Fetching company name from the database -->
+                    </div>
+                </div>
+                
+
+                <!-- Right side: Contact Info -->
+                <div class="footer-right" id="contact">
+                    <h3 class="contact-title">Contact Us</h3> <!-- Contact Us title -->
+
+                    <!-- Location Section -->
+                    <div class="footer-contact-item">
+                        <a href="{{ company_info.google_maps_link }}" class="icon-link" target="_blank">
+                            <img src="{{ company_info.location_icon.url }}" alt="Location" class="rounded-location-icon animated-icon">
+                        </a>
+                        <div class="contact-info">
+                            <!-- <p>Company map: {{ company_info.google_maps_link }}</p> -->
+                            <a href="{{ company_info.google_maps_link }}" class="contact-link" target="_blank">
+                                <span id="Addressline1" class="contact-line">{{ company_info.address_line1 }}</span><br>
+                                <span id="Addressline2">{{ company_info.address_line2 }}</span><br>
+                                <span id="Addressline3" class="contact-line">{{ company_info.address_line3 }}</span><br>
+                                <span id="Addressline4" class="contact-line">{{ company_info.address_line4 }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+
+                    <!-- Phone Section -->
+                    <div class="footer-contact-item">
+                        <a href="tel:{{ company_info.phone_number }}" class="icon-link">
+                            <img src="{{ company_info.phone_icon.url }}" alt="Phone" class="rounded-phone-icon">
+                        </a>
+                        <div class="contact-info">
+                            <span class="contact-line">
+                                <a href="tel:{{ company_info.phone_number }}" class="contact-link">{{ company_info.phone_number }}</a>
+                            </span>
+                        </div>
+                    </div>
+                    
+
+                    <!-- Email Section -->
+                    <div class="footer-contact-item">
+                        <a href="mailto:{{ company_info.email }}" class="icon-link">
+                            <img src="{{ company_info.email_icon.url }}" alt="Email" class="rounded-email-icon">
+                        </a>
+                        <div class="contact-info">
+                            <span class="contact-line">
+                                <a href="mailto:{{ company_info.email }}" class="contact-link">{{ company_info.email }}</a>
+                            </span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </footer>
+    </main>
+    <script src="{% static 'js/final.js' %}"></script>
+    
+</body>
+</html>

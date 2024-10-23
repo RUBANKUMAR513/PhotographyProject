@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | VickyneoPhotography</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+    <style>
+    .gallery-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Position modal fixed to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    z-index: 1000; /* Ensure it is above other elements */
+    display: flex; /* Use flexbox to center content */
+}
+
+.gallery-content {
+    position: relative; /* Position relative for absolute positioning of close button */
+    text-align: center; /* Center text */
+    max-height: 90vh; /* Limit the maximum height of content */
+    overflow: auto; /* Add scroll if content exceeds */
+   
+}
+
+.gallery-content img {
+    max-width: 90%; /* Limit image width */
+    max-height: 80vh; /* Limit image height to 80% of viewport height */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.gallery-close-button {
+    position: absolute; /* Position absolute within the modal */
+    top: 20px; /* Adjust the distance from the top */
+    right: 20px; /* Adjust the distance from the right */
+    background-color: rgba(255, 255, 255, 0.8); /* Light background */
+    border: none; /* Remove border */
+    border-radius: 50%; /* Round shape */
+    width: 40px; /* Button size */
+    height: 40px; /* Button size */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 18px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #000; /* Text color */
+    outline: none; /* Remove outline */
+    transition: background-color 0.3s; /* Smooth transition for background */
+    z-index: 1001; /* Ensure it is above other elements */
+}
+
+.gallery-close-button:hover {
+    background-color: rgba(255, 255, 255, 1); /* Change background color on hover */
+}
+
+.prev,
+.next {
+    position: absolute; /* Position buttons absolutely */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for exact center */
+    background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    border: none; /* Remove border */
+    padding: 10px; /* Button padding */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Optional: round corners for buttons */
+    font-size: 16px; /* Font size for buttons */
+}
+
+.prev {
+    left: 10px; /* Position prev button to the left */
+}
+
+.next {
+    right: 10px; /* Position next button to the right */
+}
+.view-more-pics {
+    display: inline-block; /* Allows padding and margins */
+    padding: 10px 20px; /* Top/bottom and left/right padding */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #873e23; /* Text color */
+    background-color: #f1c40f; /* Button background color */
+    border: none; /* No border */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transitions */
+    text-align: center; /* Center text */
+    margin-top: 10px;
+}
+
+.view-more-pics:hover {
+    background-color: #873e23; /* Darker background on hover */
+    transform: translateY(-2px); /* Slightly raise the button on hover */
+    color: #f1c40f;
+}
+
+.view-more-pics:active {
+    transform: translateY(0); /* Reset position when button is pressed */
+}
+@media (max-width: 768px) {
+    .view-more-pics {
+        padding: 8px 15px; /* Reduce padding for top/bottom and left/right */
+        font-size: 14px; /* Smaller font size */
+        border-radius: 15px; /* Reduce border radius */
+    }
+}
+
+    </style>
+</head>
+<body>
+      <!-- Sidebar Section -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="{{ company_info.sidebar_logo.url }}" alt="Logo">
+        </div>
+        
+        <!-- Remove the Menu heading by commenting out or deleting the <h2> tag -->
+        <!-- <h2>Menu</h2> -->
+        <ul>
+            <!-- Remove the Home and Gallery items -->
+            <li><a href="/home/">Home</a></li>
+            <li><a href="/babyProps/">Baby Shoots</a></li>
+            <li><a href="/ourServices/">Our Services</a></li>
+            <li><a id="aboutlink" href="/home#abouthref">About Us</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+        
+        
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <div class="sidebar-copyright">
+            <p>&copy; 2024 Designed by Ruban | All rights reserved.</p>
+        </div>
+    </div>
+    
+
+    <header>
+        <!-- Left-aligned menu button -->
+        <button class="menu-btn" id="menuBtn">&#9776;</button>
+    
+        <!-- Center-aligned company name with tagline -->
+        <div class="company-name">
+            <h1>{{ company_info.name }}</h1>
+            {% if company_info.enable_tagline %}
+                <p class="tagline">({{ company_info.tagline }})</p> <!-- Display tagline if enabled -->
+            {% endif %}
+        </div>
+        
+        <!-- Right-aligned logo -->
+        <div class="logo-container">
+            <a href="login.html" target="_blank">
+                <img src="{{ company_info.header_logo.url }}" alt="Website Logo" class="logo">
+            </a>
+        </div>
+        
+
+    </header>
+    <main id="home">
+        <h1 class="page-heading" id="services">Our Services</h1>
+<div class="services-section">
+    <!-- Service 1 (Image Left) -->
+    <div class="service image-left">
+        <div class="service-image" onclick="openModal(this)">
+            <img src="services1.jpeg" alt="Wedding Photography">
+        </div>
+        <div class="service-content">
+            <h2>Wedding Photography</h2>
+            <p>We capture your special moments with beautiful, high-quality wedding photography services.</p>
+            <button class="view-more-pics" onclick="openModalGallery('weddingGallery')">More images</button>
+        </div>
+    </div>
+
+    <!-- Service 2 (Image Right) -->
+    <div class="service image-right">
+        <div class="service-content">
+            <h2>Event Photography</h2>
+            <p>Professional photography for corporate events, parties, and other special occasions.</p>
+            <button class="view-more-pics" onclick="openModalGallery('eventGallery')">More images</button>
+        </div>
+        <div class="service-image" onclick="openModal(this)">
+            <img src="services2.jpeg" alt="Event Photography">
+        </div>
+    </div>
+
+    <!-- Service 3 (Image Left) -->
+    <div class="service image-left">
+        <div class="service-image" onclick="openModal(this)">
+            <img src="services6.jpg" alt="Portrait Photography">
+        </div>
+        <div class="service-content">
+            <h2>Portrait Photography</h2>
+            <p>Personalized portrait sessions for individuals, families, and children in a variety of styles.</p>
+            <button class="view-more-pics" onclick="openModalGallery('portraitGallery')">More images</button>
+        </div>
+    </div>
+
+    <!-- Service 4 (Image Right) -->
+    <div class="service image-right">
+        <div class="service-content">
+            <h2>Product Photography</h2>
+            <p>High-quality images that showcase your products, perfect for e-commerce, catalogs, and marketing.</p>
+            <button class="view-more-pics" onclick="openModalGallery('productGallery')">More images</button>
+        </div>
+        <div class="service-image" onclick="openModal(this)">
+            <img src="services4.jpeg" alt="Product Photography">
+        </div>
+    </div>
+
+    <!-- Service 5 (Image Left) -->
+    <div class="service image-left">
+        <div class="service-image" onclick="openModal(this)">
+            <img src="services5.jpeg" alt="Baby Photography">
+        </div>
+        <div class="service-content">
+            <h2>Baby Photography</h2>
+            <p>Adorable baby photography to capture the joy and innocence of your little ones.</p>
+            <button class="view-more-pics" onclick="openModalGallery('babyGallery')">More images</button>
+        </div>
+    </div>
+
+    <!-- Service 6 (Image Right) -->
+    <div class="service image-right">
+        <div class="service-content">
+            <h2>Outdoor Photography</h2>
+            <p>Stunning outdoor photography capturing landscapes and nature's beauty.</p>
+            <button class="view-more-pics" onclick="openModalGallery('outdoorGallery')">More images</button>
+        </div>
+        <div class="service-image" onclick="openModal(this)">
+            <img src="services3.jpeg" alt="Outdoor Photography">
+        </div>
+    </div>
+</div>
+
+<!-- Fullscreen Modal for Individual Image -->
+<div class="fullscreen-modal" id="fullscreenModal" onclick="closeModal()">
+    <img id="fullscreenImage" src="" alt="Fullscreen Image">
+    <button class="close-button" onclick="closeModal()">X</button>
+</div>
+
+<div class="gallery-modal" id="galleryModal" onclick="closeGallery()">
+    <div class="gallery-content">
+        <button class="gallery-close-button" onclick="closeGallery()">X</button>
+        <img id="galleryImage" src="" alt="Gallery Image">
+        <button class="prev" onclick="changeImage(-1, event)">&#10094;</button>
+        <button class="next" onclick="changeImage(1, event)">&#10095;</button>
+    </div>
+</div>     
+
+
+    </main>
+    <footer class="footer-section">
+           
+
+        <div class="footer-container">
+            <!-- Left side: Follow Us and Social Media Icons -->
+            <div class="footer-left">
+                <div class="social-follow">
+                    <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
+                    <div class="social-icons">
+                        {% if company_info.enable_whatsapp and company_info.whatsapp_link %}
+                        <a href="{{ company_info.whatsapp_link }}" class="social-icon whatsapp-icon" target="_blank">
+                            <img src="{{ company_info.whatsapp_icon.url }}" alt="WhatsApp" class="rounded-icon animated-icon">
+                        </a>
+                        {% endif %}
+                    
+                        {% if company_info.enable_facebook and company_info.facebook_link %}
+                        <a href="{{ company_info.facebook_link }}" class="social-icon facebook-icon" target="_blank">
+                            <img src="{{ company_info.facebook_icon.url }}" alt="Facebook" class="rounded-icon animated-icon">
+                        </a>
+                        {% endif %}
+                    
+                        {% if company_info.enable_instagram and company_info.instagram_link %}
+                        <a href="{{ company_info.instagram_link }}" class="social-icon insta-icon" target="_blank">
+                            <img src="{{ company_info.instagram_icon.url }}" alt="Instagram" class="rounded-icon animated-icon">
+                        </a>
+                        {% endif %}
+                    
+                        {% if company_info.enable_youtube and company_info.youtube_link %}
+                        <a href="{{ company_info.youtube_link }}" class="social-icon youtube-icon" target="_blank">
+                            <img src="{{ company_info.youtube_icon.url }}" alt="YouTube" class="rounded-icon animated-icon">
+                        </a>
+                        {% endif %}
+                    
+                        {% if company_info.enable_x and company_info.x_link %}
+                        <a href="{{ company_info.x_link }}" class="social-icon x-icon" target="_blank">
+                            <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
+                                <source src="{{ company_info.x_icon.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </a>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Center: Company Name with Logo -->
+            <div class="footer-center">
+                <div class="company-info">
+                    <div class="footer-logo">
+                        <img src="{{ company_info.footer_logo.url }}" alt="Company Logo" class="rounded-logo">
+                    </div>
+                    <h3>{{ company_info.name }}</h3> <!-- Fetching company name from the database -->
+                </div>
+            </div>
+            
+
+            <!-- Right side: Contact Info -->
+            <div class="footer-right" id="contact">
+                <h3 class="contact-title">Contact Us</h3> <!-- Contact Us title -->
+
+                <!-- Location Section -->
+                <div class="footer-contact-item">
+                    <a href="{{ company_info.google_maps_link }}" class="icon-link" target="_blank">
+                        <img src="{{ company_info.location_icon.url }}" alt="Location" class="rounded-location-icon animated-icon">
+                    </a>
+                    <div class="contact-info">
+                        <a href="{{ company_info.google_maps_link }}" class="contact-link" target="_blank">
+                            <span id="Addressline1" class="contact-line">{{ company_info.address_line1 }}</span><br>
+                            <span id="Addressline2">{{ company_info.address_line2 }}</span><br>
+                            <span id="Addressline3" class="contact-line">{{ company_info.address_line3 }}</span><br>
+                            <span id="Addressline4" class="contact-line">{{ company_info.address_line4 }}</span>
+                        </a>
+                    </div>
+                </div>
+                
+
+                <!-- Phone Section -->
+                <div class="footer-contact-item">
+                    <a href="tel:{{ company_info.phone_number }}" class="icon-link">
+                        <img src="{{ company_info.phone_icon.url }}" alt="Phone" class="rounded-phone-icon">
+                    </a>
+                    <div class="contact-info">
+                        <span class="contact-line">
+                            <a href="tel:{{ company_info.phone_number }}" class="contact-link">{{ company_info.phone_number }}</a>
+                        </span>
+                    </div>
+                </div>
+                
+
+                <!-- Email Section -->
+                <div class="footer-contact-item">
+                    <a href="mailto:{{ company_info.email }}" class="icon-link">
+                        <img src="{{ company_info.email_icon.url }}" alt="Email" class="rounded-email-icon">
+                    </a>
+                    <div class="contact-info">
+                        <span class="contact-line">
+                            <a href="mailto:{{ company_info.email }}" class="contact-link">{{ company_info.email }}</a>
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+    </footer>
+    <script src="{% static 'js/final.js' %}"></script>
+    <script>
+        let currentImageIndex = 0;
+        let galleryImages = [];
+    
+        // Function to open the modal gallery and set images based on selected gallery
+        function openModalGallery(gallery) {
+            // Reset galleryImages based on selected gallery
+            switch (gallery) {
+                case 'weddingGallery':
+                    galleryImages = ['services1_alt1.jpg', 'services1_alt2.jpg', 'services1_alt3.jpg'];
+                    break;
+                case 'eventGallery':
+                    galleryImages = ['services2_alt1.jpg', 'services2_alt2.jpg', 'services2_alt3.jpg'];
+                    break;
+                case 'portraitGallery':
+                    galleryImages = ['services6_alt1.jpg', 'services6_alt2.jpg', 'services6_alt3.jpg'];
+                    break;
+                case 'productGallery':
+                    galleryImages = ['services4_alt1.jpg', 'services4_alt2.jpg', 'services4_alt3.jpg'];
+                    break;
+                case 'babyGallery':
+                    galleryImages = ['services5_alt1.jpg', 'services5_alt2.jpg', 'services5_alt3.jpg'];
+                    break;
+                case 'outdoorGallery':
+                    galleryImages = ['services3_alt1.jpg', 'services3_alt2.jpg', 'services3_alt3.jpg'];
+                    break;
+                default:
+                    console.error("Gallery not found:", gallery);
+                    return; // Exit if gallery is not recognized
+            }
+    
+            currentImageIndex = 0; // Reset index
+            showGalleryImage(); // Show the first image
+            document.getElementById('galleryModal').style.display = 'flex'; // Show gallery modal
+        }
+    
+        // Function to display the current image in the modal
+        function showGalleryImage() {
+            const galleryImage = document.getElementById('galleryImage');
+            if (galleryImages.length > 0) {
+                galleryImage.src = galleryImages[currentImageIndex];
+            } else {
+                console.error("No images to display.");
+            }
+        }
+    
+        // Function to change the displayed image
+        function changeImage(direction, event) {
+            event.stopPropagation();
+            currentImageIndex += direction;
+    
+            if (currentImageIndex < 0) {
+                currentImageIndex = galleryImages.length - 1; // Loop back to last image
+            } else if (currentImageIndex >= galleryImages.length) {
+                currentImageIndex = 0; // Loop back to first image
+            }
+    
+            showGalleryImage();
+        }
+    
+        // Function to close the gallery modal
+        function closeGallery() {
+            document.getElementById('galleryModal').style.display = 'none'; // Hide gallery modal
+        }
+    
+        // Optional: Confirmation that the page has loaded without opening the gallery
+        window.onload = function() {
+            console.log("Page loaded, no gallery should be opened by default.");
+            closeGallery(); // Ensure the gallery is closed
+        };
+    </script>
+</body>
+</html>

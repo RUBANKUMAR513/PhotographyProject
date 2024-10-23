@@ -16,7 +16,6 @@ import os
 
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -45,8 +44,8 @@ INSTALLED_APPS = [
     'website',
 ]
 JAZZMIN_SETTINGS = {
-    # "site_logo": "images/logo.png",  # Path relative to your static files
-    # "site_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
+    "site_logo": "logos/logo.jpg",  # Path relative to your static files
+    "site_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
 
     "site_title": "Admin",
     "site_header": "Administration",
@@ -60,13 +59,14 @@ JAZZMIN_SETTINGS = {
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
     },
-    "custom_css": None,
+    "custom_css": "css/custom_admin.css",  # Path to the custom CSS file
     "custom_js": None,
     "use_google_fonts_cdn": True,
     "show_ui_builder": True,
-    "brand_logo": "logo.png",  # Path relative to your static files
+    "brand_logo": "logos/logo.jpg",  # Path relative to your static files
     "brand_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
 }
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,11 +79,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'PhotoShopProject.urls'
 
+# Template directories
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'DIRS': [
+            os.path.join(BASE_DIR, 'website', 'templates'),  # Website app templates
+            os.path.join(BASE_DIR, 'UserPage', 'templates'),  # UserPage app templates
+        ],
+        'APP_DIRS': True,  # Enable searching for templates in app directories
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -141,11 +145,21 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
+STATIC_URL = '/static/'
 
-STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'website', 'static'),  # Website app static files
+    os.path.join(BASE_DIR, 'UserPage', 'static'),  # UserPage app static files
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+
+APPEND_SLASH = False  # Disable appending slashes
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

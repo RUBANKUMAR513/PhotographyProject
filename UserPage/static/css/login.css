@@ -1,0 +1,140 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #FDF4E3;
+}
+
+/* Login Container */
+.login-container {
+    background-color: #873e23;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 0 20px;
+    text-align: center;
+}
+
+/* Logo Styling */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.logo:hover {
+    transform: scale(1.1); /* Scale the logo by 1.2 times when hovered */
+}
+/* Welcome Text */
+.welcome-text {
+    color: #f1c40f;
+    font-size: 1.7rem; /* Smaller size for "Welcome to" */
+    margin: 0;
+    /* border: 1px solid black; */
+}
+
+.company-name {
+    color: #f1c40f;
+    font-size: 2rem; /* Larger size for company name */
+    /* margin: 10px 0 20px;  */
+    /* border: 1px solid black; */
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.input-group input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background-color: #FDF4E3;
+}
+
+/* Button Styles */
+.btn {
+    background-color: #f1c40f;
+    color: #873e23;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+/* Contact Admin Text */
+.contact-admin {
+    text-align: center;
+    margin-top: 10px;
+    color: #f1c40f;
+}
+
+.contact-admin strong {
+    color: #007BFF;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .login-container {
+        padding: 15px;
+    }
+
+    .welcome-text {
+        font-size: 1rem; /* Adjust for smaller screens */
+    }
+
+    .company-name {
+        font-size: 1.5rem; /* Adjust for smaller screens */
+    }
+
+    .input-group input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+}
