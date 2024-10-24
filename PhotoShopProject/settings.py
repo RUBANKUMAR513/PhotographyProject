@@ -44,13 +44,13 @@ INSTALLED_APPS = [
     'website',
 ]
 JAZZMIN_SETTINGS = {
-    "site_logo": "logos/logo.jpg",  # Path relative to your static files
-    "site_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
+    "site_logo": "logos/logo-footer.jpg",  # Path relative to your static files
+    "site_logo_classes": "rounded-circle",  # Optional: additional CSS classes for your logo
 
     "site_title": "Admin",
     "site_header": "Administration",
     "site_brand": "Vickyneo Photography",
-    "welcome_sign": "WELCOME BACK VICKYNEO",
+    "welcome_sign": "Welcome! Back Vickyneo",
     "show_sidebar": True,
     "navigation_expanded": True,
     "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
@@ -60,10 +60,10 @@ JAZZMIN_SETTINGS = {
         "auth.Group": "fas fa-users",
     },
     "custom_css": "css/custom_admin.css",  # Path to the custom CSS file
-    "custom_js": None,
+    "custom_js": "js/custom_admin.js",
     "use_google_fonts_cdn": True,
     "show_ui_builder": True,
-    "brand_logo": "logos/logo.jpg",  # Path relative to your static files
+    "brand_logo": "vickytitlelogo.png",  # Path relative to your static files
     "brand_logo_classes": "img-circle",  # Optional: additional CSS classes for your logo
 }
 

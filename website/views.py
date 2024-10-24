@@ -27,7 +27,8 @@ def home_view(request):
 
 
 def index_view(request):
-    return render(request, 'index.html')
+    company_info = CompanyInfo.objects.first()
+    return render(request, 'index.html', {'company_info': company_info})
 
 def baby_props_view(request):
      # Fetch the CompanyInfo instance (assuming only one instance exists)
@@ -65,3 +66,31 @@ def get_happy_clients(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method.'}, status=400)
+    
+
+def get_gif_duration(request):
+    if request.method == 'POST':
+        print("POST request received")  # Debug line
+        try:
+            company_info = CompanyInfo.objects.first()
+            print("CompanyInfo:", company_info)  # Debug line
+            if company_info and company_info.gif_duration:
+                return JsonResponse({'gif_duration': company_info.gif_duration})
+            else:
+                return JsonResponse({'error': 'GIF duration not found'}, status=404)
+        except Exception as e:
+            print("Error:", str(e))  # Debug line
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView
+
+class CustomLoginView(LoginView):
+    template_name = 'registration/login.html'  # Make sure this matches your template location
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = AuthenticationForm()  # Pass the AuthenticationForm to the template
+        return context

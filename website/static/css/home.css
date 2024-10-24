@@ -869,6 +869,10 @@ header {
 .company-info {
     text-align: center;
     color: #f1c40f;
+    font-family: 'Mansalva', sans-serif; 
+    font-weight: 400; 
+    font-style: normal;
+    font-size: 20px;
 }
 
 .footer-logo img {

@@ -26,12 +26,26 @@ admin.site.register(CompanyInfo, CompanyInfoAdmin)
 class HomePageSliderAdmin(admin.ModelAdmin):
     list_display = ('name', 'update_date_time')
 
-admin.site.register(HomePageSlider,HomePageSliderAdmin )
+    # Override the has_add_permission method to disable the "Add" button
+    def has_add_permission(self, request):
+        # Disable add button if there are already 5 slider images
+        if HomePageSlider.objects.count() >= 5:
+            return False
+        return True
+
+admin.site.register(HomePageSlider, HomePageSliderAdmin)
 
 class HomePageGalleryAdmin(admin.ModelAdmin):
     list_display = ('name', 'enable', 'orientation', 'update_date_time')
     list_filter = ('enable', 'orientation')
     search_fields = ('name',)
+
+    # Override the has_add_permission method to disable the "Add" button
+    def has_add_permission(self, request):
+        # Disable add button if there are already 25 slider images
+        if HomePageGallery.objects.count() >= 25:
+            return False
+        return True
 
 admin.site.register(HomePageGallery,HomePageGalleryAdmin )
 
@@ -48,6 +62,12 @@ class HappyClientAdmin(admin.ModelAdmin):
             'fields': ('updated_at',)
         }),
     )
+    # Override the has_add_permission method to disable the "Add" button
+    def has_add_permission(self, request):
+        # Disable add button if there are already 10 slider images
+        if HappyClient.objects.count() >= 10:
+            return False
+        return True
 
 admin.site.register(HappyClient, HappyClientAdmin)
 

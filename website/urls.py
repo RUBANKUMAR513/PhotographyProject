@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import home_view, index_view,baby_props_view,Our_services_view,get_happy_clients
+from .views import home_view, index_view,baby_props_view,Our_services_view,get_happy_clients,get_gif_duration
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import CustomLoginView
 
 app_name = 'website'
 
@@ -11,7 +12,8 @@ urlpatterns = [
     path('babyProps/',baby_props_view,name='babyprops'),
     path('ourServices/',Our_services_view,name='services'),
     path('get-happy-clients/', get_happy_clients, name='get_reviews'),  # Replace with your endpoint URL
-
+    path('get-gif-duration/', get_gif_duration, name='get_gif_duration'),
+    path('accounts/login/', CustomLoginView.as_view(), name='login'),
 ]
 
 

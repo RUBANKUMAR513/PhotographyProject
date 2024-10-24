@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 
 class CompanyInfo(models.Model):
     name = models.CharField(max_length=255)  # Required field
+    intro_gif = models.ImageField(upload_to='company_intro_gifs/', blank=True, null=True)  # Optional GIF field
+    gif_duration = models.FloatField(blank=True, null=True,help_text="In Seconds")   # Optional GIF duration field
     address_line1 = models.CharField(max_length=255,default="N/A")  # Required field
     address_line2 = models.CharField(max_length=255, blank=True, null=True)
     address_line3 = models.CharField(max_length=255, blank=True, null=True)

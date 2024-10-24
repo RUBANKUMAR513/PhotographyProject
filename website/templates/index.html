@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="icon" href="{% static 'logos/vickytitlelogo.png' %}" type="image/x-icon">
     <title>Intro | VickyneoPhotography</title>
     <style>
         body, html {
@@ -51,21 +53,45 @@
 <body>
     {% load static %}
 
-    <!-- Your animation GIF -->
-    <img id="animationGif" src="{% static 'logos/vickyneologoanimation.gif' %}" alt="Animation GIF">
+    {% if company_info.intro_gif %}
+    <img id="animationGif" src="{{ company_info.intro_gif.url }}" alt="Animation GIF">
+    {% else %}
+    <p>No GIF available.</p> <!-- Or leave this empty or use a default placeholder -->
+    {% endif %}
+
+    
 
 
     <script>
-        // JavaScript to handle GIF end event
-        const gif = document.getElementById('animationGif');
-        
-        // Assuming the duration of your GIF is 6.7 seconds (6700 milliseconds)
-        const gifDuration = 7200; // Adjust this value based on your GIF duration
+         async function fetchGifDuration() {
+            try {
+                const response = await fetch('/get-gif-duration/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}',  // CSRF token for security
+                    },
+                });
 
-        // Redirect to the homepage after the GIF duration
-        setTimeout(() => {
-            window.location.href = '/home/'; // Redirect to home page
-        }, gifDuration);
+                const data = await response.json();
+
+                if (response.ok) {
+                    const gifDuration = data.gif_duration * 1000;  // Convert seconds to milliseconds
+
+                    // Redirect to the homepage after the GIF duration
+                    setTimeout(() => {
+                        window.location.href = '/home/'; // Redirect to the homepage
+                    }, gifDuration);
+                } else {
+                    console.error('Error:', data.error);
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        }
+
+        // Call the function to fetch GIF duration on page load
+        fetchGifDuration();
     </script>
 
 </body>
