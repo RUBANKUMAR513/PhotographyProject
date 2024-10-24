@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path, include  # Include the 'include' function
 from django.conf import settings
 from django.conf.urls.static import static
+from website.views import CustomAdminLoginView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Admin interface
+    path('admin/login/', CustomAdminLoginView.as_view(), name='admin_login'),
+    path('admin/', admin.site.urls),
     path('', include('website.urls')),  # Example with namespace
     path('user/', include('UserPage.urls')) 
 ]

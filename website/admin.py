@@ -6,7 +6,9 @@ from .models import HomePageSlider
 from .models import HomePageGallery
 from .models import HappyClient
 from .models import AboutUs
-
+from .models import BabyPropsGallery
+from .models import BabyPropsGallery, BabyPropsImage
+from .forms import BabyPropsImageAdminForm
 
 class CompanyInfoAdmin(admin.ModelAdmin):
     list_display = ('name','tagline', 'phone_number', 'email')
@@ -90,3 +92,36 @@ class AboutUsAdmin(admin.ModelAdmin):
         return False
 
 admin.site.register(AboutUs, AboutUsAdmin)
+
+
+
+    
+class BabyPropsImageAdmin(admin.ModelAdmin):
+    form = BabyPropsImageAdminForm
+    list_display = ('gallery_name', 'description', 'update_date_time')  # Include description
+    fields = ('gallery', 'image', 'description', 'update_date_time')  # Fields to be shown in the edit form
+    readonly_fields = ('update_date_time',)  # Make update_date_time read-only if you don't want it editable
+
+
+
+class BabyPropsGalleryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'enable','update_date_time')
+    fields =('name','orientation','enable','update_date_time')
+    readonly_fields = ('update_date_time',)
+
+     # Override the has_add_permission method to disable the "Add" button
+    def has_add_permission(self, request):
+        # Disable add button if there are already 25 baby props galleries
+        if BabyPropsGallery.objects.count() >= 25:
+            return False
+        return True
+
+# Register models with the admin site
+admin.site.register(BabyPropsImage, BabyPropsImageAdmin)
+admin.site.register(BabyPropsGallery, BabyPropsGalleryAdmin)
+
+
+
+
+   
+

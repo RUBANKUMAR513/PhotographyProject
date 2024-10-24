@@ -101,7 +101,7 @@ class HomePageGallery(models.Model):
     def clean(self):
         # Limit to 25 instances
         if HomePageGallery.objects.count() >= 25 and not self.pk:
-            raise ValidationError('You can only create up to 25 happy clients.')
+            raise ValidationError('You can only create up to 25 Gallery Image Container.')
 
     def __str__(self):
         return self.name
@@ -140,3 +140,36 @@ class AboutUs(models.Model):
 
     def __str__(self):
         return 'About Us Content'
+    
+class BabyPropsGallery(models.Model):
+    ORIENTATION_CHOICES = [
+        ('portrait', 'Portrait'),
+        ('landscape', 'Landscape'),
+    ]
+     
+    name = models.CharField(max_length=255)
+    enable = models.BooleanField(default=True)  # Checkbox for enable/disable
+    update_date_time = models.DateTimeField(auto_now=True)  # Automatically set the date/time on update
+    orientation = models.CharField(max_length=10, choices=ORIENTATION_CHOICES, default='portrait')
+
+    def clean(self):
+        # Limit to 25 instances
+        if BabyPropsGallery.objects.count() >= 25 and not self.pk:
+            raise ValidationError('You can only create up to 25 Baby Props Gallery.')
+
+    def __str__(self):
+        return self.name
+
+
+class BabyPropsImage(models.Model):
+    gallery = models.ForeignKey(BabyPropsGallery, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='baby_props_images/')
+    description = models.CharField(max_length=255, blank=True)  # Add description field
+    update_date_time = models.DateTimeField(auto_now=True)  # Automatically set the date/time on update
+
+    @property
+    def gallery_name(self):
+        return self.gallery.name if self.gallery else "No Gallery"
+
+    def __str__(self):
+        return f"Image for {self.gallery.name} - {self.description}"  # Update string representation

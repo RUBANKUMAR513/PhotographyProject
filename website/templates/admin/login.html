@@ -1,0 +1,128 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Title{% endblock %}</title>
+
+    <!-- Link to Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Other stylesheets can go here -->
+    <link rel="stylesheet" href="{% static 'css/Adminlogin.css' %}">
+</head>
+<body>
+    <!-- Display error messages if any -->
+    {% if messages %}
+    <div class="error-message-container" id="error-container">
+        {% for message in messages %}
+          <div class="error-message-top">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="success-message-container" id="otp-success">
+        <div>OTP sent successfully!</div>
+    </div>
+    {% block content %}
+    <div id="content" class="login-container">
+      <div class="logo-container">
+        <img src="{% static 'logos/vickylogo.jpg' %}" alt="Logo" class="logo">
+      </div>
+
+      <h2 class="welcome-text">{% trans "Vickyneo Photography" %}</h2>
+      
+      <form method="post" action="{% url 'admin_login' %}" class="login-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="form-row">
+          <div class="input-container">
+            <input type="text" name="{{ form.username.name }}" placeholder="Enter Username" class="form-input">
+            <i class="fas fa-user icon"></i>
+          </div>
+          <div class="error-message">
+            {{ form.username.errors }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="input-container">
+            <input type="password" name="{{ form.password.name }}" placeholder="Enter Password" class="form-input">
+            <i class="fas fa-lock icon"></i>
+          </div>
+          <div class="error-message">
+            {{ form.password.errors }}
+          </div>
+        </div>
+
+        <div class="form-row otp-row">
+          <div class="otp-input-container">
+              <input type="text" name="otp" id="otp" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Enter 4 Digits OTP" class="form-input otp-input">
+              <i class="fas fa-key icon-otp"></i>
+          </div>
+          <button type="button" id="send-otp-btn" class="default btn otp-btn">Send OTP</button>
+          <div class="error-message">
+            <!-- Add any error message for OTP here if needed -->
+          </div>
+        </div>
+
+        <div class="submit-row">
+          <input type="submit" value="{% trans 'Log in' %}" class="default btn submit-btn">
+        </div>
+      </form>
+    </div>
+    <script>
+     document.getElementById('send-otp-btn').addEventListener('click', function() {
+            const sendOtpBtn = this;
+            let timer = 30;
+            const successMessage = document.getElementById('otp-success');
+
+            // Disable the button and show the success message
+            sendOtpBtn.disabled = true;
+            sendOtpBtn.innerText = `Re-send OTP in ${timer}s`;
+            successMessage.style.display = 'block';
+
+            // Hide the success message after 5 seconds
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 5000);
+
+            // Start countdown timer
+            const countdown = setInterval(function() {
+                timer--;
+                sendOtpBtn.innerText = `Re-send OTP in ${timer}s`;
+
+                if (timer <= 0) {
+                    clearInterval(countdown);
+                    sendOtpBtn.disabled = false;
+                    sendOtpBtn.innerText = "Re-send OTP";
+                }
+            }, 1000);
+        });
+    
+      // Show error message container and hide after 5 seconds
+      window.onload = function() {
+        const errorContainer = document.getElementById('error-container');
+        const errorMessages = document.querySelectorAll('.error-message');
+    
+        if (errorContainer) {
+          // Display the error container
+          errorContainer.style.display = 'block';
+    
+          // Set a timeout to hide both the container and individual error messages
+          setTimeout(function() {
+            errorContainer.style.display = 'none';
+            errorMessages.forEach(function(error) {
+              error.style.display = 'none';
+            });
+          }, 5000); // Hide after 5 seconds
+        }
+      };
+    </script>
+    
+    {% endblock %}
+</body>
+</html>
