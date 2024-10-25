@@ -5,6 +5,8 @@ from .models import HomePageGallery
 from .models import HappyClient
 from django.http import JsonResponse
 from .models import AboutUs
+from django.db import models
+from .models import BabyPropsGallery,BabyPropsImage
 
 def home_view(request):
     company_info = CompanyInfo.objects.first()
@@ -31,13 +33,21 @@ def index_view(request):
     return render(request, 'index.html', {'company_info': company_info})
 
 def baby_props_view(request):
-     # Fetch the CompanyInfo instance (assuming only one instance exists)
-    company_info = CompanyInfo.objects.first()  # Get the first (and only) instance
-    
+    # Fetch the CompanyInfo instance (assuming only one instance exists)
+    company_info = CompanyInfo.objects.first()
+
+    # Fetch only enabled galleries and their enabled images
+    galleries = BabyPropsGallery.objects.filter(enable=True).prefetch_related(
+        models.Prefetch('images', queryset=BabyPropsImage.objects.filter(enable=True))
+    )
+
+    # Prepare context for the template
     context = {
-        'company_info': company_info
+        'company_info': company_info,
+        'galleries': galleries
     }
-    return render(request,'BabyProps.html', context)
+    
+    return render(request, 'BabyProps.html', context)
 
 def Our_services_view(request):
      # Fetch the CompanyInfo instance (assuming only one instance exists)
@@ -84,40 +94,6 @@ def get_gif_duration(request):
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-# In your_app/views.py
-
-from django.contrib import messages
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-
-class CustomAdminLoginView(LoginView):
-    template_name = 'admin/login.html'
-    form_class = AuthenticationForm
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request, data=request.POST)
-        otp = request.POST.get('otp')
-
-        if form.is_valid():
-            user = form.get_user()
-
-            # Check if OTP is provided
-            if not otp:
-                messages.error(request, 'OTP is required.')
-            else:
-                # OTP validation logic (replace with real OTP logic)
-                if otp == "1234":  # Example OTP for demonstration
-                    login(request, user)
-                    return redirect('admin:index')
-                else:
-                    messages.error(request, 'Invalid OTP.')
-        else:
-            messages.error(request, 'Invalid username or password.')
-
-        # Render the login form with error messages on failure
-        return render(request, self.template_name, {'form': form})
 
 
 

@@ -25,6 +25,7 @@ class CompanyInfo(models.Model):
     # Logos (required fields)
     footer_logo = models.ImageField(upload_to='logos/', default='default_logo.png')
     header_logo = models.ImageField(upload_to='logos/', default='default_logo.png')
+    babyProps_header_logo=models.ImageField(upload_to='logos/', default='default_logo.png')
     sidebar_logo = models.ImageField(upload_to='logos/', default='default_logo.png')
 
 
@@ -165,6 +166,7 @@ class BabyPropsImage(models.Model):
     gallery = models.ForeignKey(BabyPropsGallery, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='baby_props_images/')
     description = models.CharField(max_length=255, blank=True)  # Add description field
+    enable = models.BooleanField(default=True)
     update_date_time = models.DateTimeField(auto_now=True)  # Automatically set the date/time on update
 
     @property

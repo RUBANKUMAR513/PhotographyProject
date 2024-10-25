@@ -1,5 +1,3 @@
-# your_app/forms.py
-
 from django import forms
 from .models import BabyPropsImage
 
@@ -18,4 +16,3 @@ class BabyPropsImageAdminForm(forms.ModelForm):
                 raise forms.ValidationError('You can only add up to 5 images per Baby Props Gallery.')
 
         return cleaned_data
-

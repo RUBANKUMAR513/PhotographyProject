@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'website',
+    'UserPage',
+    'EmailConfiguration',
 ]
 JAZZMIN_SETTINGS = {
     "site_logo": "logos/logo-footer.jpg",  # Path relative to your static files

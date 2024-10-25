@@ -310,6 +310,11 @@ header {
     text-align: center;
     color: #f1c40f;
 }
+.hidden-admin-link{
+    color: #f1c40f;
+    text-decoration: none;
+    cursor:auto;
+}
 @media (max-width: 768px) {
     .sidebar{
         width: 200px;

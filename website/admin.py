@@ -98,8 +98,8 @@ admin.site.register(AboutUs, AboutUsAdmin)
     
 class BabyPropsImageAdmin(admin.ModelAdmin):
     form = BabyPropsImageAdminForm
-    list_display = ('gallery_name', 'description', 'update_date_time')  # Include description
-    fields = ('gallery', 'image', 'description', 'update_date_time')  # Fields to be shown in the edit form
+    list_display = ('gallery_name', 'description','enable', 'update_date_time')  # Include description
+    fields = ('gallery', 'image', 'description','enable','update_date_time')  # Fields to be shown in the edit form
     readonly_fields = ('update_date_time',)  # Make update_date_time read-only if you don't want it editable
 
 

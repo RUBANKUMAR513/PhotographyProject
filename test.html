@@ -588,3 +588,27 @@
 </script>
 </body>
 </html>
+
+<div class="gallery">
+    {% for gallery in galleries %}
+        <div class="{% if gallery.orientation == 'portrait' %}gallery-item gallery-item-large{% else %}gallery-item{% endif %}">
+            <div class="carousel">
+                {% for image in gallery.images.all %}
+                    <img src="{{ image.image.url }}" alt="{{ image.description }}" class="carousel-image" onclick="openModal(this)">
+                {% endfor %}
+            </div>
+            <div class="overlayforbaby" data-photo="{{ gallery.name }}">{{ gallery.name }}</div>
+        </div>
+    {% endfor %}
+</div>
+
+
+               <!-- Gallery Item 1 -->
+               <div class="gallery-item">
+                <div class="carousel">
+                    <img src="{% static 'images/baby1.jpeg' %}" alt="Photo 1" class="carousel-image" onclick="openModal(this)">
+                    <img src="{% static 'images/baby1_alt1.jpg' %}" alt="Photo 2" class="carousel-image" onclick="openModal(this)">
+                    <img src="{% static 'images/baby1_alt2.jpg' %}" alt="Photo 3" class="carousel-image" onclick="openModal(this)">
+                </div>
+                <div class="overlayforbaby" data-photo="Honey Themes">Honey themes</div>
+            </div>

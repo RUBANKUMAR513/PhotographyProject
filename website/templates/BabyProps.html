@@ -22,109 +22,101 @@
   
 
     .gallery-container {
-      
-        display: flex;
-        /* justify-content: center;
-        align-items: center; */
-        min-height: 100vh;
-        /* border: 1px solid black; */
-        margin: 20px;
-    }
-
-    .gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        grid-gap: 15px;
-        width: 100%;
-        /* max-width: 1200px; */
-
-    }
-
-    .gallery-item {
-        position: relative;
-        overflow: hidden;
-        border-radius: 10px;
-        background-color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        cursor: pointer;
-       
-    }
-
-    /* Hover effect */
-    .gallery-item:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        border: 5px solid #A94064;
-    }
-
-    .carousel {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-    }
-    .carousel {
-height: 100%;
-width: 100%;
+    display: flex;
+    min-height: 100vh;
+    margin: 20px;
 }
-    .carousel-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 8px;
-        display: block;
-    }
 
-    /* Overlay with name */
-    .gallery-item .overlayforbaby {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 10px;
-        background: rgba(169, 64, 100, 0.8);
-        color: white;
-        text-align: start;
-        font-size: 16px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        display: flex;
-        align-items: center; /* Vertically center */
-        justify-content: center; /* Horizontally center */
-    }
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 15px;
+    width: 100%;
+}
 
-    .gallery-item:hover .overlayforbaby {
-        opacity: 1;
-    }
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
 
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.9);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    border: 5px solid #A94064;
+}
 
-    .modal.active {
-        display: flex;
-    }
+.carousel {
+    /* display: flex; */
+    transition: transform 0.5s ease-in-out;
+    overflow: hidden; /* Prevent overflow */
+    width: 100%; /* Ensure it takes full width */
+    height:100%;
+}
 
-    .modal-content {
-        position: relative;
-        max-width: 90%;
-        max-height: 90%;
-    }
+.carousel-image {
+    width: 100%;
+    height:100%; /* Maintain aspect ratio */
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    position: relative;
+}
 
-    .modal-image {
-        width: 100%;
-        height: auto;
-    }
+.gallery-item .overlayforbaby {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(169, 64, 100, 0.8);
+    color: white;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    .prev, .next, .close {
+.gallery-item:hover .overlayforbaby {
+    opacity: 1;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.modal-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.prev, .next, .close {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -135,7 +127,7 @@ width: 100%;
     cursor: pointer;
     border-radius: 50%;
     font-size: 18px;
-    z-index: 10; /* Ensure the buttons appear above the image */
+    z-index: 10;
 }
 
 .prev {
@@ -146,103 +138,68 @@ width: 100%;
     right: 10px;
 }
 
-/* Adjust for smaller screens */
-@media screen and (max-width: 768px) {
-    .prev, .next {
-        padding: 8px;
-        font-size: 16px; /* Slightly smaller for mobile */
-    }
-    
-    .prev {
-        left: 5px; /* Adjust positioning for small screens */
-    }
-
-    .next {
-        right: 5px; /* Adjust positioning for small screens */
-    }
+.close {
+    top: 10px;
+    right: 10px;
+    transform: none;
+    padding: 15px;
 }
 
-    .close {
-        top: 10px;
-        right: 10px;
-        transform: none;
-        padding: 15px;
-    }
-
-    .prev:hover, .next:hover, .close:hover {
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-    .gallery-item-large {
-     grid-row: span 2;
-     position: relative;
-    }
-
-
-/* Responsive styling for screens less than or equal to 768px */
-@media screen and (max-width: 768px) {
-.gallery {
-    grid-template-columns: repeat(auto-fill, minmax(1, 1fr));
-}
-
-.carousel-image {
-    object-fit: cover;
+.prev:hover, .next:hover, .close:hover {
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .gallery-item-large {
-    grid-row: span 2; /* Keep large items spanning 2 rows on smaller screens */
+    grid-row: span 2;
+    position: relative;
 }
 
+/* Responsive styling for screens less than or equal to 768px */
+@media screen and (max-width: 768px) {
+    .gallery {
+        grid-template-columns: 1fr; /* Single column for smaller screens */
+    }
+
+    .carousel {
+        flex-direction: column; /* Stack images vertically */
+    }
 }
 
 /* Responsive styling for screens less than or equal to 480px */
 @media screen and (max-width: 480px) {
-.gallery {
-    grid-template-columns: repeat(auto-fill, minmax(1, 1fr));
-}
-
-.carousel-image {
-    object-fit: cover;
-}
-
-.gallery-item-large {
-    grid-row: span 2; /* Keep large items spanning 2 rows on very small screens */
-}
-
+    .gallery {
+        grid-template-columns: 1fr; /* Ensure one column */
+    }
+   
 }
 
 /* Always show overlay on touch screens and center text */
 @media (hover: none) and (pointer: coarse) {
     .gallery-item .overlayforbaby {
-        opacity: 1; /* Show overlay on touch screens */
-        background-color: rgba(169, 64, 100, 0.8);
-        color: transparent; /* Make static text invisible */
-        display: flex;
-        align-items: center; /* Ensure vertical centering on touch devices */
-        justify-content: center; /* Ensure horizontal centering on touch devices */
+        opacity: 1;
+        color: transparent;
         padding: 5px;
     }
 
-    /* Display animated text */
     .gallery-item .overlayforbaby::after {
-        content: "Click for more images"; /* First animated text */
-        display: block;
-        color: white; /* Color for animated text */
-        animation: changeText 4s infinite; /* 4s animation loop */
-        text-align: start; /* Ensure the text is centered */
-        width: 100%; /* Take up full width for proper centering */
-        padding: 5px;
+        content: "Click for more images";
+        color: white;
+        animation: changeText 4s infinite;
+        width: 100%;
+        text-align: center;
     }
 }
 
 /* Keyframes for text animation */
 @keyframes changeText {
     0%, 100% {
-        content: "Click for more images"; /* First animated text */
+        content: "Click for more images";
     }
     50% {
-        content: attr(data-photo); /* Display the static text from data-photo attribute */
+        content: attr(data-photo);
     }
 }
+
 </style>
 <body style="background-color: #FFA6C9;">
      <!-- Sidebar Section -->
@@ -283,8 +240,8 @@ width: 100%;
     
         <!-- Right-aligned logo -->
         <div class="logo-container">
-            <a href="login.html" target="_blank">
-                <img src="{{ company_info.header_logo.url }}" alt="Website Logo" class="logo">
+            <a href="/Userlogin" target="_blank">
+                <img src="{{ company_info.babyProps_header_logo.url }}" alt="Website Logo" class="logo">
             </a>
         </div>
     </header>
@@ -292,165 +249,16 @@ width: 100%;
         <h1 class="page-heading" id="babyprops">Baby Shoots</h1>
         <div class="gallery-container">
             <div class="gallery">
-                <!-- Gallery Item 1 -->
-                <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="{% static 'images/baby1.jpeg'% }" alt="Photo 1" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 2" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 3" class="carousel-image" onclick="openModal(this)">
+                {% for gallery in galleries %}
+                    <div class="{% if gallery.orientation == 'portrait' %}gallery-item gallery-item-large{% else %}gallery-item{% endif %}">
+                        <div class="carousel">
+                            {% for image in gallery.images.all %}
+                                <img src="{{ image.image.url }}" alt="{{ image.description }}" class="carousel-image" onclick="openModal(this)">
+                            {% endfor %}
+                        </div>
+                        <div class="overlayforbaby" data-photo="{{ gallery.name }}">{{ gallery.name }}</div>
                     </div>
-                    <div class="overlayforbaby" data-photo="Honey Themes">Honey themes</div>
-                </div>
-    
-                <!-- Gallery Item 2 -->
-                <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby2.jpeg" alt="Photo 4" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 5" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 6" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby "data-photo="Photo 2">Photo 2</div>
-                </div>
-    
-                <!-- Gallery Item 3 -->
-                <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby3.jpeg" alt="Photo 7" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 8" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 9" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 3">Photo 3</div>
-                </div>
-    
-                <!-- Gallery Item 4 -->
-                <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby4.jpeg" alt="Photo 10" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 11" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 12" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 4">Photo 4</div>
-                </div>
-                <!-- Gallery Item 5 -->
-                <div class="gallery-item gallery-item-large">
-                    <div class="carousel">
-                        <img src="baby5.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 5">Photo 5</div>
-                </div>
-    
-                <!-- Gallery Item 6 -->
-                <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby5.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 6">Photo 6</div>
-                </div>
-                 <!-- Gallery Item 7 -->
-                 <div class="gallery-item gallery-item-large">
-                    <div class="carousel">
-                        <img src="baby6.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 7">Photo 7</div>
-                </div>
-                 <!-- Gallery Item 8 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby7.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 8">Photo 8</div>
-                </div>
-                 <!-- Gallery Item 9 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby8.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 9">Photo 9</div>
-                </div>
-                 <!-- Gallery Item 10 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby9.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 10">Photo 10</div>
-                </div>
-                 <!-- Gallery Item 11 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby10.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 11">Photo 11</div>
-                </div>
-                 <!-- Gallery Item 12-->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby11.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 12">Photo 12</div>
-                </div>
-                 <!-- Gallery Item 13 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby12.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 13" >Photo 13</div>
-                </div>
-                 <!-- Gallery Item 14 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby1.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 14">Photo 14</div>
-                </div>
-                 <!-- Gallery Item 15 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby2.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 15">Photo 15</div>
-                </div>
-                 <!-- Gallery Item 16 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby3.jpeg" alt="Photo 13" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 16">Photo 16</div>
-                </div>
-                 <!-- Gallery Item 17 -->
-                 <div class="gallery-item">
-                    <div class="carousel">
-                        <img src="baby4.jpeg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt1.jpg" alt="Photo 14" class="carousel-image" onclick="openModal(this)">
-                        <img src="baby1_alt2.jpg" alt="Photo 15" class="carousel-image" onclick="openModal(this)">
-                    </div>
-                    <div class="overlayforbaby" data-photo="Photo 17">Photo 17</div>
-                </div>
-    
-                <!-- Add more gallery items as needed -->
+                {% endfor %}
             </div>
         </div>
         <!-- Modal (Full-Screen) -->
