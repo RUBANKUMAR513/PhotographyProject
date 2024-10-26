@@ -166,3 +166,9 @@ APPEND_SLASH = False  # Disable appending slashes
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+THUMBNAIL_ALIASES = {
+    "": {
+        "small": {"size": (150,150)}
+  },
+}
