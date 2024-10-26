@@ -175,3 +175,42 @@ class BabyPropsImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.gallery.name} - {self.description}"  # Update string representation
+# models.py
+
+from django.db import models
+from django.core.exceptions import ValidationError
+
+class OurService(models.Model):
+    ORIENTATION_CHOICES = [
+        ('right', 'Right'),
+        ('left', 'Left'),
+    ]
+    
+    Service_name = models.CharField(max_length=255)
+    enable = models.BooleanField(default=True)  # Checkbox for enable/disable
+    content=models.TextField(blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True)  # Automatically set the date/time on update
+    orientation = models.CharField(max_length=10, choices=ORIENTATION_CHOICES, default='left',help_text="Align image Container")
+
+    def clean(self):
+        # Limit to 10 instances
+        if OurService.objects.count() >= 10 and not self.pk:
+            raise ValidationError('You can only create up to 10 Services.')
+
+    def __str__(self):
+        return self.Service_name
+
+
+class OurServicesImage(models.Model):
+    services = models.ForeignKey(OurService, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='service_images/')
+    description = models.CharField(max_length=255, blank=True)  # Add description field
+    enable = models.BooleanField(default=True)
+    update_date_time = models.DateTimeField(auto_now=True)  # Automatically set the date/time on update
+
+    @property
+    def services_name(self):
+        return self.services.Service_name if self.services else "No images"
+
+    def __str__(self):
+        return f"Image for {self.services.Service_name} - {self.description}"  # Update string representation

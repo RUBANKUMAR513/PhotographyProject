@@ -169,79 +169,29 @@
     </header>
     <main id="home">
         <h1 class="page-heading" id="services">Our Services</h1>
-<div class="services-section">
-    <!-- Service 1 (Image Left) -->
-    <div class="service image-left">
-        <div class="service-image" onclick="openModal(this)">
-            <img src="services1.jpeg" alt="Wedding Photography">
+        <div class="services-section">
+            {% for service in services %}
+                <div class="service {% if service.orientation == 'right' %}image-right{% else %}image-left{% endif %}">
+                    <!-- <p>{{ service.orientation }}</p> -->
+                    {% if service.images.exists %}
+                        <div class="service-image" onclick="openModal(this)">
+                            <img src="{{ service.images.first.image.url }}" alt="{{ service.Service_name }}">
+                        </div>
+                    {% else %}
+                        <div class="service-image" onclick="openModal(this)">
+                            <img src="default.jpg" alt="{{ service.Service_name }}">
+                        </div>
+                    {% endif %}
+                    <div class="service-content">
+                        <h2>{{ service.Service_name }}</h2>
+                        <p>{{ service.content }}</p>
+                        <button class="view-more-pics" data-service-id="{{ service.pk }}" onclick="openModalGallery(this)">More images</button>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        <div class="service-content">
-            <h2>Wedding Photography</h2>
-            <p>We capture your special moments with beautiful, high-quality wedding photography services.</p>
-            <button class="view-more-pics" onclick="openModalGallery('weddingGallery')">More images</button>
-        </div>
-    </div>
-
-    <!-- Service 2 (Image Right) -->
-    <div class="service image-right">
-        <div class="service-content">
-            <h2>Event Photography</h2>
-            <p>Professional photography for corporate events, parties, and other special occasions.</p>
-            <button class="view-more-pics" onclick="openModalGallery('eventGallery')">More images</button>
-        </div>
-        <div class="service-image" onclick="openModal(this)">
-            <img src="services2.jpeg" alt="Event Photography">
-        </div>
-    </div>
-
-    <!-- Service 3 (Image Left) -->
-    <div class="service image-left">
-        <div class="service-image" onclick="openModal(this)">
-            <img src="services6.jpg" alt="Portrait Photography">
-        </div>
-        <div class="service-content">
-            <h2>Portrait Photography</h2>
-            <p>Personalized portrait sessions for individuals, families, and children in a variety of styles.</p>
-            <button class="view-more-pics" onclick="openModalGallery('portraitGallery')">More images</button>
-        </div>
-    </div>
-
-    <!-- Service 4 (Image Right) -->
-    <div class="service image-right">
-        <div class="service-content">
-            <h2>Product Photography</h2>
-            <p>High-quality images that showcase your products, perfect for e-commerce, catalogs, and marketing.</p>
-            <button class="view-more-pics" onclick="openModalGallery('productGallery')">More images</button>
-        </div>
-        <div class="service-image" onclick="openModal(this)">
-            <img src="services4.jpeg" alt="Product Photography">
-        </div>
-    </div>
-
-    <!-- Service 5 (Image Left) -->
-    <div class="service image-left">
-        <div class="service-image" onclick="openModal(this)">
-            <img src="services5.jpeg" alt="Baby Photography">
-        </div>
-        <div class="service-content">
-            <h2>Baby Photography</h2>
-            <p>Adorable baby photography to capture the joy and innocence of your little ones.</p>
-            <button class="view-more-pics" onclick="openModalGallery('babyGallery')">More images</button>
-        </div>
-    </div>
-
-    <!-- Service 6 (Image Right) -->
-    <div class="service image-right">
-        <div class="service-content">
-            <h2>Outdoor Photography</h2>
-            <p>Stunning outdoor photography capturing landscapes and nature's beauty.</p>
-            <button class="view-more-pics" onclick="openModalGallery('outdoorGallery')">More images</button>
-        </div>
-        <div class="service-image" onclick="openModal(this)">
-            <img src="services3.jpeg" alt="Outdoor Photography">
-        </div>
-    </div>
-</div>
+        
+        
 
 <!-- Fullscreen Modal for Individual Image -->
 <div class="fullscreen-modal" id="fullscreenModal" onclick="closeModal()">
@@ -371,38 +321,46 @@
         let currentImageIndex = 0;
         let galleryImages = [];
     
-        // Function to open the modal gallery and set images based on selected gallery
-        function openModalGallery(gallery) {
-            // Reset galleryImages based on selected gallery
-            switch (gallery) {
-                case 'weddingGallery':
-                    galleryImages = ['services1_alt1.jpg', 'services1_alt2.jpg', 'services1_alt3.jpg'];
-                    break;
-                case 'eventGallery':
-                    galleryImages = ['services2_alt1.jpg', 'services2_alt2.jpg', 'services2_alt3.jpg'];
-                    break;
-                case 'portraitGallery':
-                    galleryImages = ['services6_alt1.jpg', 'services6_alt2.jpg', 'services6_alt3.jpg'];
-                    break;
-                case 'productGallery':
-                    galleryImages = ['services4_alt1.jpg', 'services4_alt2.jpg', 'services4_alt3.jpg'];
-                    break;
-                case 'babyGallery':
-                    galleryImages = ['services5_alt1.jpg', 'services5_alt2.jpg', 'services5_alt3.jpg'];
-                    break;
-                case 'outdoorGallery':
-                    galleryImages = ['services3_alt1.jpg', 'services3_alt2.jpg', 'services3_alt3.jpg'];
-                    break;
-                default:
-                    console.error("Gallery not found:", gallery);
-                    return; // Exit if gallery is not recognized
+    // Function to open the modal gallery and set images based on selected gallery
+              function openModalGallery(button) {
+                console.log(button)
+                const serviceId = button.getAttribute('data-service-id');
+                console.log(serviceId)
+
+                // AJAX request to fetch images for the selected service
+                fetch('/get-service-images/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token if required
+                    },
+                    body: JSON.stringify({ service_id: serviceId })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok " + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        galleryImages = data.images;
+                        if (galleryImages.length === 0) {
+                            console.error("No images found for this gallery:", serviceId);
+                            return;
+                        }
+
+                        currentImageIndex = 0; // Reset index
+                        showGalleryImage(); // Show the first image
+                        document.getElementById('galleryModal').style.display = 'flex'; // Show gallery modal
+                    } else {
+                        console.error(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Failed to load images:", error);
+                });
             }
-    
-            currentImageIndex = 0; // Reset index
-            showGalleryImage(); // Show the first image
-            document.getElementById('galleryModal').style.display = 'flex'; // Show gallery modal
-        }
-    
         // Function to display the current image in the modal
         function showGalleryImage() {
             const galleryImage = document.getElementById('galleryImage');

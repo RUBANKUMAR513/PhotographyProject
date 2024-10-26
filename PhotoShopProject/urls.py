@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/login/', CustomAdminLoginView.as_view(), name='admin_login'),
     path('admin/', admin.site.urls),
     path('', include('website.urls')),  # Example with namespace
-    path('', include('UserPage.urls')) 
+    path('', include('UserPage.urls')) ,
+    path('',include('EmailConfiguration.urls')),
 ]
  
 if settings.DEBUG:

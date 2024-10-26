@@ -498,13 +498,16 @@ header {
 
 /* Image on the left, content on the right */
 .service.image-left {
+    display: flex;
     flex-direction: row; /* Image on the left, content on the right */
 }
 
 /* Image on the right, content on the left */
 .service.image-right {
-    flex-direction: row; /* Image on the right, content on the left */
+    display: flex;
+    flex-direction: row-reverse; /* Image on the right, content on the left */
 }
+
 
 /* Image Styling */
 .service-image {

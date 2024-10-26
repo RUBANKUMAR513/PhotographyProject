@@ -7,6 +7,11 @@ from django.http import JsonResponse
 from .models import AboutUs
 from django.db import models
 from .models import BabyPropsGallery,BabyPropsImage
+from .models import OurService,OurServicesImage
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+
 
 def home_view(request):
     company_info = CompanyInfo.objects.first()
@@ -49,14 +54,22 @@ def baby_props_view(request):
     
     return render(request, 'BabyProps.html', context)
 
-def Our_services_view(request):
-     # Fetch the CompanyInfo instance (assuming only one instance exists)
-    company_info = CompanyInfo.objects.first()  # Get the first (and only) instance
+
+def our_services_view(request):
+    # Fetch the CompanyInfo instance (assuming only one instance exists)
+    company_info = CompanyInfo.objects.first()
+    
+    # Fetch all enabled OurServices instances and prefetch enabled images
+    services = OurService.objects.filter(enable=True).prefetch_related(
+         models.Prefetch('images', queryset=OurServicesImage.objects.filter(enable=True))
+    )
     
     context = {
-        'company_info': company_info
+        'company_info': company_info,
+        'services': services
     }
-    return render(request, 'Services.html', context)
+    return render(request, 'services.html', context)
+
 
 
 def get_happy_clients(request):
@@ -93,6 +106,64 @@ def get_gif_duration(request):
             return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import OurService
+import os
+from django.conf import settings
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import OurService
+from django.conf import settings
+import os
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import OurService
+
+@csrf_exempt  # Temporarily disable CSRF for testing, remove in production
+def get_service_images(request):
+    if request.method == 'POST':
+        try:
+            print("Received POST request for service images")  # Debugging statement
+            data = json.loads(request.body)
+            service_id = data.get('service_id')
+
+            if not service_id:
+                return JsonResponse({'status': 'error', 'message': 'Service ID is required'}, status=400)
+
+            service = OurService.objects.get(pk=service_id, enable=True)
+
+            # Fetch enabled images associated with the service
+            images = service.images.filter(enable=True).values_list('image', flat=True)
+            print("Fetched images:", images)  # Check if any images were fetched
+
+            # Construct the list of image URLs, omitting the first image
+            image_urls = []
+            for image in images[1:]:  # Skip the first image
+                image_url = request.build_absolute_uri(f'/media/{image}')  # Build the full URL
+                print("Image URL:", image_url)  # Debugging statement
+                image_urls.append(image_url)
+            
+            print("All Image URLs (excluding first):", image_urls)  # Debugging statement
+            
+            return JsonResponse({'status': 'success', 'images': image_urls})
+
+        except OurService.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Service not found'}, status=404)
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            print(f"Internal Server Error: {e}")  # Log the error
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
 
 
 

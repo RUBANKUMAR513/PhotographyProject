@@ -18,7 +18,7 @@ body {
     border-radius: 12px; /* Rounded corners */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Box shadow */
     text-align: center; /* Center text */
-    /* margin: 20px; */
+    margin: 20px;
 }
 
 /* Welcome Text Styling */

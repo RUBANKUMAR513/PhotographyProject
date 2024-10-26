@@ -6,9 +6,10 @@ from .models import HomePageSlider
 from .models import HomePageGallery
 from .models import HappyClient
 from .models import AboutUs
-from .models import BabyPropsGallery
 from .models import BabyPropsGallery, BabyPropsImage
 from .forms import BabyPropsImageAdminForm
+from .models import OurService,OurServicesImage
+from .forms import OurServicesImageAdminForm
 
 class CompanyInfoAdmin(admin.ModelAdmin):
     list_display = ('name','tagline', 'phone_number', 'email')
@@ -119,6 +120,32 @@ class BabyPropsGalleryAdmin(admin.ModelAdmin):
 # Register models with the admin site
 admin.site.register(BabyPropsImage, BabyPropsImageAdmin)
 admin.site.register(BabyPropsGallery, BabyPropsGalleryAdmin)
+
+
+class OurServicesImageAdmin(admin.ModelAdmin):
+    form = OurServicesImageAdminForm
+    list_display = ('services_name', 'description', 'enable', 'update_date_time')  # Include description
+    fields = ('services', 'image','description', 'enable', 'update_date_time')  # Fields to be shown in the edit form
+    readonly_fields = ('update_date_time',)  # Make update_date_time read-only if you don't want it editable
+
+
+class OurServicesAdmin(admin.ModelAdmin):
+    list_display = ('Service_name', 'enable', 'update_date_time')
+    fields = ('Service_name', 'content', 'orientation', 'enable', 'update_date_time')
+    readonly_fields = ('update_date_time',)
+
+    # Override the has_add_permission method to disable the "Add" button
+    def has_add_permission(self, request):
+        # Disable add button if there are already 10 Services
+        if OurService.objects.count() >= 10:
+            return False
+        return True
+
+
+# Register models with the admin site
+admin.site.register(OurService, OurServicesAdmin)
+admin.site.register(OurServicesImage, OurServicesImageAdmin)
+
 
 
 
