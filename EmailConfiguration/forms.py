@@ -19,34 +19,40 @@ class SettingForm(forms.ModelForm):
         return cleaned_data
 
 
+from django import forms
+from django.core.exceptions import ValidationError
+from .models import ToEmail
+
 class ToEmailForm(forms.ModelForm):
     class Meta:
         model = ToEmail
         fields = ['name', 'email', 'phonenumber', 'position', 'active_status']
+    
+
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
-        if ToEmail.objects.filter(name=name).exists():
-            self.add_error('name', f'A ToEmail entry with the name "{name}" already exists.')
+        if ToEmail.objects.filter(name=name).exclude(pk=self.instance.pk).exists():
+            raise ValidationError(f'A ToEmail entry with the name "{name}" already exists.')
         return name
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if ToEmail.objects.filter(email=email).exists():
-            self.add_error('email', f'A ToEmail entry with the email "{email}" already exists.')
+        if ToEmail.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise ValidationError(f'A ToEmail entry with the email "{email}" already exists.')
         return email
 
     def clean_phonenumber(self):
         phonenumber = self.cleaned_data.get('phonenumber')
-        if ToEmail.objects.filter(phonenumber=phonenumber).exists():
-            self.add_error('phonenumber', f'A ToEmail entry with the phone number "{phonenumber}" already exists.')
+        if ToEmail.objects.filter(phonenumber=phonenumber).exclude(pk=self.instance.pk).exists():
+            raise ValidationError(f'A ToEmail entry with the phone number "{phonenumber}" already exists.')
         return phonenumber
 
     def clean(self):
         cleaned_data = super().clean()
-        
-        # Check for limit of 5 instances
+
+        # Check for a limit of 5 instances only if it's a new instance (no primary key yet)
         if not self.instance.pk and ToEmail.objects.count() >= 5:
-            self.add_error(None, "You can only create up to 5 instances of ToEmail.")
-        
+            raise ValidationError("You can only create up to 5 instances of ToEmail.")
+
         return cleaned_data

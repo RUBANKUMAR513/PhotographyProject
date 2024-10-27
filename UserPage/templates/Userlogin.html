@@ -12,105 +12,113 @@
     <!-- Link to Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- Other stylesheets can go here -->
-    <link rel="stylesheet" href="{% static 'css/Adminlogin.css' %}">
+    <!-- Other stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
    
-   
-    <div class="error-message-container" id="error-container">
-        
-          <div class="error-message-top"></div>
-      
-    </div>
-    
-    <div class="success-message-container" id="otp-success">
-        <div></div>
-    </div>
-    
-    <div id="content" class="login-container">
+
+  <div class="error-message-container" id="error-container">
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="error-message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="success-message-container" id="success-container">
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <div class="success-message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+
+
+
+
+  <div id="content" class="login-container">
       <div class="logo-container">
         <a href="/home/">
-              <img src="{% static 'logos/vickylogo.jpg' %}" alt="Logo" class="logo">
+            <img src="{% static 'logos/vickylogo.jpg' %}" alt="Logo" class="logo">
         </a>
       </div>
 
       <h2 class="welcome-text">Vickyneo Photography</h2>
       
-      <form method="post" action="" class="login-form">
-       
+      <form method="post" action="{% url 'UserPage:user_login' %}" class="login-form">
+        {% csrf_token %}
         <div class="form-row">
-          <div class="input-container">
-            <input type="text" placeholder="Enter Username" class="form-input">
-            <i class="fas fa-user icon"></i>
-          </div>
-          <div class="error-message">
-           
-          </div>
+            <div class="input-container">
+                <input type="text" name="username" placeholder="Enter Username" class="form-input" required>
+                <i class="fas fa-user icon"></i>
+            </div>
         </div>
 
         <div class="form-row">
-          <div class="input-container">
-            <input type="password" placeholder="Enter Password" class="form-input">
-            <i class="fas fa-lock icon"></i>
-          </div>
-          <div class="error-message">
-           
-          </div>
+            <div class="input-container">
+                <input type="password" name="password" placeholder="Enter Password" class="form-input" required>
+                <i class="fas fa-lock icon"></i>
+            </div>
         </div>
 
         <div class="submit-row">
-          <input type="submit" value="{% trans 'Log in' %}" class="default btn submit-btn">
+            <input type="submit" value="{% trans 'Log in' %}" class="default btn submit-btn">
         </div>
       </form>
-    </div>
-    <script>
-     document.getElementById('send-otp-btn').addEventListener('click', function() {
-            const sendOtpBtn = this;
-            let timer = 30;
-            const successMessage = document.getElementById('otp-success');
+  </div>
 
-            // Disable the button and show the success message
-            sendOtpBtn.disabled = true;
-            sendOtpBtn.innerText = `Re-send OTP in ${timer}s`;
-            successMessage.style.display = 'block';
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to fade out messages
+        function fadeOutMessages(container) {
+            if (container.innerHTML.trim() !== '') {
+                container.style.display = 'block'; // Show the container if there are messages
+                setTimeout(function() {
+                    const messages = container.querySelectorAll('.error-message, .success-message');
+                    let fadeOutCount = messages.length; // Count of messages to fade out
 
-            // Hide the success message after 5 seconds
-            setTimeout(function() {
-                successMessage.style.display = 'none';
-            }, 5000);
-
-            // Start countdown timer
-            const countdown = setInterval(function() {
-                timer--;
-                sendOtpBtn.innerText = `Re-send OTP in ${timer}s`;
-
-                if (timer <= 0) {
-                    clearInterval(countdown);
-                    sendOtpBtn.disabled = false;
-                    sendOtpBtn.innerText = "Re-send OTP";
-                }
-            }, 1000);
-        });
-    
-      // Show error message container and hide after 5 seconds
-      window.onload = function() {
-        const errorContainer = document.getElementById('error-container');
-        const errorMessages = document.querySelectorAll('.error-message');
-    
-        if (errorContainer) {
-          // Display the error container
-          errorContainer.style.display = 'block';
-    
-          // Set a timeout to hide both the container and individual error messages
-          setTimeout(function() {
-            errorContainer.style.display = 'none';
-            errorMessages.forEach(function(error) {
-              error.style.display = 'none';
-            });
-          }, 5000); // Hide after 5 seconds
+                    messages.forEach(function(message) {
+                        message.style.opacity = 1; // Set initial opacity
+                        let fadeEffect = setInterval(function() {
+                            if (message.style.opacity > 0) {
+                                message.style.opacity -= 0.1; // Reduce opacity
+                            } else {
+                                clearInterval(fadeEffect);
+                                message.style.display = 'none'; // Hide the message
+                                fadeOutCount--; // Decrease count when a message is hidden
+                                
+                                // If all messages have been faded out, hide the container
+                                if (fadeOutCount === 0) {
+                                    container.style.display = 'none'; // Hide the container
+                                }
+                            }
+                        }, 50); // Adjust the timing for fading effect
+                    });
+                }, 5000); // Time before starting to fade (5000ms = 5 seconds)
+            }
         }
-      };
-    </script>
+
+        // Get message containers
+        const errorContainer = document.getElementById('error-container');
+        const successContainer = document.getElementById('success-container');
+
+        // Fade out error messages
+        if (errorContainer && errorContainer.innerHTML.trim() !== '') {
+            fadeOutMessages(errorContainer);
+        }
+
+        // Fade out success messages
+        if (successContainer && successContainer.innerHTML.trim() !== '') {
+            fadeOutMessages(successContainer);
+        }
+    });
+</script>
 </body>
 </html>

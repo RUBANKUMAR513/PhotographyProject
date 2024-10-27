@@ -38,6 +38,16 @@ class ToEmailAdmin(admin.ModelAdmin):
             raise ValidationError('You can only create up to 5 instances of ToEmail.')
         super().save_model(request, obj, form, change)
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj and obj.pk == 1:  # If editing the default instance
+            return ['active_status']  # Make only active_status read-only
+        return self.readonly_fields  # For all other instances, use default readonly fields
+    
+    def has_delete_permission(self, request, obj=None):
+        if obj and obj.pk == 1:  # Prevent deletion of the default instance
+            return False
+        return super().has_delete_permission(request, obj)
+
 
 # Register the models with their respective admin classes
 admin.site.register(Setting, SettingAdmin)

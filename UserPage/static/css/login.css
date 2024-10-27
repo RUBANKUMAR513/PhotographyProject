@@ -6,7 +6,6 @@ body {
     align-items: center; /* Center vertically */
     height: 100vh; /* Full viewport height */
     margin: 0; /* Remove default margin */
-    padding: 0;
     background-color: #FDF4E3; /* Optional: Background color for contrast */
     font-family: 'Arial', sans-serif; /* Set a clean font family */
 }
@@ -19,7 +18,7 @@ body {
     border-radius: 12px; /* Rounded corners */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Box shadow */
     text-align: center; /* Center text */
-   
+    margin: 20px;
 }
 
 /* Welcome Text Styling */
@@ -35,7 +34,6 @@ body {
 .logo-container {
     display: flex; /* Flex for centering logo */
     justify-content: center; /* Center the logo */
-    
    
 }
 /* Logo Styling with Drop Shadow */
@@ -153,27 +151,10 @@ body {
     background-color: #1e7e34; /* Slightly different shade when focused */
     box-shadow: 0 0 8px rgba(40, 167, 69, 0.7); /* Green glow effect on focus */
 }
-.error-message {
-    color: red;  /* Make the error text red */
-    font-size: 14px;  /* Slightly smaller font size */
-    /* margin-top: 5px;   */
-    display: block;  /* Ensure it's displayed as a block below the input */
-    text-align: left;
-}
-     /* Success message styling */
-     .otp-success-message {
-        display: none;
-        /* background-color: green; */
-        color: green;
-        /* padding: 2px;
-        margin-top: 5px; */
-        text-align: left;
-        /* border-radius: 5px; */
-        margin-bottom: 10px;
-    }
 
-  /* Style for the full-width error message at the top */
-  .error-message-container {
+
+/* Style for the full-width error message at the top */
+.error-message-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -181,16 +162,20 @@ body {
     background-color: #f8d7da; /* Light red background */
     color: red; /* Dark red text */
     padding: 15px;
-    text-align: center;
     z-index: 1000;
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
     display: none; /* Hidden by default */
 }
 
-.error-message-top{
+.error-message {
     margin: 0;
     font-weight: bold;
-    text-align: center;
+    text-align: center; /* Center the text inside each error message */
+    
 }
+
 .success-message-container {
     position: fixed; /* Fixed position to stay at the top of the viewport */
     top: 0; /* Adjust this value for vertical spacing from the top */
@@ -199,15 +184,24 @@ body {
     background-color: #e6ffed; /* Light green background */
     color: green; /* Dark green text color */
     padding: 15px; /* Padding for spacing */
-    text-align: center; /* Center the text */
     z-index: 1000; /* Ensure it's above other content */
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
     display: none; /* Hidden by default */
-  
 }
+
+.success-message {
+    margin: 0;
+    font-weight: bold;
+    text-align: center; /* Center the text inside each success message */
+}
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .login-container {
         width: 90%; /* Full width on smaller screens */
-        margin: 20px;
     }
 }

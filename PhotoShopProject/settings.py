@@ -77,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'EmailConfiguration.middleware.AutoLogoutMiddleware',
 ]
 
 ROOT_URLCONF = 'PhotoShopProject.urls'
@@ -172,3 +173,10 @@ THUMBNAIL_ALIASES = {
         "small": {"size": (150,150)}
   },
 }
+
+
+# Set the session timeout in seconds
+SESSION_COOKIE_AGE = 3600  # 1 hour (change as needed)
+
+# Optional: If you want to clear the session on browser close
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
