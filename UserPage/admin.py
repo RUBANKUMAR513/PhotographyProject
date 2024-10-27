@@ -1,38 +1,61 @@
-from .models import UserDetails
-from django.contrib import admin
+from .models import UserDetails,UserImages
+from django.contrib import admin,messages
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.admin import GroupAdmin
+from django.urls import path,reverse
+from django.utils.html import format_html
+from django.shortcuts import render,redirect
+
 
 @admin.register(UserDetails)
 class UserDetailsAdmin(admin.ModelAdmin):
     # Fields to display in the list view
     list_display = (
         'user', 'date_of_shoots', 'description', 
-        'allow_to_download', 'remove_on', 'remaining_days', 'last_updated'
-    )
-    # Fields to filter in the sidebar
-    list_filter = ('allow_to_download', 'date_of_shoots', 'remove_on')
-    # Fields to search in the search bar
-    search_fields = ('user__username', 'description')
-    # Fields that are read-only in the admin interface
-    readonly_fields = ('remaining_days', 'last_updated')
-
-    # Customizing the form display in the detail view
-    fieldsets = (
-        (None, {
-            'fields': ('user', 'date_of_shoots', 'description')
-        }),
-        ('Permissions', {
-            'fields': ('allow_to_download',)
-        }),
-        ('Removal and Tracking', {
-            'fields': ('remove_on', 'remaining_days', 'last_updated')
-        }),
+        'allow_to_download', 'remove_on', 'remaining_days', 
+        'last_updated', 'link_to_upload_images'
     )
 
-    # Automatically calculates the remaining days upon saving the form in the admin
-    def save_model(self, request, obj, form, change):
-        obj.save()  # Remaining days calculation is handled in the model's `save` method
+    # Custom link for uploading images in list display
+    def link_to_upload_images(self, obj):
+        return format_html(
+            '<a href="{}">Upload Images</a>',
+            f'/admin/{self.model._meta.app_label}/userdetails/upload_images/'
+        )
+    link_to_upload_images.short_description = 'Upload Images'
+
+    # Override get_urls to add a custom upload images page URL
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('upload_images/', self.admin_site.admin_view(self.upload_images_view), name='upload_images'),
+        ]
+        return custom_urls + urls
+
+    # Define the upload images view
+    def upload_images_view(self, request):
+        users = UserDetails.objects.all()  # Fetch UserDetails instances
+
+        if request.method == 'POST':
+            user_id = request.POST.get('user')
+            images = request.FILES.getlist('images')
+
+            # Fetch the UserDetails instance for the selected user
+            user_details = UserDetails.objects.get(id=user_id)
+
+            # Save each uploaded image to UserImages
+            for image in images:
+                UserImages.objects.create(user_details=user_details, photo=image)
+
+            # Set a success message
+            messages.success(request, "Images successfully uploaded.")
+
+            # Redirect to the UserDetails list view
+            return redirect('/admin/UserPage/userdetails/')
+
+        # Render the upload form with user dropdown
+        return render(request, 'UploadImages.html', {'users': users})
+
 
 
 
@@ -55,40 +78,39 @@ admin.site.register(Group, CustomGroupAdmin)
 
 
 
-
-
-
-# admin.py
-from django.contrib import admin
-from .models import UserImages
-
-
-
 @admin.register(UserImages)
-class ShowPhotoAdmin(admin.ModelAdmin):
-    list_display = ('user_details', 'photo')
+class UserImagesAdmin(admin.ModelAdmin):
+    # Display fields in the list view
+    list_display = ('user_details', 'photo_display')
+    
+    # Add a filter by user details
+    list_filter = ('user_details',)
+
+    # Display thumbnail of the photo (optional)
+    def photo_display(self, obj):
+        return format_html('<img src="{}" width="50" height="50" />', obj.photo.url)
+    photo_display.short_description = 'Photo Thumbnail'
+
+    # Optional: Adjust the display for the ForeignKey field to show the user's name
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.select_related('user_details__user')  # Optimize with select_related
+        return queryset
+
+    def user_name(self, obj):
+        return obj.user_details.user.username
+    user_name.short_description = 'User Name'
 
 
 
-# admin.py
-
-# from django.contrib import admin
-# from django.template.loader import get_template
-# from django.utils.translation import gettext as _
-
-# from .models import Show, ShowPhoto
-# from .forms import ShowAdminForm
 
 
-# class ShowPhotoInline(admin.TabularInline):
-#     model = ShowPhoto
-#     fields = ("showphoto_thumbnail",)
-#     readonly_fields = ("showphoto_thumbnail",)
-#     max_num = 0
 
-#     def showphoto_thumbnail(self, instance):
-        # """A (pseudo)field that returns an image thumbnail for a show photo."""
-#         tpl = get_template("shows/admin/show_thumbnail.html")
-#         return tpl.render({"photo": instance.photo})
 
-#     showphoto_thumbnail.short_description =("Thumbnail")
+
+
+
+
+
+
+

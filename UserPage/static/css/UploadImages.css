@@ -1,0 +1,73 @@
+body {
+    background-color: #FDF4E3; /* Light background color */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    
+}
+@import url('https://fonts.googleapis.com/css2?family=Mansalva&display=swap');
+
+.container {
+    max-width: 600px;
+    width: 100%; /* Full width on small screens */
+    margin: 20px; /* Margin to prevent overflow on small screens */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* White background for the form */
+    display: flex;
+    flex-direction: column; /* Column layout */
+    align-items: stretch; /* Stretch items to fill the container */
+}
+.logo {
+    width: 100px; /* Logo width */
+    height: 100px; /* Logo height */
+    border-radius: 50%; /* Rounded logo */
+    margin: 0 auto 20px; /* Center logo and add bottom margin */
+}
+h4{
+    color: #873e23; /* Darker color for the heading */
+    text-align: center;
+    margin-bottom: 20px; /* Spacing below the heading */
+}
+.company-name {
+    text-align: center;
+    color: #f1c40f; /* Highlight color */
+    font-size: 24px; /* Font size for welcome text */
+    font-family: 'Mansalva', cursive;  /* Use the Mansalva font */
+    font-weight: bold;  /* Set font weight (normal is the default for Mansalva) */
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #873e23; /* Darker color for labels */
+}
+select, input[type="file"], input[type="text"], button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #873e23; /* Border color */
+    border-radius: 4px;
+    margin-bottom: 20px;
+    height: 45px; /* Fixed height for all input elements */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+button {
+    background-color: #f1c40f; /* Yellow color for the button */
+    color:#873e23; /* White text color */
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background-color: #d4ac1d; /* Darker yellow on hover */
+}
+.copyright {
+    text-align: center;
+    margin-top: 20px;
+    color: #873e23; /* Darker color for copyright text */
+    font-size: 14px; /* Font size for copyright */
+}

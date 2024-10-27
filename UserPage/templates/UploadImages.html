@@ -1,0 +1,51 @@
+<!-- templates/admin/upload_images.html -->
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'logos/logo-footer.jpg' %}" type="image/x-icon">
+    <title>UploadUserImages | Admin</title>
+
+
+    <!-- Other stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/UploadImages.css' %}">
+</head>
+<body>
+<div class="container">
+    <!-- Company Logo -->
+    <img src="{% static 'logos/vickylogo.jpg' %}" alt="Company Logo" class="logo"> <!-- Replace with your logo path -->
+    
+    <div class="company-name">Vickyneo Photography</div>
+    
+    <h4>Upload Images for User</h4>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- User Dropdown -->
+        <div>
+            <label for="user">Select User:</label>
+            <select name="user" id="user" required>
+                <option value="">Select a User</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Multiple File Upload -->
+        <div>
+            <label for="images">Select Images:</label>
+            <input type="file" id="images" name="images" multiple required>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit">Upload Images</button>
+    </form>
+    <div class="copyright">
+        &copy; {% now "Y" %} Design by Ruban. All rights reserved.
+    </div>
+</div>
+</body>
+</html>

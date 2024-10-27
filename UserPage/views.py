@@ -1,18 +1,25 @@
 # UserPage/views.py
-
-from django.shortcuts import render
-
-def user_profile_view(request):
-    return render(request, 'UserPage.html')  
-
-
-
-
-
-# UserPage/views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from website.models import CompanyInfo
+from django.contrib.auth import logout
+
+@login_required  # Ensures that only logged-in users can access this view
+def user_profile_view(request):
+    company_info = CompanyInfo.objects.first()
+   
+    # print(company_info)  # Check if the company info is being fetched
+    # print(sliders)       # Check if sliders are being fetched
+    
+    context = {
+        'company_info': company_info,
+       
+    }
+    # You can pass additional context to the template if needed
+    return render(request, 'UserPage.html',context)  # Ensure this matches your template name
+
 
 def User_login_view(request):
     if request.method == 'POST':
@@ -26,9 +33,15 @@ def User_login_view(request):
                 return render(request, 'Userlogin.html')  # Render the login template again
 
             login(request, user)
-            messages.success(request, 'Login successful! Welcome to Vickyneo Photography.')  # Success message
-            return redirect('/userpage/')  # Redirect to the user page
-        else:
-            messages.error(request, 'Invalid username or password.')  # Add error message
+            # messages.success(request, 'Login successful! Welcome to Vickyneo Photography.')
+            return redirect('UserPage:user_profile')  # Redirect to the user profile page
 
-    return render(request, 'Userlogin.html')  # Ensure this matches your template name
+        messages.error(request, 'Invalid username or password.')  # Add error message
+
+    return render(request, 'Userlogin.html')  # Render the login template for GET requests
+
+
+def user_logout_view(request):
+    logout(request)  # Log out the user
+    messages.success(request, 'You have been logged out successfully.')  # Optional success message
+    return redirect('UserPage:user_login')  # Redirect to the login page

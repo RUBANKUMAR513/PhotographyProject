@@ -4,20 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UserPage | VickyneoPhotography</title>
-  <link rel="stylesheet" href="UserPage.css">
-  <link rel="stylesheet" href="final.css">
+  {% load static %}
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/UserPage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/final.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
+
   
 </head>
 <body>
   <!-- Sidebar Section -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-        <img src="vickylogo.jpg" alt="Logo">
+        <img src="{{ company_info.sidebar_logo.url }}" alt="Logo">
     </div>
     <!-- Remove the Menu heading by commenting out or deleting the <h2> tag -->
     <!-- <h2>Menu</h2> -->
@@ -26,7 +29,7 @@
         <li><a id="gallerylink" href="#gallery"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-image"></i>Gallery</a></li> 
         <li><a id="link" href="#favorites"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-heart"></i>Favorites</a></li>
         <li><a href="#contact"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-envelope"></i>Contact Us</a></li>
-        <li><a href="login.html"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-sign-out-alt"></i>LogOut</a></li>
+        <li><a href="{% url 'UserPage:user_logout' %}"><i style="margin-right: 10px; color: #f1c40f" class="fas fa-sign-out-alt"></i>LogOut</a></li>
 
     </ul>
     <button class="close-btn" id="closeBtn">&times;</button>
@@ -42,14 +45,16 @@
 
     <!-- Center-aligned company name with tagline -->
     <div class="company-name">
-        <h1>Vickyneo Photography</h1>
-        <p class="tagline">(Baby Props Store)</p> <!-- Added tagline here -->
+        <h1>{{ company_info.name }}</h1>
+        {% if company_info.enable_tagline %}
+                <p class="tagline">({{ company_info.tagline }})</p> <!-- Display tagline if enabled -->
+        {% endif %}
     </div>
 
     <!-- Right-aligned logo -->
     <div class="logo-container">
-        <a href="index.html" target="_blank">
-            <img src="vickyneophotographylogo.png" alt="Website Logo" class="logo">
+        <a href="/" target="_blank">
+            <img src="{{ company_info.header_logo.url }}" alt="Website Logo" class="logo">
         </a>
     </div>
 
@@ -83,32 +88,49 @@
     </div>
 </main>
 
-  <footer class="footer-section">
+<footer class="footer-section">
+           
+
     <div class="footer-container">
         <!-- Left side: Follow Us and Social Media Icons -->
         <div class="footer-left">
             <div class="social-follow">
                 <p class="follow-us">Follow us</p> <!-- Follow Us Text -->
                 <div class="social-icons">
-                    <a href="https://wa.me/7373865255" class="social-icon whatsapp-icon" target="_blank">
-                        <img src="whatsapp-icon.gif" alt="WhatsApp" class="rounded-icon animated-icon">
+                    {% if company_info.enable_whatsapp and company_info.whatsapp_link %}
+                    <a href="{{ company_info.whatsapp_link }}" class="social-icon whatsapp-icon" target="_blank">
+                        <img src="{{ company_info.whatsapp_icon.url }}" alt="WhatsApp" class="rounded-icon animated-icon">
                     </a>
-                    <a href="https://www.facebook.com/[Your Facebook Page]" class="social-icon facebook-icon" target="_blank">
-                        <img src="facebook-icon.gif" alt="Facebook" class="rounded-icon animated-icon">
+                    {% endif %}
+                
+                    {% if company_info.enable_facebook and company_info.facebook_link %}
+                    <a href="{{ company_info.facebook_link }}" class="social-icon facebook-icon" target="_blank">
+                        <img src="{{ company_info.facebook_icon.url }}" alt="Facebook" class="rounded-icon animated-icon">
                     </a>
-                    <a href="https://www.instagram.com/vickyneo_photography" class="social-icon insta-icon" target="_blank">
-                        <img src="instagram-icon.gif" alt="Instagram" class="rounded-icon animated-icon">
+                    {% endif %}
+                
+                    {% if company_info.enable_instagram and company_info.instagram_link %}
+                    <a href="{{ company_info.instagram_link }}" class="social-icon insta-icon" target="_blank">
+                        <img src="{{ company_info.instagram_icon.url }}" alt="Instagram" class="rounded-icon animated-icon">
                     </a>
-                    <a href="https://www.youtube.com/@vickyneophotography1351" class="social-icon youtube-icon" target="_blank">
-                        <img src="youtube-icon.gif" alt="YouTube" class="rounded-icon animated-icon">
+                    {% endif %}
+                
+                    {% if company_info.enable_youtube and company_info.youtube_link %}
+                    <a href="{{ company_info.youtube_link }}" class="social-icon youtube-icon" target="_blank">
+                        <img src="{{ company_info.youtube_icon.url }}" alt="YouTube" class="rounded-icon animated-icon">
                     </a>
-                    <a href="https://twitter.com/[Your X Handle]" class="social-icon x-icon" target="_blank">
+                    {% endif %}
+                
+                    {% if company_info.enable_x and company_info.x_link %}
+                    <a href="{{ company_info.x_link }}" class="social-icon x-icon" target="_blank">
                         <video class="rounded-icon animated-icon" autoplay loop muted playsinline>
-                            <source src="X-icon.mp4" type="video/mp4">
+                            <source src="{{ company_info.x_icon.url }}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </a>
+                    {% endif %}
                 </div>
+                
             </div>
         </div>
 
@@ -116,11 +138,12 @@
         <div class="footer-center">
             <div class="company-info">
                 <div class="footer-logo">
-                    <img src="logo-footer.jpg" alt="Company Logo" class="rounded-logo">
+                    <img src="{{ company_info.footer_logo.url }}" alt="Company Logo" class="rounded-logo">
                 </div>
-                <h3>Vickyneo Photography</h3>
+                <h3>{{ company_info.name }}</h3> <!-- Fetching company name from the database -->
             </div>
         </div>
+        
 
         <!-- Right side: Contact Info -->
         <div class="footer-right" id="contact">
@@ -128,43 +151,53 @@
 
             <!-- Location Section -->
             <div class="footer-contact-item">
-                <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="icon-link" target="_blank">
-                    <img src="location-icon.gif" alt="Location" class="rounded-location-icon animated-icon">
+                <a href="{{ company_info.google_maps_link }}" class="icon-link" target="_blank">
+                    <img src="{{ company_info.location_icon.url }}" alt="Location" class="rounded-location-icon animated-icon">
                 </a>
                 <div class="contact-info">
-                    <a href="https://maps.app.goo.gl/FLQsJuNUT6mrEbAc8" class="contact-link" target="_blank">
-                        <span class="contact-line">Single Street, Urban bank opposite</span><br>
-                        <span class="contact-line">Near Mariamman kovil</span><br>
-                        <span class="contact-line">Batlagundu</span><br>
-                        <span class="contact-line">624202</span>
+                    <!-- <p>Company map: {{ company_info.google_maps_link }}</p> -->
+                    <a href="{{ company_info.google_maps_link }}" class="contact-link" target="_blank">
+                        <span id="Addressline1" class="contact-line">{{ company_info.address_line1 }}</span><br>
+                        <span id="Addressline2">{{ company_info.address_line2 }}</span><br>
+                        <span id="Addressline3" class="contact-line">{{ company_info.address_line3 }}</span><br>
+                        <span id="Addressline4" class="contact-line">{{ company_info.address_line4 }}</span>
                     </a>
                 </div>
             </div>
+            
 
             <!-- Phone Section -->
             <div class="footer-contact-item">
-                <a href="tel:+917373865255" class="icon-link">
-                    <img src="phone-icon.gif" alt="Phone" class="rounded-phone-icon">
+                <a href="tel:{{ company_info.phone_number }}" class="icon-link">
+                    <img src="{{ company_info.phone_icon.url }}" alt="Phone" class="rounded-phone-icon">
                 </a>
                 <div class="contact-info">
-                    <span class="contact-line"><a href="tel:+917373865255" class="contact-link">+917373865255</a></span>
+                    <span class="contact-line">
+                        <a href="tel:{{ company_info.phone_number }}" class="contact-link">{{ company_info.phone_number }}</a>
+                    </span>
                 </div>
             </div>
+            
 
             <!-- Email Section -->
             <div class="footer-contact-item">
-                <a href="mailto:vickyneophotography@gmail.com" class="icon-link">
-                    <img src="email-icon.gif" alt="Email" class="rounded-email-icon">
+                <a href="mailto:{{ company_info.email }}" class="icon-link">
+                    <img src="{{ company_info.email_icon.url }}" alt="Email" class="rounded-email-icon">
                 </a>
                 <div class="contact-info">
-                    <span class="contact-line"><a href="mailto:vickyneophotography@gmail.com" class="contact-link">vickyneophotography@gmail.com</a></span>
+                    <span class="contact-line">
+                        <a href="mailto:{{ company_info.email }}" class="contact-link">{{ company_info.email }}</a>
+                    </span>
                 </div>
             </div>
+            
         </div>
     </div>
+
 </footer>
 
-  <script src="UserPage.js"></script>
-  <script src="final.js"></script>
+ 
+<script src="{% static 'js/UserPage.js' %}"></script>
+<script src="{% static 'js/final.js' %}"></script>
 </body>
 </html>
