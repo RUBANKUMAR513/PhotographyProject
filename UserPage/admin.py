@@ -7,6 +7,8 @@ from django.utils.html import format_html
 from django.shortcuts import render,redirect
 
 
+
+
 @admin.register(UserDetail)
 class UserDetailsAdmin(admin.ModelAdmin):
     # Fields to display in the list view
@@ -20,7 +22,7 @@ class UserDetailsAdmin(admin.ModelAdmin):
     def link_to_upload_images(self, obj):
         return format_html(
             '<a href="{}">Upload Images</a>',
-            f'/admin/{self.model._meta.app_label}/userdetails/upload_images/'
+            f'/admin/{self.model._meta.app_label}/{self.model._meta.model_name}/upload_images/'
         )
     link_to_upload_images.short_description = 'Upload Images'
 
@@ -51,10 +53,11 @@ class UserDetailsAdmin(admin.ModelAdmin):
             messages.success(request, "Images successfully uploaded.")
 
             # Redirect to the UserDetails list view
-            return redirect('/admin/UserPage/userdetails/')
+            return redirect(f'/admin/{self.model._meta.app_label}/{self.model._meta.model_name}/')
 
         # Render the upload form with user dropdown
         return render(request, 'UploadImages.html', {'users': users})
+
 
 
 
