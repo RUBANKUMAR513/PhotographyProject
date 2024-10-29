@@ -9,7 +9,7 @@ let allowDownloads = false;
 async function fetchUserImages(page = 1, callback) {
     try {
         currentPage = page; // Update currentPage here
-        console.log('current page:', currentPage);
+        // console.log('current page:', currentPage);
         
         const response = await fetch('/fetch-user-images/', {
             method: 'POST',
@@ -22,11 +22,11 @@ async function fetchUserImages(page = 1, callback) {
 
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             allowDownloads = data.allow_to_download;
             images = data.images;
-            console.log("Fetched images:", images);
-            console.log("Image IDs:", images.map(img => img.id));
+            // console.log("Fetched images:", images);
+            // console.log("Image IDs:", images.map(img => img.id));
             isImagesLoaded = true;
 
             displayImages(currentPage);
@@ -37,10 +37,10 @@ async function fetchUserImages(page = 1, callback) {
                 callback();
             }
         } else {
-            console.error('Error fetching images:', response.statusText);
+            // console.error('Error fetching images:', response.statusText);
         }
     } catch (error) {
-        console.error('Fetch error:', error);
+        // console.error('Fetch error:', error);
     }
 }
 
@@ -58,7 +58,7 @@ function setupPagination(totalPages) {
 
         pageButton.addEventListener("click", () => {
             fetchUserImages(i, updateSelectedImagesContainer); // Fetch for specific page i
-            console.log('page button', i);
+            // console.log('page button', i);
         });
 
         pagination.appendChild(pageButton);
@@ -82,11 +82,11 @@ window.onload = function () {
 
 // Function to display images on the current page
 function displayImages(page) {
-    console.log("DisplayImagesPage:", page);
+    // console.log("DisplayImagesPage:", page);
     const imageContainer = document.getElementById("imageContainer");
     imageContainer.innerHTML = "";
     const currentImages = images;
-    console.log("DisplayImagescurrentimages", currentImages);
+    // console.log("DisplayImagescurrentimages", currentImages);
     
     currentImages.forEach(image => {
         const imageBox = document.createElement('div');
@@ -185,11 +185,11 @@ function addHeartEventListeners() {
 
 
 function updateSelectedImagesContainer() {
-    console.log("Current images array:", images);
+    // console.log("Current images array:", images);
     
     // Check if images are loaded
     if (!isImagesLoaded || images.length === 0) {
-        console.warn("Images array is empty or not yet loaded when trying to update selected images.");
+        // console.warn("Images array is empty or not yet loaded when trying to update selected images.");
         return;
     }
 
@@ -200,7 +200,7 @@ function updateSelectedImagesContainer() {
     if (selectedImages.length === 0) {
         selectedImagesContainer.innerHTML = '<p class="no-images">No images selected</p>';
     } else {
-        console.log("Selected images IDs:", selectedImages);
+        // console.log("Selected images IDs:", selectedImages);
         selectedImages.forEach(imageId => {
             // Convert imageId to Number for comparison if necessary
             const image = images.find(img => img.id === Number(imageId)); // Ensure types match
@@ -208,7 +208,7 @@ function updateSelectedImagesContainer() {
                 const imageBox = createImageBox(image);
                 selectedImagesContainer.appendChild(imageBox);
             } else {
-                console.warn(`Image with ID: ${imageId} not found in images array`);
+                // console.warn(`Image with ID: ${imageId} not found in images array`);
             }
         });
     }
@@ -220,7 +220,7 @@ function updateSelectedImagesContainer() {
 
 // Helper function to create an image box with controls
 function createImageBox(image) {
-    console.log("Found image:", image); // Debug log
+    // console.log("Found image:", image); // Debug log
 
     const imageBox = document.createElement('div');
     imageBox.classList.add('image-box', 'selected-image');
@@ -280,14 +280,14 @@ function createIconButton(iconClass, fontAwesomeClass, tooltipText, onClick) {
 
 
 function removeSelectedImage(imageId) {
-    console.log("Removing image:", imageId);
+    // console.log("Removing image:", imageId);
     
     // Filter selectedImages to remove the imageId
     selectedImages = selectedImages.filter(id => id !== imageId.toString()); // Ensure id is a string
     localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
     
     // Log the current state of selectedImages after removal
-    console.log("After removal, current selected images:", selectedImages);
+    // console.log("After removal, current selected images:", selectedImages);
     
     // Update the UI to reflect the changes
     updateSelectedImagesContainer();
@@ -295,14 +295,14 @@ function removeSelectedImage(imageId) {
     // Update heart icon
     const imageBox = document.querySelector(`.image-box[data-id="${imageId}"]`);
     if (imageBox) {
-        console.log("Image box found:", imageBox);
+        // console.log("Image box found:", imageBox);
         const heartIcon = imageBox.querySelector('.heart-icon');
         if (heartIcon) {
             heartIcon.classList.remove('filled'); // Change heart icon to unfilled
         }
         imageBox.classList.remove('selected'); // Remove the selected class if necessary
     } else {
-        console.log("Image box not found");
+        // console.log("Image box not found");
     }
 }
 
@@ -372,7 +372,7 @@ async function saveSelection() {
     }
 
     // Log the selected image IDs for debugging
-    console.log('Selected image IDs:', selectedImages);
+    // console.log('Selected image IDs:', selectedImages);
 
     try {
         const response = await fetch('/save-selected-images/', { // Replace with your backend URL
@@ -386,14 +386,14 @@ async function saveSelection() {
 
         if (response.ok) {
             const result = await response.json();
-            console.log('Response from server:', result);
+            // console.log('Response from server:', result);
             alert('Selected images saved successfully!');
         } else {
             console.error('Error saving images:', response.statusText);
             alert('Failed to save images. Please try again.');
         }
     } catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
         alert('An error occurred while saving images. Please check your connection and try again.');
     }
 }
@@ -490,20 +490,20 @@ document.getElementById('link').addEventListener('click', function(event) {
 
 
 function updateHeartIcons(selectedImages) {
-    console.log("updateHeartIcons"); // Log to indicate function execution
+    // console.log("updateHeartIcons"); // Log to indicate function execution
     selectedImages.forEach(id => {
         // Corrected selector for .image-box with data-id attribute
         const imageBox = document.querySelector(`.image-box[data-id="${id}"]`);
-        console.log(`Looking for image box with ID: ${id}`, "Found:", imageBox);
+        // console.log(`Looking for image box with ID: ${id}`, "Found:", imageBox);
         if (imageBox) {
             const heartIcon = imageBox.querySelector('.heart-icon');
             if (heartIcon) {
                 heartIcon.classList.add('filled'); // Change heart icon to filled
-                console.log("Success: Heart icon filled for ID", id); // Log success message
+                // console.log("Success: Heart icon filled for ID", id); // Log success message
             }
             imageBox.classList.add('selected'); // Add selected class if necessary
         } else {
-            console.error(`No image box found for ID: ${id}`); // Log error if not found
+            // console.error(`No image box found for ID: ${id}`); // Log error if not found
         }
     });
 }
@@ -511,7 +511,7 @@ function updateHeartIcons(selectedImages) {
 
 // Function to prevent screenshot functionality
 function preventScreenshots() {
-    console.log("fuction calleld prevents")
+    // console.log("fuction calleld prevents")
     document.addEventListener('keydown', function (e) {
         // Preventing PrintScreen key and common shortcuts
         if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 's'))) {

@@ -131,6 +131,10 @@ class UserFilter(admin.SimpleListFilter):
             return queryset.filter(user_id=self.value())
         return queryset
 
+from django.utils.html import format_html
+from django.contrib import admin
+from .models import UserFavorite
+
 class UserFavoritesAdmin(admin.ModelAdmin):
     list_display = ('user', 'photo_display', 'created_at')
     list_filter = (UserFilter,)  # Adds the user dropdown filter
@@ -145,13 +149,17 @@ class UserFavoritesAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return True
 
-    # Display thumbnail of the photo
+    # Display thumbnail of the photo with a download link and URL
     def photo_display(self, obj):
         if obj.image:
-            return format_html('<img src="{}" width="50" height="50" />', obj.image.url)
+            return format_html(
+                '<a href="{}" download><img src="{}" width="50" height="50" /></a><br><small>URL: <a href="{}" target="_blank">{}</a></small>',
+                obj.image.url, obj.image.url, obj.image.url, obj.image.url
+            )
         return "No Image"
 
     photo_display.short_description = 'Photo Thumbnail'
 
 # Register the model with the custom admin class
 admin.site.register(UserFavorite, UserFavoritesAdmin)
+

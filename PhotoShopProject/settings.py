@@ -180,3 +180,6 @@ SESSION_COOKIE_AGE = 3600  # 1 hour (change as needed)
 
 # Optional: If you want to clear the session on browser close
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# In settings.py
+LOGIN_URL = '/Userlogin/'

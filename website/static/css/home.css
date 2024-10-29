@@ -1219,7 +1219,7 @@ header {
 
 .quote-container {
     position: relative; /* Allows absolute positioning for child elements */
-    background-image: url('marriage.jpg'); /* Replace with your marriage image */
+   
     background-size: cover; /* Cover the entire container */
     background-position: center; /* Center the background image */
     color: #fff; /* Text color */
