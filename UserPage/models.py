@@ -1,14 +1,11 @@
 from django.db import models
 from django.utils import timezone
-from datetime import timedelta
-
-from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils import timezone
 
-class UserDetails(models.Model):
+
+class UserDetail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_shoots = models.DateField(default=timezone.now)
     description = models.TextField(blank=True, null=True)
@@ -23,7 +20,7 @@ class UserDetails(models.Model):
             self.remaining_days = (self.remove_on.date() - timezone.now().date()).days
         else:
             self.remaining_days = None
-        super(UserDetails, self).save(*args, **kwargs)
+        super(UserDetail, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.username}'s details"
@@ -32,12 +29,12 @@ class UserDetails(models.Model):
 @receiver(post_save, sender=User)
 def create_user_details(sender, instance, created, **kwargs):
     if created:
-        UserDetails.objects.create(user=instance)
+        UserDetail.objects.create(user=instance)
 
 
-class UserImages(models.Model):
+class UserImage(models.Model):
     user_details = models.ForeignKey(
-        UserDetails, on_delete=models.CASCADE, related_name="photos"
+        UserDetail, on_delete=models.CASCADE, related_name="photos"
     )
     photo = models.ImageField(upload_to='show_photos/')
     
@@ -46,4 +43,10 @@ class UserImages(models.Model):
 
 
 
+class UserFavorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
+    image = models.ImageField(upload_to='user_favorites/')  # Adjust the path as needed
+    created_at = models.DateTimeField(auto_now_add=True)  # Optional: to track when the favorite was added
 
+    def __str__(self):
+        return f"{self.user.username}'s favorite image"

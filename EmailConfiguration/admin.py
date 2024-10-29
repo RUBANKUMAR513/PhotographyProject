@@ -5,8 +5,9 @@ from .models import Setting, ToEmail
 from .forms import SettingForm, ToEmailForm
 
 
+
 class SettingAdmin(admin.ModelAdmin):
-    form = SettingForm  # Use the custom form for validation
+    form = SettingForm  # Use the custom form if additional validation is needed
     list_display = ('host', 'port', 'email', 'status')
 
     def has_add_permission(self, request):
@@ -15,10 +16,18 @@ class SettingAdmin(admin.ModelAdmin):
             return False
         return True
 
+    def has_delete_permission(self, request, obj=None):
+        # Disable delete permission
+        return False
+
     def save_model(self, request, obj, form, change):
         if not change and Setting.objects.exists():
             raise ValidationError('Only one instance of Setting is allowed. Please edit the existing instance.')
         super().save_model(request, obj, form, change)
+
+# Register the Setting model with the custom admin class
+admin.site.register(Setting, SettingAdmin)
+
 
 
 class ToEmailAdmin(admin.ModelAdmin):
@@ -50,5 +59,5 @@ class ToEmailAdmin(admin.ModelAdmin):
 
 
 # Register the models with their respective admin classes
-admin.site.register(Setting, SettingAdmin)
+
 admin.site.register(ToEmail, ToEmailAdmin)

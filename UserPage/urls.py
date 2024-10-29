@@ -1,9 +1,9 @@
 # UserPage/urls.py
 from django.urls import path
-from .views import user_profile_view, User_login_view,user_logout_view,fetch_user_images
+from .views import user_profile_view, User_login_view,user_logout_view,fetch_user_images,save_selected_images
 from django.conf import settings
 from django.conf.urls.static import static
-from .admin import UserDetailsAdmin
+
 
 app_name = 'UserPage'
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('Userlogin/', User_login_view, name="user_login"),  # Add a trailing slash
     path('logout/', user_logout_view, name='user_logout'),
     path('fetch-user-images/', fetch_user_images, name='fetch_user_images'),
+    path('save-selected-images/', save_selected_images, name='save_selected_images'),
 ]
 
 if settings.DEBUG:

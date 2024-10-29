@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils import timezone
-
-# Create your models here.
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
+
+
 
 class Setting(models.Model):
     host = models.CharField(max_length=255)
@@ -18,13 +20,22 @@ class Setting(models.Model):
 
     def __str__(self):
         return self.email
-    
+
+
+@receiver(post_migrate)
+def create_default_setting(sender, **kwargs):
+    # Only create default if `Setting` model exists and has no entries
+    if sender.name == 'EmailConfiguration':  # Replace 'your_app_name' with your app's name
+        if not Setting.objects.exists():
+            Setting.objects.create(
+                host='smtp.gmail.com',
+                port=587,
+                email='rubanfebinosolutions@gmail.com',
+                password='aijb eiho aoqo gvmf',
+                status=True
+            )
 
     
-from django.db import models
-from django.core.exceptions import ValidationError
-from django.db.models.signals import post_migrate
-from django.dispatch import receiver
 
 class ToEmail(models.Model):
     name = models.CharField(max_length=255, unique=True)

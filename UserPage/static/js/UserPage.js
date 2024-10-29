@@ -8,25 +8,28 @@ let allowDownloads = false;
 
 async function fetchUserImages(page = 1, callback) {
     try {
+        currentPage = page; // Update currentPage here
+        console.log('current page:', currentPage);
+        
         const response = await fetch('/fetch-user-images/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCookie('csrftoken'),
             },
-            body: JSON.stringify({ page })
+            body: JSON.stringify({ page }) // Use `page` instead of `currentPage`
         });
 
         if (response.ok) {
             const data = await response.json();
+            console.log(data);
             allowDownloads = data.allow_to_download;
-            console.log(allowDownloads);
             images = data.images;
             console.log("Fetched images:", images);
             console.log("Image IDs:", images.map(img => img.id));
             isImagesLoaded = true;
 
-            displayImages(page);
+            displayImages(currentPage);
             setupPagination(data.total_pages);
 
             // Call callback if provided and images loaded successfully
@@ -41,14 +44,11 @@ async function fetchUserImages(page = 1, callback) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchUserImages(1, updateSelectedImagesContainer); // Fetch and update after loading images
-});
 
-// Function to setup pagination buttons
+// Setup pagination buttons with active state
 function setupPagination(totalPages) {
     const pagination = document.getElementById("pagination");
-    pagination.innerHTML = "";
+    pagination.innerHTML = ""; // Clear existing buttons
 
     for (let i = 1; i <= totalPages; i++) {
         const pageButton = document.createElement("button");
@@ -56,15 +56,18 @@ function setupPagination(totalPages) {
         pageButton.className = "page-btn";
         if (i === currentPage) pageButton.classList.add("active");
 
-        // Add click event to change the current page
         pageButton.addEventListener("click", () => {
-            currentPage = i;  // Update currentPage
-            fetchUserImages(currentPage); // Fetch images for the selected page
+            fetchUserImages(i, updateSelectedImagesContainer); // Fetch for specific page i
+            console.log('page button', i);
         });
 
         pagination.appendChild(pageButton);
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchUserImages(1, updateSelectedImagesContainer); // Initial fetch for page 1
+});
 
 
 
@@ -79,13 +82,12 @@ window.onload = function () {
 
 // Function to display images on the current page
 function displayImages(page) {
+    console.log("DisplayImagesPage:", page);
     const imageContainer = document.getElementById("imageContainer");
     imageContainer.innerHTML = "";
-
-    const start = (page - 1) * imagesPerPage;
-    const end = start + imagesPerPage;
-    const currentImages = images.slice(start, end);
-
+    const currentImages = images;
+    console.log("DisplayImagescurrentimages", currentImages);
+    
     currentImages.forEach(image => {
         const imageBox = document.createElement('div');
         imageBox.classList.add('image-box');
@@ -154,6 +156,7 @@ function displayImages(page) {
 
     // Add event listeners for heart icons after rendering
     addHeartEventListeners();
+    updateHeartIcons(selectedImages)
 }
 
 // Function to add event listeners to heart icons
@@ -183,19 +186,23 @@ function addHeartEventListeners() {
 
 function updateSelectedImagesContainer() {
     console.log("Current images array:", images);
+    
+    // Check if images are loaded
     if (!isImagesLoaded || images.length === 0) {
         console.warn("Images array is empty or not yet loaded when trying to update selected images.");
         return;
     }
 
     const selectedImagesContainer = document.getElementById('selectedImagesContainer');
-    selectedImagesContainer.innerHTML = '';
+    selectedImagesContainer.innerHTML = ''; // Clear previous images
 
+    // If no images selected
     if (selectedImages.length === 0) {
         selectedImagesContainer.innerHTML = '<p class="no-images">No images selected</p>';
     } else {
         console.log("Selected images IDs:", selectedImages);
         selectedImages.forEach(imageId => {
+            // Convert imageId to Number for comparison if necessary
             const image = images.find(img => img.id === Number(imageId)); // Ensure types match
             if (image) {
                 const imageBox = createImageBox(image);
@@ -206,6 +213,7 @@ function updateSelectedImagesContainer() {
         });
     }
 }
+
 
 
 
@@ -357,10 +365,57 @@ function renderImages(images) {
 }
 
 // Function to save selection
-function saveSelection() {
-    alert("Selected images saved!");
-    // Implement save functionality here (e.g., send to server)
+async function saveSelection() {
+    if (selectedImages.length === 0) {
+        alert("No images selected to save.");
+        return;
+    }
+
+    // Log the selected image IDs for debugging
+    console.log('Selected image IDs:', selectedImages);
+
+    try {
+        const response = await fetch('/save-selected-images/', { // Replace with your backend URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'), // Ensure you have CSRF token
+            },
+            body: JSON.stringify({ imageIds: selectedImages }) // Send the selected image IDs
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Response from server:', result);
+            alert('Selected images saved successfully!');
+        } else {
+            console.error('Error saving images:', response.statusText);
+            alert('Failed to save images. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while saving images. Please check your connection and try again.');
+    }
 }
+
+
+// Example function to get CSRF token (for Django)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Check if this cookie string begins with the given name
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 
 // Function to view image in fullscreen
 function viewImage(imageUrl) {
@@ -410,29 +465,7 @@ function preventRightClick() {
     });
 }
 
-// Function to prevent screenshot functionality
-function preventScreenshots() {
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 's'))) {
-            e.preventDefault();
-            alert("Screenshots are disabled.");
-        }
-    });
 
-    // Attempt to prevent some screenshot methods
-    document.addEventListener('keydown', function (e) {
-        if ((e.ctrlKey || e.altKey) && e.key === 'PrintScreen') {
-            e.preventDefault();
-            alert('Screenshots are not allowed on this page.');
-        }
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'PrintScreen') {
-            alert('Screenshots are not allowed on this page.');
-        }
-    });
-}
 
 document.getElementById('link').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent default anchor click behavior
@@ -454,17 +487,7 @@ document.getElementById('link').addEventListener('click', function(event) {
     });
   });
 
-  window.onload = function () {
-    // Load selected images from localStorage
-    const storedImages = localStorage.getItem('selectedImages');
-    if (storedImages) {
-        const selectedImages = JSON.parse(storedImages).map(id => id.trim());
-        console.log("Selected images:", selectedImages); // Log the selected images
-        
-        // Adding a small delay to ensure all images are loaded
-        setTimeout(() => updateHeartIcons(selectedImages), 50);
-    }
-};
+
 
 function updateHeartIcons(selectedImages) {
     console.log("updateHeartIcons"); // Log to indicate function execution
@@ -484,3 +507,35 @@ function updateHeartIcons(selectedImages) {
         }
     });
 }
+
+
+// Function to prevent screenshot functionality
+function preventScreenshots() {
+    console.log("fuction calleld prevents")
+    document.addEventListener('keydown', function (e) {
+        // Preventing PrintScreen key and common shortcuts
+        if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 's'))) {
+            e.preventDefault();
+            overlay.style.display = 'block'; // Show the overlay
+            setTimeout(() => {
+                overlay.style.display = 'none'; // Hide the overlay after 2 seconds
+            }, 2000);
+            alert("Screenshots are disabled.");
+        }
+    });
+
+    // Additional attempts to prevent common screenshot methods
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'PrintScreen') {
+            e.preventDefault();
+            overlay.style.display = 'block'; // Show the overlay
+            setTimeout(() => {
+                overlay.style.display = 'none'; // Hide the overlay after 2 seconds
+            }, 2000);
+            alert('Screenshots are not allowed on this page.');
+        }
+    });
+}
+
+// Call the function
+preventScreenshots();
