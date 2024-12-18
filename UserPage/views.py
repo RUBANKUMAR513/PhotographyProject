@@ -67,8 +67,9 @@ def fetch_user_images(request):
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
 
         user_id = request.user.id
+        print("user_id",user_id)
         user_images = UserImage.objects.filter(user_details__user_id=user_id).order_by('id')
-        
+        print("user_images",user_images)
         paginator = Paginator(user_images, 8)  # 8 images per page
         page_obj = paginator.get_page(page_number)
 
@@ -98,43 +99,39 @@ def fetch_user_images(request):
 
 
 
+@login_required
+@csrf_exempt
+def update_favorite_image(request, action):
+    data = json.loads(request.body)
+    image_id = data.get('image_id')
 
+    # Get the image object based on image_id
+    image_obj = UserImage.objects.get(id=image_id)
+    print("user",request.user)
+    if action == 'add':
+        # Get or create a UserFavorite and also store the image URL in the `src` field
+        favorite, created = UserFavorite.objects.get_or_create(
+            user=request.user,
+            image=image_obj,
+            defaults={'src': image_obj.photo.url}  # Set the src field to the image URL
+        )
+        if not created:
+            # If the favorite already exists, you can update the src field (optional)
+            favorite.src = image_obj.photo.url
+            favorite.save()
 
+    elif action == 'remove':
+        UserFavorite.objects.filter(user=request.user, image=image_obj).delete()
 
-@csrf_exempt  # Use this if you're not using CSRF protection in development; remove in production
-def save_selected_images(request):
-    if request.method == 'POST':
-        try:
-            # Load the JSON data from the request body
-            data = json.loads(request.body)
-            selected_image_ids = data.get('imageIds', [])  # Expecting 'imageIds'
+    return JsonResponse({'status': 'success'})
 
-            # Ensure the user is authenticated before proceeding
-            # You might need to adjust this part based on your authentication setup
-            user = request.user  
-            if not user.is_authenticated:
-                return JsonResponse({'status': 'error', 'message': 'User is not authenticated.'}, status=403)
+@login_required
+def get_favorites(request):
+    # Fetch favorites for the current user, using select_related to optimize the query
+    favorites = UserFavorite.objects.filter(user=request.user).select_related('image')
 
-            # Delete all existing favorites for the user
-            UserFavorite.objects.filter(user=user).delete()
+    # Extract the 'photo' field and 'src' field from the related UserImage model
+    favorite_images = favorites.values('image__id','image__photo', 'src')  # Using the double underscore to access the related field
 
-            # Process the selected images
-            for image_id in selected_image_ids:
-                try:
-                    # Fetch the image from UserImages model using the image_id
-                    user_image = UserImage.objects.get(id=image_id)
+    return JsonResponse({'favorites': list(favorite_images)})
 
-                    # Save the image as a new favorite for the user
-                    UserFavorite.objects.create(user=user, image=user_image.photo)
-
-                except UserImage.DoesNotExist:
-                    return JsonResponse({'status': 'error', 'message': f'Image with ID {image_id} does not exist.'}, status=404)
-
-            return JsonResponse({'status': 'success', 'message': 'Images saved successfully!'}, status=200)
-
-        except json.JSONDecodeError:
-            return JsonResponse({'status': 'error', 'message': 'Invalid JSON data.'}, status=400)
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)

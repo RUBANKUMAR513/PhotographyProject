@@ -45,8 +45,10 @@ class UserImage(models.Model):
 
 class UserFavorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
-    image = models.ImageField(upload_to='user_favorites/')  # Adjust the path as needed
+    image = models.ForeignKey(UserImage, on_delete=models.CASCADE)
+    src = models.CharField(max_length=500, blank=True, null=True)  # Add src field for image URL
     created_at = models.DateTimeField(auto_now_add=True)  # Optional: to track when the favorite was added
 
     def __str__(self):
         return f"{self.user.username}'s favorite image"
+

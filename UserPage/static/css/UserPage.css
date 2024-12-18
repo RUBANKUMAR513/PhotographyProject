@@ -149,11 +149,13 @@
         }
 
         .page-btn.active {
-            background-color: #770217;
+            background-color: #ffbf00;
+            color: #873e23;
         }
 
         .page-btn:hover {
-            background-color: #6c081a;
+            background-color: #ffbf00;
+            color: #873e23;
         }
 
         /* Fullscreen Overlay */
