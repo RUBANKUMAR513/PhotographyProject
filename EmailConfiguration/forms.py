@@ -26,7 +26,7 @@ from .models import ToEmail
 class ToEmailForm(forms.ModelForm):
     class Meta:
         model = ToEmail
-        fields = ['name', 'email', 'phonenumber', 'position', 'active_status']
+        fields = ['name', 'email', 'phonenumber', 'position', 'active_status','send_otp','send_ImgId']
     
 
 

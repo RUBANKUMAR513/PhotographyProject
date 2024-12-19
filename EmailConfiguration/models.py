@@ -43,6 +43,8 @@ class ToEmail(models.Model):
     phonenumber = models.CharField(max_length=15, unique=True)
     position = models.CharField(max_length=100)
     active_status = models.BooleanField(default=False)
+    send_otp = models.BooleanField(default=False)  # Checkbox for sending OTP
+    send_ImgId = models.BooleanField(default=False)  # Checkbox for sending image ID
 
     def save(self, *args, **kwargs):
         # Ensure only the 'position' field is editable for the default instance

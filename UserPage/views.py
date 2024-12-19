@@ -10,6 +10,7 @@ from .models import UserImage,UserDetail,UserFavorite
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
+from EmailConfiguration.msg import send_url_to_mail
 
 @login_required  # Ensures that only logged-in users can access this view
 def user_profile_view(request):
@@ -135,3 +136,35 @@ def get_favorites(request):
 
     return JsonResponse({'favorites': list(favorite_images)})
 
+
+@csrf_exempt
+def save_selected_images(request):
+    if request.method == 'POST':
+        try:
+            # Print the incoming request data
+            data = json.loads(request.body)
+            image_ids = data.get('imageIds', [])
+            print(f"Received image IDs: {image_ids}")
+
+            if not image_ids:
+                print("No image IDs provided")
+                return JsonResponse({'error': 'No image IDs provided'}, status=400)
+
+            images = UserFavorite.objects.filter(image__id__in=image_ids)
+
+            if not images.exists():
+                print(f"No images found for IDs: {image_ids}")
+                return JsonResponse({'error': 'Some image IDs are invalid'}, status=400)
+
+            user = request.user
+            user.favorites.set(images)
+            print(f"Successfully saved {len(images)} images for user {user.username}")
+            send_url_to_mail(images,user)
+            return JsonResponse({'success': True, 'message': 'Images saved successfully'})
+
+        except Exception as e:
+            print(f"Error occurred while saving images: {e}")  # Print the error
+            return JsonResponse({'error': str(e)}, status=500)
+
+    print("Invalid request method: Expected POST.")
+    return JsonResponse({'error': 'Invalid request method'}, status=405)

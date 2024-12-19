@@ -1,6 +1,8 @@
 from django.contrib.auth import logout
 from django.utils import timezone
 from django.conf import settings
+from django.utils import timezone
+from django.conf import settings
 
 class AutoLogoutMiddleware:
     def __init__(self, get_response):
@@ -24,6 +26,18 @@ class AutoLogoutMiddleware:
             else:
                 # Set the last activity timestamp as a string if it doesn't exist
                 request.session['last_activity'] = timezone.now().isoformat()  # Store as string
+
+        response = self.get_response(request)
+        return response
+
+
+class TimeZoneMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Set the time zone to 'Asia/Kolkata' for all requests
+        timezone.activate('Asia/Kolkata')
 
         response = self.get_response(request)
         return response

@@ -32,7 +32,7 @@ admin.site.register(Setting, SettingAdmin)
 
 class ToEmailAdmin(admin.ModelAdmin):
     form = ToEmailForm  # Use the custom form for validation
-    list_display = ('name', 'email', 'phonenumber', 'position', 'active_status')
+    list_display = ('name', 'email', 'phonenumber', 'position', 'active_status','send_otp','send_ImgId')
     list_filter = ('active_status', 'position')
 
     def has_add_permission(self, request):

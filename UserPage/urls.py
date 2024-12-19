@@ -1,6 +1,6 @@
 # UserPage/urls.py
 from django.urls import path
-from .views import user_profile_view, User_login_view,user_logout_view,fetch_user_images,update_favorite_image,get_favorites
+from .views import user_profile_view, User_login_view,user_logout_view,fetch_user_images,update_favorite_image,get_favorites,save_selected_images
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -15,6 +15,7 @@ urlpatterns = [
     path('fetch-user-images/', fetch_user_images, name='fetch_user_images'),
     path('favorites/<str:action>/',update_favorite_image, name='update_favorite_image'),
     path('favorites/',get_favorites, name='get_favorites'),
+    path('save-selected-images/', save_selected_images, name='save_selected_images'),
 ]
 
 if settings.DEBUG:

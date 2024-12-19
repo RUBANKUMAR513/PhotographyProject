@@ -44,7 +44,16 @@ async function fetchFavorites() {
 
         if (response.ok) {
             const data = await response.json();
-            selectedImages = data.favorites.map(fav => fav.image_id);
+            console.log('Fetched favorites:', data);
+
+            // Populate selectedImages with valid image IDs from the response
+            selectedImages = data.favorites.map(fav => fav.image__id);  // Ensure image__id is correctly accessed
+            
+            console.log("selectedImages after fetching:", selectedImages);
+            
+            // Now fill the heart icons
+            fillHeartIcons();
+            // Update the UI to reflect the current favorites
             updateSelectedImagesContainer(data.favorites);
         } else {
             console.error('Failed to fetch favorites:', response.statusText);
@@ -53,8 +62,29 @@ async function fetchFavorites() {
         console.error('Error fetching favorites:', error);
     }
 }
-fetchFavorites()
 
+window.addEventListener('load', function() {
+    // Fetch favorite images and ensure heart icons are filled on page load
+    fetchFavorites();
+});
+
+function fillHeartIcons() {
+    console.log("fillhearticons are called")
+    console.log("selectedImages:",selectedImages)
+    // Find all image boxes and check if they are in the selectedImages array
+    document.querySelectorAll('.image-box').forEach(imageBox => {
+        const imageId = imageBox.getAttribute('data-id');
+        console.log("fillhearticons are called",imageId)
+        const heartIcon = imageBox.querySelector('.heart-icon');
+        console.log("fillhearticons are called hearticon",heartIcon)
+        // Check if the image is selected
+        if (selectedImages.includes(Number(imageId))) {
+            console.log("fillhearticons are called if")
+            heartIcon.classList.add('filled'); // Fill the heart icon
+            imageBox.classList.add('selected'); // Add selected class to the image box
+        }
+    });
+}
 // Display images on the page
 function displayImages(page) {
     const imageContainer = document.getElementById("imageContainer");
@@ -126,6 +156,7 @@ function displayImages(page) {
     addHeartEventListeners();
 }
 
+
 // Add heart icon event listeners
 function addHeartEventListeners() {
     document.querySelectorAll('.heart-icon').forEach(icon => {
@@ -133,23 +164,37 @@ function addHeartEventListeners() {
             e.stopPropagation();
             const imageBox = this.closest('.image-box');
             const imageId = imageBox.getAttribute('data-id');
-
+            
+            // Check if the heart is filled (meaning it is currently a favorite)
             if (this.classList.contains('filled')) {
+                console.log("this is statisfy remove")
+                // Remove from favorites and unfill the heart icon
                 this.classList.remove('filled');
                 imageBox.classList.remove('selected');
+                console.log("Removed from favorites:", imageId);
+
+                // Remove imageId from selectedImages
                 selectedImages = selectedImages.filter(id => id !== imageId);
-                updateFavoriteImage(imageId, 'remove');
+                updateFavoriteImage(imageId, 'remove'); // Update backend to reflect removal
             } else {
+                console.log("this is statisfy add")
+                // Add to favorites and fill the heart icon
                 this.classList.add('filled');
                 imageBox.classList.add('selected');
+                console.log("Added to favorites:", imageId);
+
+                // Add imageId to selectedImages
                 selectedImages.push(imageId);
-                updateFavoriteImage(imageId, 'add');
+                updateFavoriteImage(imageId, 'add'); // Update backend to reflect addition
             }
 
-            updateSelectedImagesContainer();
+            updateSelectedImagesContainer(); // Update UI with current selection
         });
     });
 }
+
+
+
 
 // Update favorites on the backend
 async function updateFavoriteImage(imageId, action) {
@@ -208,6 +253,7 @@ async function updateSelectedImagesContainer() {
     } catch (error) {
         console.error('Error fetching selected images:', error);
     }
+    
 }
 
 // Function to create an image box for selected images
@@ -252,8 +298,31 @@ function createImageBox(image) {
 
     // Add "Remove" button
     buttonGroup.appendChild(
-        createIconButton('remove-icon', 'fas fa-times', 'Remove', () => updateFavoriteImage(imageId, 'remove'))
+        createIconButton(
+            'remove-icon', 
+            'fas fa-times', 
+            'Remove', 
+            () => {
+                // Perform backend update
+                updateFavoriteImage(imageId, 'remove');
+    
+                // Remove the filled heart icon and selected class from the image
+                const imageBox = document.querySelector(`.image-box[data-id="${imageId}"]`);
+                if (imageBox) {
+                    const heartIcon = imageBox.querySelector('.heart-icon');
+                    if (heartIcon && heartIcon.classList.contains('filled')) {
+                        heartIcon.classList.remove('filled'); // Unfill the heart icon
+                        imageBox.classList.remove('selected'); // Remove selection highlight
+                    }
+                }
+    
+                // Optional: Update any UI elements or arrays that track favorites
+                selectedImages = selectedImages.filter(id => id !== imageId);
+                updateSelectedImagesContainer(); // Update UI with current selection
+            }
+        )
     );
+    
 
     // Append the image and button group to the main container
     imageBox.appendChild(img);
@@ -296,6 +365,42 @@ function setupPagination(totalPages) {
         pagination.appendChild(button);
     }
 }
+
+async function saveSelection() {
+    if (selectedImages.length === 0) {
+        alert("No images selected to save.");
+        console.log("No images selected.");  // Log if no images are selected
+        return;
+    }
+
+    console.log("Selected image IDs:", selectedImages);  // Log the selected image IDs
+
+    try {
+        const response = await fetch('/save-selected-images/', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'), 
+            },
+            body: JSON.stringify({ imageIds: selectedImages })  // Send the selected image IDs
+        });
+
+        console.log("Server response:", response);  // Log the response object
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log("Server response JSON:", result);  // Log the result from the server
+            alert('Selected images saved successfully!');
+        } else {
+            console.error('Error saving images:', response.statusText);  // Log any errors
+            alert('Failed to save images. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error during fetch request:', error);  // Log any network or server errors
+        alert('An error occurred while saving images. Please check your connection and try again.');
+    }
+}
+
 
 // Helper function to get CSRF token
 function getCookie(name) {
