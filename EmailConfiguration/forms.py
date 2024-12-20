@@ -19,9 +19,6 @@ class SettingForm(forms.ModelForm):
         return cleaned_data
 
 
-from django import forms
-from django.core.exceptions import ValidationError
-from .models import ToEmail
 
 class ToEmailForm(forms.ModelForm):
     class Meta:

@@ -136,7 +136,7 @@
             text-align: center;
             margin: 20px 0;
         }
-
+    
         .page-btn {
             background-color: #873e23;
             color: #fff;
@@ -146,6 +146,7 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s;
+            display: inline-flex;
         }
 
         .page-btn.active {
@@ -157,7 +158,32 @@
             background-color: #ffbf00;
             color: #873e23;
         }
-
+        #watermark {
+            position: absolute;
+            font-size: 50px;
+            color: white;
+            opacity: 0.6;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            #watermark {
+                font-size: 40px; /* Smaller font size for tablets and smaller screens */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #watermark {
+                font-size: 30px; /* Even smaller font size for phones */
+            }
+        }
+        
+        
         /* Fullscreen Overlay */
         .fullscreen-overlay {
             position: fixed;

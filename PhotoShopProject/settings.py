@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'website',
     'UserPage',
     'EmailConfiguration',
+    'django_celery_results',
+    'django_celery_beat'
 ]
 JAZZMIN_SETTINGS = {
     "site_logo": "logos/logo-footer.jpg",  # Path relative to your static files
@@ -79,6 +81,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'EmailConfiguration.middleware.AutoLogoutMiddleware',
     'EmailConfiguration.middleware.TimeZoneMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'PhotoShopProject.urls'
@@ -184,3 +187,18 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # In settings.py
 LOGIN_URL = '/Userlogin/'
+
+DATA_UPLOAD_MAX_NUMBER_FILES = 2000  # Increase this value as needed
+
+#celery Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379'  # Redis as broker
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_TIMEZONE='Asia/Kolkata'
+
+CELERY_RESULT_BACKEND='django-db'
+
+
+#celery beat
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'

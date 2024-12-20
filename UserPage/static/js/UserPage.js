@@ -22,7 +22,7 @@ async function fetchUserImages(page = 1) {
             allowDownloads = data.allow_to_download;
             images = data.images;
             displayImages(currentPage);
-            setupPagination(data.total_pages);
+            setupPagination(data.total_pages,page);
         } else {
             console.error('Error fetching images:', response.statusText);
         }
@@ -352,24 +352,65 @@ function createIconButton(iconClass, fontAwesomeClass, tooltipText, onClick) {
 }
 
 
-// Pagination setup
-function setupPagination(totalPages) {
+function setupPagination(totalPages, currentPage = 1) {
     const pagination = document.getElementById('pagination');
     pagination.innerHTML = ''; // Clear existing pagination buttons
 
-    for (let i = 1; i <= totalPages; i++) {
-        const button = document.createElement('button');
-        button.textContent = i;
-        button.className = "page-btn";
-        button.addEventListener('click', () => fetchUserImages(i));
+    const maxVisibleButtons = 5; // Max buttons visible
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
+
+    if (endPage - startPage < maxVisibleButtons - 1) {
+        startPage = Math.max(1, endPage - maxVisibleButtons + 1);
+    }
+
+    // Add "Previous" button
+    if (currentPage > 1) {
+        const prevButton = createPaginationButton('Previous', currentPage - 1, totalPages);
+        pagination.appendChild(prevButton);
+    }
+
+    // Add page buttons
+    for (let i = startPage; i <= endPage; i++) {
+        const button = createPaginationButton(i, i, totalPages, i === currentPage);
         pagination.appendChild(button);
+    }
+
+    // Add "Next" button
+    if (currentPage < totalPages) {
+        const nextButton = createPaginationButton('Next', currentPage + 1, totalPages);
+        pagination.appendChild(nextButton);
     }
 }
 
+function createPaginationButton(text, page, totalPages, isActive = false) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    button.className = 'page-btn';
+    if (isActive) button.classList.add('active');
+    button.addEventListener('click', () => {
+        fetchUserImages(page);
+        setupPagination(totalPages, page);
+        scrollToActiveButton(button); // Scroll to the active button
+    });
+    return button;
+}
+
+function scrollToActiveButton(button) {
+    const container = document.getElementById('pagination');
+    const containerRect = container.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+
+    // Scroll the container to center the active button
+    container.scrollLeft += buttonRect.left - containerRect.left - container.clientWidth / 2 + buttonRect.width / 2;
+}
+
+
 async function saveSelection() {
+
     if (selectedImages.length === 0) {
-        alert("No images selected to save.");
         console.log("No images selected.");  // Log if no images are selected
+        showPopupMessage("No images selected to save.", false);  // Show red popup for no selection
         return;
     }
 
@@ -390,17 +431,156 @@ async function saveSelection() {
         if (response.ok) {
             const result = await response.json();
             console.log("Server response JSON:", result);  // Log the result from the server
-            alert('Selected images saved successfully!');
+            showPopupMessage("Selected images saved successfully!", true);  // Green popup for success
+            const submitButton = document.getElementById('submit-button');
+
+            // Disable the button and start the cooldown
+            submitButton.disabled = true;
+
+            // Countdown from 10 seconds
+            let countdown = 10;
+            const originalText = submitButton.textContent;
+            const interval = setInterval(() => {
+                submitButton.textContent = `Please wait... (${countdown}s)`;
+                countdown--;
+
+                if (countdown < 0) {
+                    clearInterval(interval); // Stop the countdown
+                    submitButton.disabled = false; // Re-enable the button
+                    submitButton.textContent = originalText; // Restore original text
+                }
+            }, 1000);
+
         } else {
             console.error('Error saving images:', response.statusText);  // Log any errors
-            alert('Failed to save images. Please try again.');
+            showPopupMessage("Failed to save images. Please try again.", false);  // Red popup for failure
         }
     } catch (error) {
         console.error('Error during fetch request:', error);  // Log any network or server errors
-        alert('An error occurred while saving images. Please check your connection and try again.');
+        showPopupMessage("An error occurred while saving images. Please check your connection and try again.", false);  // Red popup for network errors
     }
 }
 
+function showPopupMessage(message, isSuccess) {
+    const popup = document.getElementById('popup-message');
+    const text = document.getElementById('popup-text');
+
+    text.textContent = message;
+    popup.style.backgroundColor = isSuccess ? 'green' : 'red'; // Green for success, red for failure
+    popup.style.display = 'block';
+
+    // Automatically hide the popup after 3 seconds
+    setTimeout(() => {
+        popup.style.display = 'none';
+    }, 3000);
+}
+
+
+// Function to view image in fullscreen
+function viewImage(imageUrl) {
+    const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+    const fullscreenImage = document.getElementById('fullscreenImage');
+
+    fullscreenImage.src = imageUrl;
+    fullscreenOverlay.style.display = 'flex';
+    fullscreenImage.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+}
+
+// Function to close fullscreen view
+function closeFullscreen() {
+    const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+    fullscreenOverlay.style.display = 'none';
+}
+
+// Function to download image
+function downloadImage(imageUrl) {
+    const a = document.createElement('a');
+    a.href = imageUrl;
+    a.download = imageUrl.split('/').pop();
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    alert("Download initiated for " + a.download);
+}
+
+// Function to prevent right-click context menu on specific elements
+function preventRightClick() {
+    const elements = [
+        document.getElementById('imageContainer'),
+        document.getElementById('selectedImagesContainer'),
+        ...document.querySelectorAll('.image-box img'),
+        document.getElementById('fullscreenOverlay')
+    ];
+
+    elements.forEach(element => {
+        if (element) {
+            element.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+        }
+    });
+}
+
+// Call the function on window load
+window.onload = function () {
+    preventRightClick();
+};
+
+
+
+document.getElementById('link').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default anchor click behavior
+    
+    const target = document.querySelector('#favorites');
+    target.scrollIntoView({
+      behavior: 'smooth',     // Smooth scrolling
+      block: 'center'         // Scroll to the center of the screen
+    });
+  });
+
+  document.getElementById('gallerylink').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent default anchor click behavior
+    
+    const target = document.querySelector('#gallery');
+    target.scrollIntoView({
+      behavior: 'smooth',     // Smooth scrolling
+      block: 'center'         // Scroll to the center of the screen
+    });
+  });
+
+  // Function to prevent screenshot functionality
+function preventScreenshots() {
+    // console.log("fuction calleld prevents")
+    document.addEventListener('keydown', function (e) {
+        // Preventing PrintScreen key and common shortcuts
+        if (e.key === 'PrintScreen' || (e.ctrlKey && (e.key === 'p' || e.key === 's'))) {
+            e.preventDefault();
+            overlay.style.display = 'block'; // Show the overlay
+            setTimeout(() => {
+                overlay.style.display = 'none'; // Hide the overlay after 2 seconds
+            }, 2000);
+            alert("Screenshots are disabled.");
+        }
+    });
+
+    // Additional attempts to prevent common screenshot methods
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'PrintScreen') {
+            e.preventDefault();
+            overlay.style.display = 'block'; // Show the overlay
+            setTimeout(() => {
+                overlay.style.display = 'none'; // Hide the overlay after 2 seconds
+            }, 2000);
+            alert('Screenshots are not allowed on this page.');
+        }
+    });
+}
+
+// Call the function
+preventScreenshots();
 
 // Helper function to get CSRF token
 function getCookie(name) {
@@ -413,3 +593,32 @@ function getCookie(name) {
 
 // Initialize fetching images
 fetchUserImages(currentPage);
+
+
+document.addEventListener('keyup', function (e) {
+    if (e.key === 'PrintScreen') {
+        navigator.clipboard.writeText('').then(() => {
+            alert('Screenshots are not allowed on this page.');
+        }).catch(err => {
+            console.error('Failed to overwrite clipboard:', err);
+        });
+    }
+});
+
+document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey && e.key === 'p') || // Ctrl+P
+        (e.ctrlKey && e.key === 's') || // Ctrl+S
+        (e.ctrlKey && e.key === 'u') || // Ctrl+U
+        (e.ctrlKey && e.shiftKey && e.key === 'i')) { // Ctrl+Shift+I
+        e.preventDefault();
+        alert('This action is disabled.');
+    }
+});
+
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+        e.preventDefault();
+        alert('Developer tools are disabled.');
+    }
+});

@@ -62,7 +62,12 @@
 
 </header>
 
+
 <main class="main" id="home">
+    <div id="popup-message" style="display: none; position: fixed; top: 110px; left: 50%; transform: translateX(-50%); background-color: green; color: white; padding: 10px 20px; border-radius: 5px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); z-index: 1000;">
+        <span id="popup-text"></span>
+    </div>
+    
     <!-- Gallery heading -->
     <div id="gallery" class="container-heading">Gallery</div>
     
@@ -81,12 +86,15 @@
     </div>
 
     <!-- Submit button for saving selected images -->
-    <button class="save-btn" onclick="saveSelection()">Submit</button>
+    <button id="submit-button" class="save-btn" onclick="saveSelection()">Submit</button>
 
     <!-- Fullscreen overlay for viewing images -->
     <div id="fullscreenOverlay" class="fullscreen-overlay" style="display: none;">
         <i class="close-btn fas fa-times" onclick="closeFullscreen()"></i>
-        <img id="fullscreenImage" src="" alt="Fullscreen Image">
+        <img id="fullscreenImage" style="max-width: 90%; max-height: 90%;" alt="Fullscreen Image">
+        <div id="watermark">
+            VickyNeo Photography
+        </div>
     </div>
 </main>
 

@@ -23,10 +23,10 @@ def process():
     # Fetch the company name from the CompanyInfo model
     try:
         company_info = CompanyInfo.objects.first()  # Assuming there's only one entry
-        company_name = company_info.name if company_info else "Ruban "  # Default name if not found
+        company_name = company_info.name if company_info else "Vickyneo Photography"  # Default name if not found
     except ObjectDoesNotExist:
         print("No company information found. Default name will be used.")
-        company_name = "Ruban"
+        company_name = "Vickyneo Photography"
 
     # Get all active recipients from the ToEmail model
     active_recipients = ToEmail.objects.filter(active_status=True,send_otp=True)

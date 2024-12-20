@@ -10,7 +10,8 @@ from .models import UserImage,UserDetail,UserFavorite
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
-from EmailConfiguration.msg import send_url_to_mail
+from .tasks import send_email_task
+
 
 @login_required  # Ensures that only logged-in users can access this view
 def user_profile_view(request):
@@ -141,7 +142,7 @@ def get_favorites(request):
 def save_selected_images(request):
     if request.method == 'POST':
         try:
-            # Print the incoming request data
+            # Parse incoming request data
             data = json.loads(request.body)
             image_ids = data.get('imageIds', [])
             print(f"Received image IDs: {image_ids}")
@@ -159,8 +160,14 @@ def save_selected_images(request):
             user = request.user
             user.favorites.set(images)
             print(f"Successfully saved {len(images)} images for user {user.username}")
-            send_url_to_mail(images,user)
-            return JsonResponse({'success': True, 'message': 'Images saved successfully'})
+
+            # Send the response immediately
+            response = JsonResponse({'success': True, 'message': 'Images saved successfully'})
+
+            # Process send_url_to_mail asynchronously with Celery
+            send_email_task.delay(image_ids, user.id)
+
+            return response
 
         except Exception as e:
             print(f"Error occurred while saving images: {e}")  # Print the error
