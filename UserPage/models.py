@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+import os
 
 class UserDetail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -40,6 +40,14 @@ class UserImage(models.Model):
     
     def __str__(self):
         return f"{self.user_details.user.username}'s photo"
+    def delete(self, *args, **kwargs):
+        # Delete the photo file from the storage if it exists
+        if self.photo:
+            # This will delete the file from the server storage
+            if os.path.isfile(self.photo.path):
+                os.remove(self.photo.path)
+        # Call the superclass's delete method to delete the database record
+        super().delete(*args, **kwargs)
 
 
 

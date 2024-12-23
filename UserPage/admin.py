@@ -5,8 +5,12 @@ from django.contrib.auth.admin import GroupAdmin
 from django.urls import path,reverse
 from django.utils.html import format_html
 from django.shortcuts import render,redirect
+from .tasks import save_images
+import logging
+import os
+import uuid
 
-
+logger = logging.getLogger(__name__)
 
 
 @admin.register(UserDetail)
@@ -34,29 +38,53 @@ class UserDetailsAdmin(admin.ModelAdmin):
         ]
         return custom_urls + urls
 
-    # Define the upload images view
-    def upload_images_view(self, request):
-        users = UserDetail.objects.all()  # Fetch UserDetails instances
+    def upload_images_view(self,request):
+        """
+        Function-based view to handle uploading images for a user.
+        """
+        if request.method == 'GET':
+            # Fetch all users for the dropdown in the form
+            users = UserDetail.objects.all()
+            return render(request, 'UploadImages.html', {'users': users})
 
-        if request.method == 'POST':
+        elif request.method == 'POST':
+            # Get user ID and uploaded images
             user_id = request.POST.get('user')
             images = request.FILES.getlist('images')
 
-            # Fetch the UserDetails instance for the selected user
-            user_details = UserDetail.objects.get(id=user_id)
+            # Validate the input
+            if not user_id:
+                messages.error(request, "User selection is required.")
+                return redirect(request.path)
+            if not images:
+                messages.error(request, "Please upload at least one image.")
+                return redirect(request.path)
 
-            # Save each uploaded image to UserImages
+            # Convert images to a list of file paths
+            temp_storage_path = 'temporary_storage/'
+            if not os.path.exists(temp_storage_path):
+                os.makedirs(temp_storage_path)
+            # print("still in their fuctions")
+            image_paths = []
             for image in images:
-                UserImage.objects.create(user_details=user_details, photo=image)
+                # Save images temporarily with a unique filename
+                unique_filename = f"{uuid.uuid4()}_{image.name}"
+                path = os.path.join(temp_storage_path, unique_filename)
+                with open(path, 'wb+') as destination:
+                    for chunk in image.chunks():
+                        destination.write(chunk)
+                image_paths.append(path)
 
-            # Set a success message
-            messages.success(request, "Images successfully uploaded.")
+            print("outer the loop")
+            # Call Celery task to process images
+            save_images.delay(image_paths, user_id)
 
-            # Redirect to the UserDetails list view
-            return redirect(f'/admin/{self.model._meta.app_label}/{self.model._meta.model_name}/')
+            # Immediate success message
+            messages.success(request, "Images are being uploaded. You will be notified once completed.")
+            # Redirect to admin page for `UserImage` model
+            admin_url = reverse(f'admin:{UserImage._meta.app_label}_{UserImage._meta.model_name}_changelist')
+            return redirect(admin_url)
 
-        # Render the upload form with user dropdown
-        return render(request, 'UploadImages.html', {'users': users})
 
 
 
