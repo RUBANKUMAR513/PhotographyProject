@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intro | VickyneoPhotography</title>
     <style>
-        /* General Styles */
         body, html {
             margin: 0;
             padding: 0;
@@ -13,8 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #fff;
-            font-family: Arial, sans-serif;
+            background-color: #fff; /* Background color */
             text-align: center;
         }
 
@@ -31,23 +29,31 @@
             width: 100vw;
             height: 100vh;
             object-fit: cover;
+            border: none;
+            box-shadow: none;
             transform: translate(-50%, -50%);
-            display: none;
+            display: none; /* Hide until fully loaded */
         }
 
         .loading {
             font-size: 20px;
             color: #555;
+            margin-top: 20px;
         }
 
-        /* Responsive Styles */
-        @media (max-width: 1024px) {
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
             img {
-                height: auto;
-                max-height: 80vh;
+                width: 100vw;
+                height: 50vh;
             }
-            #introGifContainer {
-                max-width: 90%;
+        }
+
+        /* Tablet responsiveness */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            img {
+                width: 100vw;
+                height: 50vh;
             }
         }
     </style>
@@ -55,12 +61,21 @@
 <body>
 
     <div id="introGifContainer">
-        <p id="loadingMessage" class="loading">Loading... Vickyneo Photography</p>
-        <img id="introGif" src="" alt="Vickyneo Photography Intro GIF">
+        <p id="loadingMessage" class="loading">Vickyneo Photography</p>
+        <img id="introGif" src="" alt="Intro GIF">
     </div>
 
     <script>
-        // Fetch GIF Data and Initialize
+        async function preloadGif(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = url;
+
+                img.onload = () => resolve(url);
+                img.onerror = (error) => reject(error);
+            });
+        }
+
         async function fetchGifData() {
             const loadingMessage = document.getElementById('loadingMessage');
             const introGifElement = document.getElementById('introGif');
@@ -70,7 +85,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}', // Include CSRF token if using Django
+                        'X-CSRFToken': '{{ csrf_token }}',
                     },
                 });
 
@@ -79,10 +94,17 @@
                 }
 
                 const data = await response.json();
-                const gifDuration = data.gif_duration * 1000; // Convert seconds to milliseconds
+                console.log('Fetched Data:', data);
 
-                // Display GIF
-                introGifElement.src = data.intro_gif_url;
+                const gifDuration = data.gif_duration * 1000;
+                const gifUrl = data.intro_gif_url;
+
+                // Preload the GIF
+                await preloadGif(gifUrl);
+                console.log('GIF Preloaded Successfully');
+
+                // Set the intro GIF URL and display it
+                introGifElement.src = gifUrl;
                 introGifElement.style.display = 'block';
                 loadingMessage.style.display = 'none';
 
@@ -90,13 +112,15 @@
                 setTimeout(() => {
                     window.location.href = '/home/';
                 }, gifDuration);
+
             } catch (error) {
+                console.error('Error:', error);
                 loadingMessage.textContent = `Error loading GIF: ${error.message}`;
             }
         }
 
-        // Load GIF Data on Page Load
-        document.addEventListener('DOMContentLoaded', fetchGifData);
+        // Fetch GIF data on page load
+        fetchGifData();
     </script>
 
 </body>
