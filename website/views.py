@@ -68,7 +68,7 @@ def our_services_view(request):
         'company_info': company_info,
         'services': services
     }
-    return render(request, 'services.html', context)
+    return render(request, 'Services.html', context)
 
 
 
