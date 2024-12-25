@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intro | VickyneoPhotography</title>
     <style>
+        /* General Styles */
         body, html {
             margin: 0;
             padding: 0;
@@ -12,7 +13,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #fff; /* Background color */
+            background-color: #fff;
+            font-family: Arial, sans-serif;
             text-align: center;
         }
 
@@ -23,40 +25,29 @@
         }
 
         img {
-            position: absolute; /* Change to absolute to cover entire viewport */
-            top: 50%; /* Center the image vertically */
-            left: 50%; /* Center the image horizontally */
-            width: 100vw; /* Full viewport width */
-            height: 100vh; /* Full viewport height */
-            object-fit: cover; /* Cover the entire area while maintaining aspect ratio */
-            border: none; /* Remove any borders */
-            box-shadow: none; /* Ensure no shadow is applied */
-            transform: translate(-50%, -50%); /* Center the image */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            display: none;
         }
 
         .loading {
             font-size: 20px;
             color: #555;
-            margin-top: 20px;
         }
 
-        /* For mobile responsiveness */
-        @media (max-width: 768px) {
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
             img {
-                width: 80%; /* Decrease width for smaller screens */
-                height: auto; /* Maintain aspect ratio */
-                max-height: 80vh; /* Set a maximum height */
-                transform: translate(-50%, -50%); /* Keep it centered */
+                height: auto;
+                max-height: 80vh;
             }
-        }
-
-        /* Media query for tablet devices */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            img {
-                width: 90%; /* Decrease width for tablets */
-                height: auto; /* Maintain aspect ratio */
-                max-height: 90vh; /* Set a maximum height */
-                transform: translate(-50%, -50%); /* Keep it centered */
+            #introGifContainer {
+                max-width: 90%;
             }
         }
     </style>
@@ -64,51 +55,48 @@
 <body>
 
     <div id="introGifContainer">
-        <!-- Placeholder for GIF -->
-        <p id="loadingMessage" class="loading">Loading intro GIF...</p>
-        <img id="introGif" src="" alt="Intro GIF" style="display:none;">
+        <p id="loadingMessage" class="loading">Loading... Vickyneo Photography</p>
+        <img id="introGif" src="" alt="Vickyneo Photography Intro GIF">
     </div>
 
     <script>
+        // Fetch GIF Data and Initialize
         async function fetchGifData() {
+            const loadingMessage = document.getElementById('loadingMessage');
+            const introGifElement = document.getElementById('introGif');
+
             try {
                 const response = await fetch('/get-gif-duration/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}', // CSRF token for security
+                        'X-CSRFToken': '{{ csrf_token }}', // Include CSRF token if using Django
                     },
                 });
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    const gifDuration = data.gif_duration * 1000; // Convert seconds to milliseconds
-
-                    // Set the intro GIF URL and display the GIF
-                    const introGifElement = document.getElementById('introGif');
-                    introGifElement.src = data.intro_gif_url;
-
-                    // Show the GIF and hide the loading message
-                    document.getElementById('loadingMessage').style.display = 'none';
-                    introGifElement.style.display = 'block';
-
-                    // Redirect after the GIF duration
-                    setTimeout(() => {
-                        window.location.href = '/home/'; // Redirect to homepage
-                    }, gifDuration);
-
-                } else {
-                    document.getElementById('loadingMessage').innerText = 'Error loading GIF: ' + data.error;
+                if (!response.ok) {
+                    throw new Error('Failed to fetch GIF data');
                 }
 
+                const data = await response.json();
+                const gifDuration = data.gif_duration * 1000; // Convert seconds to milliseconds
+
+                // Display GIF
+                introGifElement.src = data.intro_gif_url;
+                introGifElement.style.display = 'block';
+                loadingMessage.style.display = 'none';
+
+                // Redirect after GIF duration
+                setTimeout(() => {
+                    window.location.href = '/home/';
+                }, gifDuration);
             } catch (error) {
-                document.getElementById('loadingMessage').innerText = 'Error: ' + error.message;
+                loadingMessage.textContent = `Error loading GIF: ${error.message}`;
             }
         }
 
-        // Fetch GIF data on page load
-        fetchGifData();
+        // Load GIF Data on Page Load
+        document.addEventListener('DOMContentLoaded', fetchGifData);
     </script>
 
 </body>
