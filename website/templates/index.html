@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intro | VickyneoPhotography</title>
 
-    <!-- Load static files -->
-    {% load static %}
-
-    <!-- Preload the GIF -->
-    <link rel="preload" href="{% static 'logos/vickyneologoanimation-ezgif.com-optimize (1).gif' %}" as="image">
-
+    <!-- Load CSS in the head for faster rendering -->
     <style>
         body, html {
             margin: 0;
@@ -39,19 +34,26 @@
             border: none;
             box-shadow: none;
             transform: translate(-50%, -50%);
-            display: none; /* Hide until loaded */
+            visibility: hidden; /* Hide image initially */
         }
 
         .loading {
             font-size: 20px;
             color: #555;
+            margin-top: 20px;
         }
 
         /* Mobile responsiveness */
         @media (max-width: 768px) {
             img {
                 width: 100vw;
+                height: 50vh;
+            }
+            #introGifContainer {
+                width: 80%;
                 height: auto;
+                max-height: 80vh;
+                transform: translate(-50%, -50%);
             }
         }
 
@@ -59,61 +61,70 @@
         @media (min-width: 769px) and (max-width: 1024px) {
             img {
                 width: 100vw;
+                height: 50vh;
+            }
+            #introGifContainer {
+                width: 80%;
                 height: auto;
+                max-height: 80vh;
+                transform: translate(-50%, -50%);
             }
         }
-
-        /* Larger screens (Desktop) */
-        @media (min-width: 1025px) {
-            img {
-                width: 100vw;
-                height: 100vh;
-            }
-        }
-
-        /* Add a loading spinner */
-        #loadingMessage {
-            font-size: 20px;
-            color: #555;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
     </style>
 </head>
 <body>
 
     <div id="introGifContainer">
-        <p id="loadingMessage" class="loading">Loading... Please wait</p>
-        <img id="introGif" src="{% static 'logos/vickyneologoanimation-ezgif.com-optimize (1).gif' %}" alt="Intro GIF">
+        <!-- Loading spinner or message -->
+        <p id="loadingMessage" class="loading">Vickyneo Photography</p>
+        <img id="introGif" src="" alt="Intro GIF">
     </div>
 
+    <!-- Load JS asynchronously to avoid blocking rendering -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const introGifElement = document.getElementById("introGif");
-            const loadingMessage = document.getElementById("loadingMessage");
+        async function fetchGifData() {
+            try {
+                // Display a loading message until the GIF is fetched
+                const loadingMessage = document.getElementById('loadingMessage');
+                loadingMessage.innerText = 'Loading, please wait...';
 
-            // Wait for the GIF to fully load
-            introGifElement.onload = () => {
-                // Hide the loading message
-                loadingMessage.style.display = "none";
+                const response = await fetch('/get-gif-duration/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}', // CSRF token for security
+                    },
+                });
 
-                // Show the GIF
-                introGifElement.style.display = "block";
+                const data = await response.json();
 
-                // Redirect after the GIF duration (7.2 seconds)
-                setTimeout(() => {
-                    window.location.href = "/home/";
-                }, 7200); // 7.2 seconds in milliseconds
-            };
+                if (response.ok) {
+                    const gifDuration = data.gif_duration * 1000; // Convert seconds to milliseconds
 
-            // If there's an error loading the GIF
-            introGifElement.onerror = () => {
-                loadingMessage.textContent = "Failed to load GIF. Please try again later.";
-            };
-        });
+                    // Set the intro GIF URL and display the GIF
+                    const introGifElement = document.getElementById('introGif');
+                    introGifElement.src = data.intro_gif_url;
+
+                    // Show the GIF and hide the loading message
+                    loadingMessage.style.display = 'none';
+                    introGifElement.style.visibility = 'visible'; // Reveal the GIF once it's loaded
+
+                    // Redirect after the GIF duration
+                    setTimeout(() => {
+                        window.location.href = '/home/'; // Redirect to homepage
+                    }, gifDuration);
+
+                } else {
+                    loadingMessage.innerText = 'Error loading GIF: ' + data.error;
+                }
+
+            } catch (error) {
+                document.getElementById('loadingMessage').innerText = 'Error: ' + error.message;
+            }
+        }
+
+        // Fetch GIF data on page load
+        fetchGifData();
     </script>
 
 </body>
