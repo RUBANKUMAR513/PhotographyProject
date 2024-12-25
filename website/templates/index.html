@@ -8,7 +8,8 @@
     <!-- Load static files -->
     {% load static %}
 
-  
+    <!-- Preload the GIF -->
+    <link rel="preload" href="{% static 'logos/vickyneologoanimation-ezgif.com-optimize (1).gif' %}" as="image">
 
     <style>
         body, html {
@@ -49,33 +50,44 @@
         /* Mobile responsiveness */
         @media (max-width: 768px) {
             img {
-                width: 100vw;   /* Make it 80% of the screen width */
-                height: auto;  /* Maintain aspect ratio */
+                width: 100vw;
+                height: auto;
             }
         }
 
         /* Tablet responsiveness */
         @media (min-width: 769px) and (max-width: 1024px) {
             img {
-                width: 100vw;   /* Make it 90% of the screen width */
-                height: auto;  /* Maintain aspect ratio */
+                width: 100vw;
+                height: auto;
             }
         }
 
         /* Larger screens (Desktop) */
         @media (min-width: 1025px) {
             img {
-                width: 100vw;  /* Keep it full width on larger screens */
-                height: 100vh; /* Full height */
+                width: 100vw;
+                height: 100vh;
             }
         }
+
+        /* Add a loading spinner */
+        #loadingMessage {
+            font-size: 20px;
+            color: #555;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
     </style>
 </head>
 <body>
 
     <div id="introGifContainer">
         <p id="loadingMessage" class="loading">Loading... Please wait</p>
-        <img id="introGif" src="{% static 'logos/vickyneologoanimation.gif' %}" alt="Intro GIF">
+        <img id="introGif" src="{% static 'logos/vickyneologoanimation-ezgif.com-optimize (1).gif' %}" alt="Intro GIF">
     </div>
 
     <script>
