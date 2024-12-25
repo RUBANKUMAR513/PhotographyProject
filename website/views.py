@@ -97,13 +97,30 @@ def get_gif_duration(request):
         try:
             company_info = CompanyInfo.objects.first()
             print("CompanyInfo:", company_info)  # Debug line
-            if company_info and company_info.gif_duration:
-                return JsonResponse({'gif_duration': company_info.gif_duration})
+            
+            if company_info:
+                response_data = {}
+
+                # Check for gif_duration
+                if company_info.gif_duration:
+                    response_data['gif_duration'] = company_info.gif_duration
+                else:
+                    response_data['gif_duration'] = None  # or any default value
+
+                # Check for intro_gif (URL of the image)
+                if company_info.intro_gif:
+                    response_data['intro_gif_url'] = company_info.intro_gif.url
+                else:
+                    response_data['intro_gif_url'] = None  # or any default message like 'No GIF available'
+
+                return JsonResponse(response_data)
             else:
-                return JsonResponse({'error': 'GIF duration not found'}, status=404)
+                return JsonResponse({'error': 'Company info not found'}, status=404)
+
         except Exception as e:
             print("Error:", str(e))  # Debug line
             return JsonResponse({'error': str(e)}, status=500)
+
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 

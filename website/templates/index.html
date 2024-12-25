@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="icon" href="{% static 'logos/vickytitlelogo.png' %}" type="image/x-icon">
     <title>Intro | VickyneoPhotography</title>
     <style>
         body, html {
@@ -15,88 +13,103 @@
             justify-content: center;
             align-items: center;
             background-color: #fff; /* Background color */
+            text-align: center;
+        }
+
+        #introGifContainer {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
 
         img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            border: none;
-            box-shadow: none;
-            transform: translate(-50%, -50%);
-            display: none; /* Initially hide the image */
+            position: absolute; /* Change to absolute to cover entire viewport */
+            top: 50%; /* Center the image vertically */
+            left: 50%; /* Center the image horizontally */
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+            object-fit: cover; /* Cover the entire area while maintaining aspect ratio */
+            border: none; /* Remove any borders */
+            box-shadow: none; /* Ensure no shadow is applied */
+            transform: translate(-50%, -50%); /* Center the image */
         }
 
-        /* Media query for mobile devices */
+        .loading {
+            font-size: 20px;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        /* For mobile responsiveness */
         @media (max-width: 768px) {
             img {
-                width: 80%;
-                height: auto;
-                max-height: 80vh;
-                transform: translate(-50%, -50%);
+                width: 80%; /* Decrease width for smaller screens */
+                height: auto; /* Maintain aspect ratio */
+                max-height: 80vh; /* Set a maximum height */
+                transform: translate(-50%, -50%); /* Keep it centered */
             }
         }
 
         /* Media query for tablet devices */
         @media (min-width: 769px) and (max-width: 1024px) {
             img {
-                width: 90%;
-                height: auto;
-                max-height: 90vh;
-                transform: translate(-50%, -50%);
+                width: 90%; /* Decrease width for tablets */
+                height: auto; /* Maintain aspect ratio */
+                max-height: 90vh; /* Set a maximum height */
+                transform: translate(-50%, -50%); /* Keep it centered */
             }
         }
     </style>
 </head>
 <body>
-    {% if company_info.intro_gif %}
-    <img id="animationGif" src="{{ company_info.intro_gif.url }}" alt="Animation GIF">
-    {% else %}
-    <p>No GIF available.</p> <!-- Or leave this empty or use a default placeholder -->
-    {% endif %}
+
+    <div id="introGifContainer">
+        <!-- Placeholder for GIF -->
+        <p id="loadingMessage" class="loading">Loading intro GIF...</p>
+        <img id="introGif" src="" alt="Intro GIF" style="display:none;">
+    </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const gifImage = document.getElementById("animationGif");
+        async function fetchGifData() {
+            try {
+                const response = await fetch('/get-gif-duration/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}', // CSRF token for security
+                    },
+                });
 
-            if (gifImage) {
-                gifImage.onload = async () => {
-                    gifImage.style.display = "block"; // Show the image after it's fully loaded
+                const data = await response.json();
 
-                    try {
-                        const response = await fetch('/get-gif-duration/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': '{{ csrf_token }}',  // CSRF token for security
-                            },
-                        });
+                if (response.ok) {
+                    const gifDuration = data.gif_duration * 1000; // Convert seconds to milliseconds
 
-                        const data = await response.json();
+                    // Set the intro GIF URL and display the GIF
+                    const introGifElement = document.getElementById('introGif');
+                    introGifElement.src = data.intro_gif_url;
 
-                        if (response.ok) {
-                            const gifDuration = data.gif_duration * 1000;  // Convert seconds to milliseconds
+                    // Show the GIF and hide the loading message
+                    document.getElementById('loadingMessage').style.display = 'none';
+                    introGifElement.style.display = 'block';
 
-                            // Redirect to the homepage after the GIF duration
-                            setTimeout(() => {
-                                window.location.href = '/home/'; // Redirect to the homepage
-                            }, gifDuration);
-                        } else {
-                            console.error('Error:', data.error);
-                        }
-                    } catch (error) {
-                        console.error('Fetch error:', error);
-                    }
-                };
+                    // Redirect after the GIF duration
+                    setTimeout(() => {
+                        window.location.href = '/home/'; // Redirect to homepage
+                    }, gifDuration);
 
-                gifImage.onerror = () => {
-                    console.error("Failed to load the GIF.");
-                };
+                } else {
+                    document.getElementById('loadingMessage').innerText = 'Error loading GIF: ' + data.error;
+                }
+
+            } catch (error) {
+                document.getElementById('loadingMessage').innerText = 'Error: ' + error.message;
             }
-        });
+        }
+
+        // Fetch GIF data on page load
+        fetchGifData();
     </script>
+
 </body>
 </html>
