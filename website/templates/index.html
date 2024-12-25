@@ -87,8 +87,8 @@
 
     <div id="introGifContainer">
         <!-- Loading message -->
-        <!-- <p id="loadingMessage" class="loading">Welcome to</p> -->
-        <img id="introGif" src="" alt="Intro GIF">
+        <p id="loadingMessage" class="loading">Welcome to</p>
+        <img id="introGif" src="" alt="Intro GIF" loading="lazy">
     </div>
 
     <!-- Load JS asynchronously to avoid blocking rendering -->
@@ -97,7 +97,7 @@
             try {
                 // Display a loading message until the GIF is fetched
                 const loadingMessage = document.getElementById('loadingMessage');
-                //loadingMessage.innerText = 'Welcome to';
+                loadingMessage.innerText = 'Welcome to';
 
                 const response = await fetch('/get-gif-duration/', {
                     method: 'POST',
