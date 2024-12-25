@@ -1408,8 +1408,7 @@ header {
 .info-photo {
     position: relative; /* Required for absolute positioning of the overlay */
     flex-shrink: 0; /* Prevent image from shrinking */
-    display: flex;
-    justify-content: flex-end; /* Always keep image on the right */
+    display: inline-block; /* Ensure block fits tightly around the image */
 }
 
 .info-photo img {
@@ -1421,10 +1420,10 @@ header {
 
 /* Overlay Styling */
 .photographer-overlay {
-    position: absolute; /* Position the overlay absolutely */                                 
-    left: 0;
-    right: 0; /* Ensure it spans the full width */
-    bottom: 0; /* Extend to the bottom */
+    position: absolute; /* Position the overlay absolutely */
+    bottom: 0; /* Stick to the bottom of the image */
+    left: 0; /* Align to the left edge */
+    right: 0; /* Align to the right edge */
     font-size: 16px;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
@@ -1434,21 +1433,25 @@ header {
     justify-content: center; /* Horizontally center the text */
     opacity: 0; /* Start hidden */
     transition: opacity 0.3s ease; /* Smooth transition */
+    border-radius: 0 0 8px 8px; /* Match the bottom corners to the image */
+    width: 100%; /* Match the width of the image */
 }
+
 
 /* Show overlay on hover */
 .info-photo:hover .photographer-overlay {
     opacity: 1; /* Show overlay */
-    
-    
+    transform: scale(1.04); /* Slightly enlarge the overlay */
+   
 }
 
 /* Hover effects */
 .info-photo:hover img {
     transform: scale(1.04); /* Slightly enlarge image on hover */
-    border: 4px solid rgba(255, 255, 255, 0.7); /* White border around image on hover */
+   
     border-radius: 8px; /* Maintain rounded corners */
 }
+
 
 
 
