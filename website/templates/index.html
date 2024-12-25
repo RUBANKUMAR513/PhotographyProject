@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intro | VickyneoPhotography</title>
+
+    <!-- Load static files -->
+    {% load static %}
+
+    <!-- Preload the GIF -->
+    <link rel="preload" href="{% static 'logos/vickyneologoanimation.gif' %}" as="image">
+
     <style>
         body, html {
             margin: 0;
@@ -12,7 +19,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #fff; /* Background color */
+            background-color: #fff;
             text-align: center;
         }
 
@@ -32,28 +39,35 @@
             border: none;
             box-shadow: none;
             transform: translate(-50%, -50%);
-            display: none; /* Hide until fully loaded */
+            display: none; /* Hide until loaded */
         }
 
         .loading {
             font-size: 20px;
             color: #555;
-            margin-top: 20px;
         }
 
         /* Mobile responsiveness */
         @media (max-width: 768px) {
             img {
-                width: 100vw;
-                height: 50vh;
+                width: 100vw;   /* Make it 80% of the screen width */
+                height: auto;  /* Maintain aspect ratio */
             }
         }
 
         /* Tablet responsiveness */
         @media (min-width: 769px) and (max-width: 1024px) {
             img {
-                width: 100vw;
-                height: 50vh;
+                width: 100vw;   /* Make it 90% of the screen width */
+                height: auto;  /* Maintain aspect ratio */
+            }
+        }
+
+        /* Larger screens (Desktop) */
+        @media (min-width: 1025px) {
+            img {
+                width: 100vw;  /* Keep it full width on larger screens */
+                height: 100vh; /* Full height */
             }
         }
     </style>
@@ -61,66 +75,34 @@
 <body>
 
     <div id="introGifContainer">
-        <p id="loadingMessage" class="loading">Vickyneo Photography</p>
-        <img id="introGif" src="" alt="Intro GIF">
+        <p id="loadingMessage" class="loading">Loading... Please wait</p>
+        <img id="introGif" src="{% static 'logos/vickyneologoanimation.gif' %}" alt="Intro GIF">
     </div>
 
     <script>
-        async function preloadGif(url) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = url;
+        document.addEventListener("DOMContentLoaded", () => {
+            const introGifElement = document.getElementById("introGif");
+            const loadingMessage = document.getElementById("loadingMessage");
 
-                img.onload = () => resolve(url);
-                img.onerror = (error) => reject(error);
-            });
-        }
+            // Wait for the GIF to fully load
+            introGifElement.onload = () => {
+                // Hide the loading message
+                loadingMessage.style.display = "none";
 
-        async function fetchGifData() {
-            const loadingMessage = document.getElementById('loadingMessage');
-            const introGifElement = document.getElementById('introGif');
+                // Show the GIF
+                introGifElement.style.display = "block";
 
-            try {
-                const response = await fetch('/get-gif-duration/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch GIF data');
-                }
-
-                const data = await response.json();
-                console.log('Fetched Data:', data);
-
-                const gifDuration = data.gif_duration * 1000;
-                const gifUrl = data.intro_gif_url;
-
-                // Preload the GIF
-                await preloadGif(gifUrl);
-                console.log('GIF Preloaded Successfully');
-
-                // Set the intro GIF URL and display it
-                introGifElement.src = gifUrl;
-                introGifElement.style.display = 'block';
-                loadingMessage.style.display = 'none';
-
-                // Redirect after GIF duration
+                // Redirect after the GIF duration (7.2 seconds)
                 setTimeout(() => {
-                    window.location.href = '/home/';
-                }, gifDuration);
+                    window.location.href = "/home/";
+                }, 7200); // 7.2 seconds in milliseconds
+            };
 
-            } catch (error) {
-                console.error('Error:', error);
-                loadingMessage.textContent = `Error loading GIF: ${error.message}`;
-            }
-        }
-
-        // Fetch GIF data on page load
-        fetchGifData();
+            // If there's an error loading the GIF
+            introGifElement.onerror = () => {
+                loadingMessage.textContent = "Failed to load GIF. Please try again later.";
+            };
+        });
     </script>
 
 </body>
