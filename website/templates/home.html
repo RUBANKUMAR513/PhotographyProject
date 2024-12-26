@@ -103,7 +103,7 @@
             {% if gallery_images.exists %}  <!-- Check if any images exist -->
                 {% for image in gallery_images %}
                     <div class="image-container {% if image.orientation == 'portrait' %}tall{% endif %}">
-                        <img class="galleryimg" src="{{ image.image.url }}" alt="{{ image.name }}">
+                        <img class="galleryimg" src="{{ image.image.url }}" alt="{{ image.name }}" loading="lazy">
                         <div class="overlay">{{ image.name }}</div>
                     </div>
                 {% endfor %}
