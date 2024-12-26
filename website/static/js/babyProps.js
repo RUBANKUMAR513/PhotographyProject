@@ -3,7 +3,7 @@ let currentGalleryImages = [];
 
 // Open modal and display clicked image in full screen
 function openModal(image) {
-    const modal = document.getElementById("modal");
+    const modal = document.getElementById("galleryModal");
     modal.classList.add("active");
 
     const galleryItem = image.closest('.carousel');
@@ -14,24 +14,26 @@ function openModal(image) {
 
 // Close modal
 function closeModal() {
-    document.getElementById("modal").classList.remove("active");
+    document.getElementById("galleryModal").classList.remove("active");
 }
 
 // Display next image in modal
 function nextModalImage() {
+    console.log("next")
     currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
     updateModalImage();
 }
 
 // Display previous image in modal
 function prevModalImage() {
+    console.log("prev")
     currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
     updateModalImage();
 }
 
 // Update modal image source
 function updateModalImage() {
-    const modalImage = document.getElementById("modalImage");
+    const modalImage = document.getElementById("galleryImage");
     modalImage.src = currentGalleryImages[currentImageIndex].src;
 }
 
