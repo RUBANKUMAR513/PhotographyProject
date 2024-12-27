@@ -2,6 +2,10 @@
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from PIL import Image
+import os
+from io import BytesIO
+from django.core.files.base import ContentFile
 
 class CompanyInfo(models.Model):
     name = models.CharField(max_length=255)  # Required field
@@ -71,19 +75,47 @@ class CompanyInfo(models.Model):
         super(CompanyInfo, self).save(*args, **kwargs)
 
 
-
 class HomePageSlider(models.Model):
     image = models.ImageField(upload_to='slider_images/')
     update_date_time = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255)
 
     def save(self, *args, **kwargs):
+        # Check for the maximum number of slider images
         if HomePageSlider.objects.count() >= 5 and not self.pk:  # Only for new instances
             raise ValidationError("You can only add a maximum of 5 slider images.")
+
+        # Process the image for WebP format
+        if self.image:
+            # Open the image file
+            img = Image.open(self.image)
+            img_format = img.format  # Store the original format (e.g., 'JPEG', 'PNG')
+            img = img.convert("RGB")  # Ensure compatibility with WebP format
+
+            # Resize the image for background use (e.g., 1920x1080 for fullscreen backgrounds)
+            target_size = (1920, 1080)
+            img.thumbnail(target_size, Image.Resampling.LANCZOS)  # Use LANCZOS for high-quality resizing
+
+            # Save the image in WebP format
+            output = BytesIO()
+            img.save(output, format='WEBP', quality=80)  # Adjust quality for performance
+            output.seek(0)
+
+            # Generate the WebP file name
+            new_image_name = os.path.splitext(self.image.name)[0] + '.webp'
+
+            # Replace the old image with the new WebP image
+            self.image = ContentFile(output.read(), name=new_image_name)
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
+
+
+
+
+
     
 
 class HomePageGallery(models.Model):
@@ -96,13 +128,38 @@ class HomePageGallery(models.Model):
     image = models.ImageField(upload_to='gallery_images/')
     enable = models.BooleanField(default=True)  # Checkbox for enable/disable
     orientation = models.CharField(max_length=10, choices=ORIENTATION_CHOICES)
-
     update_date_time = models.DateTimeField(auto_now=True)  # Automatically set the date/time on update
 
     def clean(self):
         # Limit to 25 instances
         if HomePageGallery.objects.count() >= 25 and not self.pk:
-            raise ValidationError('You can only create up to 25 Gallery Image Container.')
+            raise ValidationError('You can only create up to 25 Gallery Image Containers.')
+
+    def save(self, *args, **kwargs):
+        # Process the image for WebP format
+        if self.image:
+            # Open the image file
+            img = Image.open(self.image)
+            img = img.convert("RGB")  # Ensure compatibility with WebP format
+
+            # Determine target size based on orientation
+            if self.orientation == 'portrait':
+                target_size = (1080, 1920)  # Example size for portrait
+            else:
+                target_size = (1920, 1080)  # Example size for landscape
+
+            img.thumbnail(target_size, Image.Resampling.LANCZOS)  # Use LANCZOS for high-quality resizing
+
+            # Save the image in WebP format
+            output = BytesIO()
+            img.save(output, format='WEBP', quality=80)  # Adjust quality for performance
+            output.seek(0)
+
+            # Replace the old image with the new WebP image
+            new_image_name = os.path.splitext(self.image.name)[0] + '.webp'
+            self.image = ContentFile(output.read(), name=new_image_name)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -120,12 +177,36 @@ class HappyClient(models.Model):
         if HappyClient.objects.count() >= 10 and not self.pk:
             raise ValidationError('You can only create up to 10 happy clients.')
 
+    def save(self, *args, **kwargs):
+        # Process the client's image
+        if self.image:
+            self.image = self.process_image(self.image, target_size=(800, 800))  # Resize to 800x800
+        # Process the cartoon image
+        if self.cartoon_image:
+            self.cartoon_image = self.process_image(self.cartoon_image, target_size=(800, 800))  # Resize to 800x800
+        super().save(*args, **kwargs)
+
+    @staticmethod
+    def process_image(image_field, target_size):
+        img = Image.open(image_field)
+        img = img.convert("RGB")  # Ensure compatibility with WebP
+        img.thumbnail(target_size, Image.Resampling.LANCZOS)  # Resize
+
+        # Save to WebP format
+        output = BytesIO()
+        img.save(output, format="WEBP", quality=80)
+        output.seek(0)
+
+        # Return a new ContentFile for the image field
+        new_image_name = os.path.splitext(image_field.name)[0] + '.webp'
+        return ContentFile(output.read(), name=new_image_name)
+
     def __str__(self):
         return self.client_name
     
 class AboutUs(models.Model):
     content = models.TextField(max_length=968)  # Field to hold the content with a character limit of 968
-    photographer_name = models.CharField(max_length=100,default="Photographername")
+    photographer_name = models.CharField(max_length=100, default="Photographername")
     photographer_image = models.ImageField(upload_to='photographers/', blank=True, null=True)  # Field for photographer's image
     updated_at = models.DateTimeField(auto_now=True)  # Automatically set to now when the object is updated
 
@@ -137,10 +218,31 @@ class AboutUs(models.Model):
         # Ensure that only one instance of AboutUs can be created
         if not self.pk and AboutUs.objects.exists():
             raise ValidationError('Only one instance of About Us can be created.')
+
+        # Process the photographer's image
+        if self.photographer_image:
+            self.photographer_image = self.process_image(self.photographer_image, target_size=(800, 800))  # Resize to 800x800
+
         super().save(*args, **kwargs)  # Call the original save method
+
+    @staticmethod
+    def process_image(image_field, target_size):
+        img = Image.open(image_field)
+        img = img.convert("RGB")  # Ensure compatibility with WebP
+        img.thumbnail(target_size, Image.Resampling.LANCZOS)  # Resize
+
+        # Save to WebP format
+        output = BytesIO()
+        img.save(output, format="WEBP", quality=80)
+        output.seek(0)
+
+        # Return a new ContentFile for the image field
+        new_image_name = os.path.splitext(image_field.name)[0] + '.webp'
+        return ContentFile(output.read(), name=new_image_name)
 
     def __str__(self):
         return 'About Us Content'
+
     
 class BabyPropsGallery(models.Model):
     ORIENTATION_CHOICES = [
@@ -163,7 +265,7 @@ class BabyPropsGallery(models.Model):
 
 
 class BabyPropsImage(models.Model):
-    gallery = models.ForeignKey(BabyPropsGallery, related_name='images', on_delete=models.CASCADE)
+    gallery = models.ForeignKey('BabyPropsGallery', related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='baby_props_images/')
     description = models.CharField(max_length=255, blank=True)  # Add description field
     enable = models.BooleanField(default=True)
@@ -173,12 +275,30 @@ class BabyPropsImage(models.Model):
     def gallery_name(self):
         return self.gallery.name if self.gallery else "No Gallery"
 
-    def __str__(self):
-        return f"Image for {self.gallery.name} - {self.description}"  # Update string representation
-# models.py
+    def save(self, *args, **kwargs):
+        # Process the image before saving
+        if self.image:
+            self.image = self.process_image(self.image, target_size=(800, 800))  # Resize to 800x800
+        super().save(*args, **kwargs)
 
-from django.db import models
-from django.core.exceptions import ValidationError
+    @staticmethod
+    def process_image(image_field, target_size):
+        img = Image.open(image_field)
+        img = img.convert("RGB")  # Ensure compatibility with WebP
+        img.thumbnail(target_size, Image.Resampling.LANCZOS)  # Resize
+
+        # Save to WebP format
+        output = BytesIO()
+        img.save(output, format="WEBP", quality=80)
+        output.seek(0)
+
+        # Return a new ContentFile for the image field
+        new_image_name = os.path.splitext(image_field.name)[0] + '.webp'
+        return ContentFile(output.read(), name=new_image_name)
+
+    def __str__(self):
+        return f"Image for {self.gallery_name} - {self.description}"  # Updated string representation
+
 
 class OurService(models.Model):
     ORIENTATION_CHOICES = [
@@ -202,9 +322,9 @@ class OurService(models.Model):
 
 
 class OurServicesImage(models.Model):
-    services = models.ForeignKey(OurService, related_name='images', on_delete=models.CASCADE)
+    services = models.ForeignKey('OurService', related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='service_images/')
-    description = models.CharField(max_length=255, blank=True)  # Add description field
+    description = models.CharField(max_length=255, blank=True)  # Optional description field
     enable = models.BooleanField(default=True)
     update_date_time = models.DateTimeField(auto_now=True)  # Automatically set the date/time on update
 
@@ -212,5 +332,26 @@ class OurServicesImage(models.Model):
     def services_name(self):
         return self.services.Service_name if self.services else "No images"
 
+    def save(self, *args, **kwargs):
+        # Process the image before saving
+        if self.image:
+            self.image = self.process_image(self.image, target_size=(800, 800))  # Resize to 800x800
+        super().save(*args, **kwargs)
+
+    @staticmethod
+    def process_image(image_field, target_size):
+        img = Image.open(image_field)
+        img = img.convert("RGB")  # Ensure compatibility with WebP format
+        img.thumbnail(target_size, Image.Resampling.LANCZOS)  # Resize the image
+
+        # Save the image in WebP format
+        output = BytesIO()
+        img.save(output, format="WEBP", quality=80)  # Adjust quality if needed
+        output.seek(0)
+
+        # Return a new ContentFile to update the image field
+        new_image_name = os.path.splitext(image_field.name)[0] + '.webp'
+        return ContentFile(output.read(), name=new_image_name)
+
     def __str__(self):
-        return f"Image for {self.services.Service_name} - {self.description}"  # Update string representation
+        return f"Image for {self.services_name} - {self.description}"  # Updated string representation

@@ -11,8 +11,6 @@ from .models import OurService,OurServicesImage
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-
-
 def home_view(request):
     company_info = CompanyInfo.objects.first()
     sliders = HomePageSlider.objects.all()
