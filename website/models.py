@@ -181,9 +181,7 @@ class HappyClient(models.Model):
         # Process the client's image
         if self.image:
             self.image = self.process_image(self.image, target_size=(800, 800))  # Resize to 800x800
-        # Process the cartoon image
-        if self.cartoon_image:
-            self.cartoon_image = self.process_image(self.cartoon_image, target_size=(800, 800))  # Resize to 800x800
+        
         super().save(*args, **kwargs)
 
     @staticmethod
