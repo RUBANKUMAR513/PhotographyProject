@@ -92,74 +92,99 @@
     grid-row: span 2;
     position: relative;
 }
+/* Make modal responsive for mobile devices */
 .gallery-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 10px; /* Add padding for small screens */
+}
 
-        .gallery-modal.active {
-            display: flex;
-        }
+.gallery-modal.active {
+    display: flex;
+}
 
-        .gallery-content {
-            position: relative;
-            text-align: center;
-            max-height: 90vh;
-        }
+.gallery-content {
+    position: relative;
+    text-align: center;
+    max-width: 100%; /* Ensure it doesn't exceed screen width */
+    max-height: 90vh; /* Avoid overflow on smaller devices */
+}
 
-        .gallery-content img {
-            /* max-width: 90%; */
-            max-height: 80vh;
-            border-radius: 10px;
-        }
+.gallery-content img {
+    max-width: 90%; /* Scale image to fit within screen */
+    max-height: 80vh; /* Ensure it doesn't overflow vertically */
+    border-radius: 10px;
+}
 
-        .gallery-close-button {
-            position: absolute; /* Position absolute within the modal */
-            top: 20px; /* Adjust the distance from the top */
-            right: 20px; /* Adjust the distance from the right */
-            background-color: rgba(255, 255, 255, 0.8); /* Light background */
-            border: none; /* Remove border */
-            border-radius: 50%; /* Round shape */
-            width: 40px; /* Button size */
-            height: 40px; /* Button size */
-            cursor: pointer; /* Pointer cursor on hover */
-            font-size: 18px; /* Font size */
-            font-weight: bold; /* Bold text */
-            color: #000; /* Text color */
-            outline: none; /* Remove outline */
-            transition: background-color 0.3s; /* Smooth transition for background */
-            z-index: 1001; /* Ensure it is above other elements */
-                
-        }
+.gallery-close-button {
+    position: absolute;
+    top: 10px; /* Reduced for smaller screens */
+    right: 10px; /* Reduced for smaller screens */
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 36px; /* Slightly smaller for mobile */
+    height: 36px;
+    cursor: pointer;
+    font-size: 16px; /* Adjust font size */
+    font-weight: bold;
+    color: #000;
+    outline: none;
+    transition: background-color 0.3s;
+    z-index: 1001;
+}
 
-        .prev,
-        .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.7);
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px; /* Adjust font size for mobile */
+}
 
-        .prev {
-            left: 10px;
-        }
+.prev {
+    left: 5px; /* Adjust for mobile */
+}
 
-        .next {
-            right: 10px;
-        }
+.next {
+    right: 5px; /* Adjust for mobile */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .gallery-content img {
+        max-width: 100%; /* Utilize full screen width */
+        max-height: 70vh; /* Reduce height for small screens */
+    }
+
+    .gallery-close-button {
+        top: 5px; /* Further reduced for mobile */
+        right: 5px;
+        width: 30px; /* Smaller button size */
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .prev,
+    .next {
+        font-size: 12px; /* Smaller font size for navigation buttons */
+        padding: 8px;
+    }
+}
+
 /* Responsive styling for screens less than or equal to 768px */
 @media screen and (max-width: 768px) {
     .gallery {

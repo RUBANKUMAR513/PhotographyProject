@@ -16,79 +16,99 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mansalva&display=swap" rel="stylesheet">
     <style>
-    .gallery-modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Position modal fixed to the viewport */
+    /* Make modal responsive for mobile devices */
+.gallery-modal {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    z-index: 1000; /* Ensure it is above other elements */
-    
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 10px; /* Add padding for small screens */
 }
+
 .gallery-modal.active {
-            display: flex;
-        }
+    display: flex;
+}
 
 .gallery-content {
-    position: relative; /* Position relative for absolute positioning of close button */
-    text-align: center; /* Center text */
-    max-height: 90vh; /* Limit the maximum height of content */
-    overflow: auto; /* Add scroll if content exceeds */
-   
+    position: relative;
+    text-align: center;
+    max-width: 100%; /* Ensure it doesn't exceed screen width */
+    max-height: 90vh; /* Avoid overflow on smaller devices */
 }
 
 .gallery-content img {
-   /* max-width: 90%;  Limit image width */
-    max-height: 80vh; /* Limit image height to 80% of viewport height */
-    border-radius: 10px; /* Rounded corners */
+    max-width: 90%; /* Scale image to fit within screen */
+    max-height: 80vh; /* Ensure it doesn't overflow vertically */
+    border-radius: 10px;
 }
 
 .gallery-close-button {
-    position: absolute; /* Position absolute within the modal */
-    top: 20px; /* Adjust the distance from the top */
-    right: 20px; /* Adjust the distance from the right */
-    background-color: rgba(255, 255, 255, 0.8); /* Light background */
-    border: none; /* Remove border */
-    border-radius: 50%; /* Round shape */
-    width: 40px; /* Button size */
-    height: 40px; /* Button size */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 18px; /* Font size */
-    font-weight: bold; /* Bold text */
-    color: #000; /* Text color */
-    outline: none; /* Remove outline */
-    transition: background-color 0.3s; /* Smooth transition for background */
-    z-index: 1001; /* Ensure it is above other elements */
-}
-
-.gallery-close-button:hover {
-    background-color: rgba(255, 255, 255, 1); /* Change background color on hover */
+    position: absolute;
+    top: 10px; /* Reduced for smaller screens */
+    right: 10px; /* Reduced for smaller screens */
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 36px; /* Slightly smaller for mobile */
+    height: 36px;
+    cursor: pointer;
+    font-size: 16px; /* Adjust font size */
+    font-weight: bold;
+    color: #000;
+    outline: none;
+    transition: background-color 0.3s;
+    z-index: 1001;
 }
 
 .prev,
 .next {
-    position: absolute; /* Position buttons absolutely */
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Adjust for exact center */
-    background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-    border: none; /* Remove border */
-    padding: 10px; /* Button padding */
-    cursor: pointer; /* Pointer cursor on hover */
-    border-radius: 5px; /* Optional: round corners for buttons */
-    font-size: 16px; /* Font size for buttons */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px; /* Adjust font size for mobile */
 }
 
 .prev {
-    left: 10px; /* Position prev button to the left */
+    left: 5px; /* Adjust for mobile */
 }
 
 .next {
-    right: 10px; /* Position next button to the right */
+    right: 5px; /* Adjust for mobile */
 }
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .gallery-content img {
+        max-width: 100%; /* Utilize full screen width */
+        max-height: 70vh; /* Reduce height for small screens */
+    }
+
+    .gallery-close-button {
+        top: 5px; /* Further reduced for mobile */
+        right: 5px;
+        width: 30px; /* Smaller button size */
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .prev,
+    .next {
+        font-size: 12px; /* Smaller font size for navigation buttons */
+        padding: 8px;
+    }
+}
+
 .view-more-pics {
     display: inline-block; /* Allows padding and margins */
     padding: 10px 20px; /* Top/bottom and left/right padding */
