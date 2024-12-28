@@ -884,7 +884,7 @@ header {
 }
 
 .footer-logo img {
-    width: 80px;
+    width: 100px;
     height: auto;
     border-radius: 50%;
 }
@@ -1005,7 +1005,7 @@ header {
     }
 
     .footer-contact-item {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .icon-link img {
@@ -1025,11 +1025,11 @@ header {
     }
 
     .footer-contact-item {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .footer-logo img {
-        width: 60px;
+        width: 80px;
     }
 }
 
