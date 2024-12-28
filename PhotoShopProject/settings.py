@@ -81,8 +81,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'EmailConfiguration.middleware.AutoLogoutMiddleware',
     'EmailConfiguration.middleware.TimeZoneMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'django.middleware.security.SecurityMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     
 ]
 
@@ -163,7 +163,7 @@ USE_L10N = True
 STATIC_URL = '/static/'
 
 # In production, collect all static files into a single directory
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Specify additional static files directories
 STATICFILES_DIRS = [
@@ -172,7 +172,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'UserPage', 'static'),
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
