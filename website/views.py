@@ -10,6 +10,7 @@ from .models import BabyPropsGallery,BabyPropsImage
 from .models import OurService,OurServicesImage
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.db.models import Prefetch
 
 def home_view(request):
     company_info = CompanyInfo.objects.first()
@@ -57,15 +58,27 @@ def our_services_view(request):
     # Fetch the CompanyInfo instance (assuming only one instance exists)
     company_info = CompanyInfo.objects.first()
     
+    # If no CompanyInfo exists, return a 404 or a default context
+    if not company_info:
+        return render(request, 'Services.html', {'error': 'Company information is missing.'})
+    
     # Fetch all enabled OurServices instances and prefetch enabled images
     services = OurService.objects.filter(enable=True).prefetch_related(
-         models.Prefetch('images', queryset=OurServicesImage.objects.filter(enable=True))
+        Prefetch('images', queryset=OurServicesImage.objects.filter(enable=True), to_attr='enabled_images')
     )
     
+    # Split the content for each service into main and extra content
+    for service in services:
+        content_length = 100  # Define the split length (100 characters or any other logic)
+        service.main_content = service.content[:content_length]  # The main visible content
+        service.extra_content = service.content[content_length:] if len(service.content) > content_length else ""  # Extra content after split
+    
+    # Prepare the context
     context = {
         'company_info': company_info,
         'services': services
     }
+    
     return render(request, 'Services.html', context)
 
 

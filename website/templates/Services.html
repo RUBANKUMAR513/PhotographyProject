@@ -207,7 +207,14 @@
                     {% endif %}
                     <div class="service-content">
                         <h2>{{ service.Service_name }}</h2>
-                        <p>{{ service.content }}</p>
+                        <p>{{ service.main_content }}<span class="toggle-btn see-more">See More</span> </p>
+                        <!-- Extra content wrapped in a span for toggling visibility -->
+                        <p class="extra-content" style="display: none;">
+                            {{ service.extra_content }}
+                            
+                        </p>
+                        <!-- "See Less" button is placed after the extra content -->
+                        <span class="toggle-btn see-less" style="display: none;">See Less</span>
                         <button class="view-more-pics" data-service-id="{{ service.pk }}" onclick="openModalGallery(this)">More images</button>
                     </div>
                 </div>

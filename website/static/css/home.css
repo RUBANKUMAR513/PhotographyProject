@@ -561,7 +561,7 @@ header {
 
     .service-image img {
         width: 100%;
-        height: auto;
+        height:auto;
     }
 }
 
@@ -663,6 +663,55 @@ header {
 .close-button:hover {
     color: #ffff00; /* Slightly lighter color on hover */
 }
+/* Style for the See More button inside the paragraph */
+.toggle-btn {
+    color: blue; /* Blue text color */
+    font-size: 14px; /* Keep the font size same */
+    text-decoration: underline; /* Underline the text */
+    cursor: pointer; /* Change to pointer on hover */
+    display: inline-block; /* Inline but still block-like behavior */
+    margin-left: 5px; /* Add space between content and button */
+}
+
+/* On hover, change text color */
+.toggle-btn:hover {
+    color: darkblue; /* Darker blue on hover */
+    text-decoration: underline; /* Keep underline */
+}
+
+/* Hide the "See More" button when extra content is visible */
+.extra-content {
+    margin-top: 10px; /* Add some spacing for extra content */
+}
+
+.see-more {
+    display: inline; /* "See More" is visible initially */
+}
+
+.see-less {
+    display: none; /* "See Less" is hidden initially */
+}
+
+/* Ensure the button positions are correct */
+.extra-content.show .see-more {
+    display: none;
+}
+
+.extra-content.show .see-less {
+    display: inline;
+}
+
+/* If needed, hide or show the buttons based on content visibility */
+.extra-content:not(.show) .see-less {
+    display: none;
+}
+
+
+
+
+
+
+
 /* Responsive Design for mobile: stack images and text vertically */
 @media (max-width: 768px) {
     .service {
@@ -670,7 +719,7 @@ header {
     }
 
     .service-content, .service-image {
-        font-size: 10px;
+        font-size: 12px;
         text-align: center;
     }
 
@@ -678,23 +727,32 @@ header {
         padding: 10px;
         font-size: 14px; /* Smaller font size on smaller screens */
     }
-    .service-image{
+
+    .service-image {
         margin: 0;
     }
+
     .service-image img {
         width: 100%; /* Increase image size on mobile */
-        height: 100px;
-        /* border: 1px solid black; */
+        height: auto;
     }
 
     /* Reduce title font size for mobile */
     .service-content h2 {
-        font-size: 14px; /* Reduce title size */
+        font-size: 16px; /* Reduce title size */
         margin-bottom: 15px; /* Adjust spacing between title and content */
     }
-    .service-content p{
-          font-size: 12px;
+
+    .service-content p {
+        font-size: 12px;
     }
+
+    /* Initially hide the extra content */
+    .extra-content {
+        display: none;
+    }
+
+   
 }
 
 

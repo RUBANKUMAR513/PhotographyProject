@@ -39,3 +39,47 @@ const modal = document.getElementById('fullscreenModal');
 modal.style.display = 'none'; // Hide the modal
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleButtons = document.querySelectorAll('.toggle-btn');
+    
+    // Iterate over all toggle buttons
+    toggleButtons.forEach(button => {
+        const serviceContent = button.closest('.service-content');
+        const extraContent = serviceContent.querySelector('.extra-content');
+        const seeMoreButton = serviceContent.querySelector('.see-more');
+        const seeLessButton = serviceContent.querySelector('.see-less');
+
+        // Check if extra content is empty when the page loads
+        const extraContentText = extraContent ? extraContent.textContent.trim() : '';
+        if (extraContentText === '') {
+            console.log("extra empty on page load");
+            // If there's no extra content, hide the buttons and stop functionality
+            seeMoreButton.style.display = 'none';
+            seeLessButton.style.display = 'none';
+            return; // Exit the function early
+        }
+
+        // If extra content exists, set up the toggle functionality
+        button.addEventListener('click', function () {
+            if (extraContent && seeMoreButton && seeLessButton) {
+                const isVisible = extraContent.style.display === 'block';
+
+                // Toggle visibility of extra content
+                if (isVisible) {
+                    extraContent.style.display = 'none';
+                    seeMoreButton.style.display = 'inline'; // Show 'See More'
+                    seeLessButton.style.display = 'none'; // Hide 'See Less'
+                } else {
+                    extraContent.style.display = 'block';
+                    seeMoreButton.style.display = 'none'; // Hide 'See More'
+                    seeLessButton.style.display = 'inline'; // Show 'See Less'
+                }
+            }
+        });
+    });
+});
+
+
+
+
+
