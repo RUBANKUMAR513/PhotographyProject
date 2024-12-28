@@ -160,10 +160,16 @@ USE_L10N = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
+# In production, collect all static files into a single directory
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Specify additional static files directories
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'website', 'static'),  # Website app static files
-    os.path.join(BASE_DIR, 'UserPage', 'static'),  # UserPage app static files
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'website', 'static'),
+    os.path.join(BASE_DIR, 'UserPage', 'static'),
 ]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
