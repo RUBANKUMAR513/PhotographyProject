@@ -4,6 +4,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 import os
+from PIL import Image
+import os
+from django.db import models
+from django.core.exceptions import ValidationError
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 class UserDetail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -32,18 +38,45 @@ def create_user_details(sender, instance, created, **kwargs):
         UserDetail.objects.create(user=instance)
 
 
+
+
 class UserImage(models.Model):
     user_details = models.ForeignKey(
-        UserDetail, on_delete=models.CASCADE, related_name="photos"
+        'UserDetail', on_delete=models.CASCADE, related_name="photos"
     )
     photo = models.ImageField(upload_to='show_photos/')
     
     def __str__(self):
         return f"{self.user_details.user.username}'s photo"
+
+    def save(self, *args, **kwargs):
+        # Optimize the image before saving
+        if self.photo:
+            # Open the image using PIL
+            img = Image.open(self.photo)
+
+            # Convert the image to WebP format
+            img = img.convert("RGB")  # Convert to RGB before saving as WebP (required for non-RGB images like PNG)
+            
+            # Resize image if needed (e.g., maximum width of 800px)
+            img.thumbnail((800, 800))  # Resize to a maximum of 800x800 px
+
+            # Save the image to a BytesIO object
+            img_io = BytesIO()
+            img.save(img_io, format='WebP', quality=85)  # Save as WebP format with quality 85 (adjust as needed)
+            img_io.seek(0)
+
+            # Create a new InMemoryUploadedFile and assign it to the photo field
+            self.photo = InMemoryUploadedFile(
+                img_io, 'ImageField', self.photo.name.split('.')[0] + '.webp', 'image/webp', img_io.getbuffer().nbytes, None
+            )
+
+        # Call the superclass's save method to save the model instance
+        super().save(*args, **kwargs)
+
     def delete(self, *args, **kwargs):
         # Delete the photo file from the storage if it exists
         if self.photo:
-            # This will delete the file from the server storage
             if os.path.isfile(self.photo.path):
                 os.remove(self.photo.path)
         # Call the superclass's delete method to delete the database record
