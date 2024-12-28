@@ -1,0 +1,1 @@
+document.querySelector(".float-right.d-none.d-sm-inline").innerText = "Design By Ruban";

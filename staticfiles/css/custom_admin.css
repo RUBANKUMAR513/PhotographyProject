@@ -1,0 +1,118 @@
+.brand-logo img {
+    width: 150px;
+    height: 80px;
+    object-fit: contain;  /* Optional: Keep the aspect ratio */
+}
+/* custom_login.css */
+.login-logo img {
+    width: 150px;  /* Set desired width for login logo */
+    height: auto;  /* Maintain aspect ratio */
+    object-fit: contain;  /* Ensure the logo doesn't stretch */
+    /* border: 1px solid black; */
+    border-radius: 50%;  /* Make the logo circular */
+
+    /* Add box shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);  /* Horizontal, Vertical, Blur, Color */
+
+    /* Add hover animation */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Animation on hover */
+.login-logo img:hover {
+    transform: scale(1.1);  /* Slight zoom-in on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);  /* Stronger shadow effect on hover */
+}
+
+
+.jazzmin-login-page{
+    background-color: #FDF4E3;
+}
+
+
+/* Import Google Mansalva Font */
+@import url('https://fonts.googleapis.com/css2?family=Mansalva&display=swap');
+
+/* Now apply the font styles below */
+.login-box-msg {
+    color: #873e23;  /* Set text color */
+    font-family: 'Mansalva', cursive;  /* Use the Mansalva font */
+    font-size: 20px;  /* Set desired font size */
+    font-weight: normal;  /* Set font weight (normal is the default for Mansalva) */
+    text-align: center;  /* Center-align the text */
+    letter-spacing: 0.5px;  /* Adjust letter spacing if needed */
+}
+
+
+.mansalva-regular {
+    font-family: "Mansalva", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .btn-primary {
+    background-color: #873e23 !important;  /* Set your desired background color */
+    border-color: #873e23 !important;  /* Set border color */
+    color: #f1c40f;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 400;
+}
+
+.btn-primary:hover {
+    background-color: #f1c40f !important;  /* Change background on hover */
+    border-color: #f1c40f !important;  /* Change border on hover */
+    color: #873e23;
+}
+.brand-text{
+    font-family: 'Mansalva', cursive;  /* Use the Mansalva font */
+    font-size: 18px;
+    color: #f1c40f;
+}
+.font-weight-light{
+    font-weight: 400 !important;
+}
+.brand-link .brand-image{
+    max-height: 39px;
+    margin-left: 2px;
+}
+.user-panel .image {
+    padding-left: 0;
+}
+[class*=sidebar-dark-] {
+    background-color:#873e23 ;  /* Change to your desired color */
+    color: #fff;
+}
+[class*=sidebar-dark-] .sidebar a {
+    color: white;  /* Change to white */
+}
+.accent-primary [class*=sidebar-dark-] .sidebar a:not(.dropdown-item):not(.btn-app):not(.nav-link):not(.brand-link) {
+    color: white;  /* Change to white */
+}
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, 
+.sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: #f1c40f;  /* Change background color */
+    color: #873e23;  /* Change text color */
+}
+[class*=sidebar-dark-] .nav-header {
+    color: #f1c40f;  /* Change to the desired color */
+    margin-top: 1rem;  /* Keep existing margin */
+}
+.navbar-white {
+    background-color: #873e23;
+    color: #f1c40f;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: #f1c40f;
+}
+.main-footer {
+    background-color: #873e23;
+    border-top: 1px solid #dee2e6;
+    color: #f1c40f;
+    padding: 1rem;
+}
+.content-wrapper {
+    background-color:#FDF4E3 ;
+}
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+    color: #f1c40f;
+}
