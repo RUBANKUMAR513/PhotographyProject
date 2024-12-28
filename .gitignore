@@ -143,3 +143,5 @@ GitHub.sublime-settings
 
 #mac os
 .DS_Store
+
+staticfiles/
