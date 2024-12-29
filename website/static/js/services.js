@@ -40,44 +40,47 @@ modal.style.display = 'none'; // Hide the modal
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const toggleButtons = document.querySelectorAll('.toggle-btn');
+    const serviceContents = document.querySelectorAll('.service-content');
     
-    // Iterate over all toggle buttons
-    toggleButtons.forEach(button => {
-        const serviceContent = button.closest('.service-content');
+    serviceContents.forEach(serviceContent => {
         const extraContent = serviceContent.querySelector('.extra-content');
         const seeMoreButton = serviceContent.querySelector('.see-more');
         const seeLessButton = serviceContent.querySelector('.see-less');
-
-        // Check if extra content is empty when the page loads
-        const extraContentText = extraContent ? extraContent.textContent.trim() : '';
-        if (extraContentText === '') {
-            console.log("extra empty on page load");
-            // If there's no extra content, hide the buttons and stop functionality
-            seeMoreButton.style.display = 'none';
-            seeLessButton.style.display = 'none';
-            return; // Exit the function early
+        
+        // Check if elements exist to avoid errors
+        if (!extraContent || !seeMoreButton || !seeLessButton) {
+            console.warn("Missing required elements in a service content block.");
+            return;
         }
 
-        // If extra content exists, set up the toggle functionality
-        button.addEventListener('click', function () {
-            if (extraContent && seeMoreButton && seeLessButton) {
-                const isVisible = extraContent.style.display === 'block';
+        // Check if extra content is empty
+        const extraContentText = extraContent.textContent.trim();
+        if (!extraContentText) {
+            console.log("Extra content is empty; hiding toggle buttons.");
+            seeMoreButton.style.display = 'none';
+            seeLessButton.style.display = 'none';
+            return;
+        }
 
-                // Toggle visibility of extra content
-                if (isVisible) {
-                    extraContent.style.display = 'none';
-                    seeMoreButton.style.display = 'inline'; // Show 'See More'
-                    seeLessButton.style.display = 'none'; // Hide 'See Less'
-                } else {
-                    extraContent.style.display = 'block';
-                    seeMoreButton.style.display = 'none'; // Hide 'See More'
-                    seeLessButton.style.display = 'inline'; // Show 'See Less'
-                }
-            }
+        // Initial setup: ensure extra content is hidden
+        extraContent.style.display = 'none';
+
+        // Add event listener for "See More" button
+        seeMoreButton.addEventListener('click', function () {
+            extraContent.style.display = 'inline'; // Show extra content
+            seeMoreButton.style.display = 'none'; // Hide "See More"
+            seeLessButton.style.display = 'inline'; // Show "See Less"
+        });
+
+        // Add event listener for "See Less" button
+        seeLessButton.addEventListener('click', function () {
+            extraContent.style.display = 'none'; // Hide extra content
+            seeMoreButton.style.display = 'inline'; // Show "See More"
+            seeLessButton.style.display = 'none'; // Hide "See Less"
         });
     });
 });
+
 
 
 

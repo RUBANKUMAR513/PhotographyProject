@@ -54,29 +54,29 @@ def baby_props_view(request):
     return render(request, 'BabyProps.html', context)
 
 
+from django.utils.text import Truncator
+
 def our_services_view(request):
     # Fetch the CompanyInfo instance (assuming only one instance exists)
     company_info = CompanyInfo.objects.first()
     
-    # If no CompanyInfo exists, return a 404 or a default context
     if not company_info:
         return render(request, 'Services.html', {'error': 'Company information is missing.'})
     
-    # Fetch all enabled OurServices instances and prefetch enabled images
     services = OurService.objects.filter(enable=True).prefetch_related(
         Prefetch('images', queryset=OurServicesImage.objects.filter(enable=True), to_attr='enabled_images')
     )
     
-    # Split the content for each service into main and extra content
+    # Split content by words, ensuring no new lines
     for service in services:
-        content_length = 100  # Define the split length (100 characters or any other logic)
-        service.main_content = service.content[:content_length]  # The main visible content
-        service.extra_content = service.content[content_length:] if len(service.content) > content_length else ""  # Extra content after split
+        word_limit = 15  # Number of words for main content
+        words = service.content.split()
+        service.main_content = " ".join(words[:word_limit])
+        service.extra_content = " ".join(words[word_limit:]).strip()
     
-    # Prepare the context
     context = {
         'company_info': company_info,
-        'services': services
+        'services': services,
     }
     
     return render(request, 'Services.html', context)
