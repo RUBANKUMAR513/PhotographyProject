@@ -209,19 +209,20 @@
                     <div class="service-content" style="display: flex; flex-direction: row; gap: 10px;">
                         <div style="flex: 1; display: flex; flex-direction: column;">
                             <h2>{{ service.Service_name }}</h2>
-                            <p style="display: inline;">
+                            <p style="text-align: justify; display: inline;">
                                 {{ service.main_content }}
-                                <span class="toggle-btn see-more" style="color: blue; text-decoration: underline; cursor: pointer;">See More..</span>
+                                <span class="toggle-btn see-more" style="color: blue; text-decoration: underline; cursor: pointer;">See More</span>
                                 <span class="extra-content" style="display: none;">
                                     {{ service.extra_content }}
-                                    <span class="toggle-btn see-less" style="color: blue; text-decoration: underline; cursor: pointer; display: none;">..See Less</span>
+                                    <span class="toggle-btn see-less" style="color: blue; text-decoration: underline; cursor: pointer; display: none;">See Less</span>
                                 </span>
                             </p>
-                            <button class="view-more-pics" data-service-id="{{ service.pk }}" onclick="openModalGallery(this)" style="align-self: flex-start; padding: 5px 10px; font-size: 14px;">
+                            <button class="view-more-pics" data-service-id="{{ service.pk }}" onclick="openModalGallery(this)" style="margin-top: auto; align-self: flex-start; padding: 5px 10px; font-size: 14px;">
                                 More images
                             </button>
                         </div>
                     </div>
+                    
                     
                     
                     
