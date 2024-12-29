@@ -180,7 +180,7 @@ class HappyClient(models.Model):
     def save(self, *args, **kwargs):
         # Process the client's image
         if self.image:
-            self.image = self.process_image(self.image, target_size=(800, 800))  # Resize to 800x800
+            self.image = self.process_image(self.image, target_size=(1200, 3600))  # Resize to 12x36 inches (1200x3600 px)
         
         super().save(*args, **kwargs)
 
@@ -188,11 +188,13 @@ class HappyClient(models.Model):
     def process_image(image_field, target_size):
         img = Image.open(image_field)
         img = img.convert("RGB")  # Ensure compatibility with WebP
-        img.thumbnail(target_size, Image.Resampling.LANCZOS)  # Resize
 
-        # Save to WebP format
+        # Resize to the target size (12x36 inches)
+        img.thumbnail(target_size, Image.Resampling.LANCZOS)
+
+        # Compress and save the image to WebP format
         output = BytesIO()
-        img.save(output, format="WEBP", quality=80)
+        img.save(output, format="WEBP", quality=80)  # You can adjust the quality here
         output.seek(0)
 
         # Return a new ContentFile for the image field
