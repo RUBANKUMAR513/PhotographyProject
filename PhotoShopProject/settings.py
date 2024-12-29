@@ -203,6 +203,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 LOGIN_URL = '/Userlogin/'
 
 DATA_UPLOAD_MAX_NUMBER_FILES = 2000  # Increase this value as needed
+DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400  # 25 MB
+
 
 #celery Configuration
 CELERY_BROKER_URL = 'redis://localhost:6379'  # Redis as broker
