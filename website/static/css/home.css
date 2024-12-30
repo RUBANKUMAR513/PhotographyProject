@@ -1234,7 +1234,7 @@ header {
     position: relative; /* Allows absolute positioning for child elements */
     background-size: contain; /* Ensure the entire image is displayed without cropping */
     background-position: center; /* Center the background image */
-    background-repeat: repeat; /* Prevent image repetition */
+    background-repeat: no-repeat; /* Prevent image repetition */
     color: #fff; /* Text color */
     margin-top: 100px;
     padding: 20px; /* Padding inside the container */
