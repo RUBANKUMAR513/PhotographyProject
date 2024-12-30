@@ -219,3 +219,8 @@ CELERY_RESULT_BACKEND='django-db'
 #celery beat
 CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 4000  # Adjust this value as needed
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://vickyneophotography.com',
+    'https://www.vickyneophotography.com',
+]
