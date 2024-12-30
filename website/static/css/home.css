@@ -1230,15 +1230,11 @@ header {
         transform: translateY(0); /* Move to original position */
     }
 }
-
-
-
-
 .quote-container {
     position: relative; /* Allows absolute positioning for child elements */
-   
-    background-size: cover; /* Cover the entire container */
+    background-size: contain; /* Ensure the entire image is displayed without cropping */
     background-position: center; /* Center the background image */
+    background-repeat: repeat; /* Prevent image repetition */
     color: #fff; /* Text color */
     margin-top: 100px;
     padding: 20px; /* Padding inside the container */
@@ -1286,15 +1282,21 @@ header {
     font-style: italic; /* Italic style for the quote */
     margin-bottom: 10px; /* Space below quote */
 }
+
 .center-image {
     flex-shrink: 0; /* Prevent image from shrinking */
 }
+
+.center-image img {
+    max-width: 100px; /* Set a maximum width for the center image */
+    height: auto; /* Maintain aspect ratio */
+}
+
 .quote-author {
     display: block; /* Block for the author */
     margin-top: 5px; /* Space above the author */
     font-weight: bold; /* Bold text for the author */
 }
-
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -1307,9 +1309,12 @@ header {
     }
 
     .center-image img {
-        width: 80px; /* Adjust center image size on smaller screens */
+        max-width: 60px; /* Reduce size of the center image for mobile view */
     }
 }
+
+
+
 
 .intro-banner {
     display: flex;
