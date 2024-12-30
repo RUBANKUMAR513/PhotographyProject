@@ -691,7 +691,7 @@ header {
 
 .view-more-pics {
    
-    align-self: flex-start; /* Align the button to the start of the flex container */
+    
     padding: 5px 10px;
     font-size: 14px;
     background-color: #007bff;
@@ -699,7 +699,7 @@ header {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .toggle-btn {
@@ -721,7 +721,7 @@ header {
     }
 
     .view-more-pics {
-        margin-top: 10px; /* Add spacing for stacked layout */
+        margin-top: 30px; /* Add spacing for stacked layout */
     }
 }
 
