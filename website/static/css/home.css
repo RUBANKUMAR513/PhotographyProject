@@ -141,12 +141,15 @@ header {
 
     .company-name h1 {
         font-size: 28px;
+        /* Lighter shadow for medium screens */
+        text-shadow: -1px 0px 0 rgba(0, 0, 0, 0.3);
     }
 
     .tagline {
         font-size: 14px;
     }
-    .menu-btn{
+
+    .menu-btn {
         font-size: 20px;
     }
 }
@@ -161,20 +164,22 @@ header {
     }
 
     .company-name h1 {
-        /* border: 1px solid black; */
         font-size: 16px;
+        /* Darker shadow for small screens */
+        text-shadow: -1px -0px 0 rgba(0, 0, 0, 0.7); /* Darker and more pronounced */
     }
 
     .tagline {
         font-size: 13px;
         margin-bottom: 10px;
     }
-    .menu-btn{
+
+    .menu-btn {
         font-size: 20px;
         margin-left: 5px;
-        /* border: 1px solid black; */
     }
 }
+
 
 
 
