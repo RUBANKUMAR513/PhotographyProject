@@ -66,7 +66,14 @@ header {
     font-style: normal;
     margin: 0px;
     margin-top: 10px;
+
+    /* Add stroke */
+    -webkit-text-stroke: 0.5px #5D3A00; /* Stroke width and color */
+    text-stroke: 0.5px #5D3A00; /* Standard property (not yet widely supported) */
+    /* Add lighter shadow */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2), 0 0 5px rgba(0, 0, 0, 0.1); 
 }
+
 
 /* Style the logo and align it to the right */
 .logo-container {
