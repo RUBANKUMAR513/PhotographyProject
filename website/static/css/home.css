@@ -1232,7 +1232,7 @@ header {
 }
 .quote-container {
     position: relative; /* Allows absolute positioning for child elements */
-    background-size: contain; /* Ensure the entire image is displayed without cropping */
+    background-size: cover; /* Ensure the entire image is displayed without cropping */
     background-position: center; /* Center the background image */
     background-repeat: no-repeat; /* Prevent image repetition */
     color: #fff; /* Text color */
