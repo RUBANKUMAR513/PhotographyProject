@@ -65,6 +65,49 @@
     transition: background-color 0.3s;
     z-index: 1001;
 }
+/* Fullscreen Modal Styling */
+.fullscreen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.fullscreen-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    transition: transform 0.3s ease-out;
+}
+
+/* Zoom-in and Zoom-out buttons */
+.zoom-in, .zoom-out {
+    position: absolute;
+    top: 10px;
+    font-size: 24px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.zoom-in {
+    left: 10px;
+}
+
+.zoom-out {
+    left: 50px;
+}
+
+
 
 .prev,
 .next {
@@ -236,12 +279,15 @@
         
 
 <!-- Fullscreen Modal for Individual Image -->
-<div class="fullscreen-modal" id="fullscreenModal" onclick="closeModal()">
+<div class="fullscreen-modal" id="fullscreenModal">
     <img id="fullscreenImage" src="" alt="Fullscreen Image">
     <button class="close-button" onclick="closeModal()">X</button>
+
+    <button class="zoom-in" onclick="zoomImage(1)">&#x2B;&#xFE00;</button>
+    <button class="zoom-out" onclick="zoomImage(-1)">&#x2212;&#xFE00;</button>
 </div>
 
-<div class="gallery-modal" id="galleryModal" onclick="closeGallery()">
+<div class="gallery-modal" id="galleryModal">
     <div class="gallery-content">
         <button class="gallery-close-button" onclick="closeGallery()">X</button>
         <img id="galleryImage" src="" alt="Gallery Image" loading="lazy">
@@ -438,6 +484,58 @@
             console.log("Page loaded, no gallery should be opened by default.");
             closeGallery(); // Ensure the gallery is closed
         };
+
+let currentZoom = 1; // Default zoom level
+
+// Function to open the fullscreen modal
+function openFullscreenModal(imageSrc) {
+    const modal = document.getElementById('fullscreenModal');
+    const image = document.getElementById('fullscreenImage');
+    image.src = imageSrc;
+    modal.style.display = 'flex';
+    currentZoom = 1; // Reset zoom when opening the modal
+    updateImageZoom();
+}
+
+// Function to close the fullscreen modal
+function closeModal() {
+    const modal = document.getElementById('fullscreenModal');
+    modal.style.display = 'none';
+}
+
+// Function to zoom the image
+function zoomImage(zoomDirection) {
+    console.log("this is called")
+    const image = document.getElementById('fullscreenImage');
+    
+    // Adjust zoom level
+    currentZoom += zoomDirection * 0.1;
+    if (currentZoom < 0.5) currentZoom = 0.5; // Minimum zoom
+    if (currentZoom > 3) currentZoom = 3; // Maximum zoom
+
+    updateImageZoom();
+}
+
+// Function to update the zoom on the image
+function updateImageZoom() {
+    const image = document.getElementById('fullscreenImage');
+    image.style.transform = `scale(${currentZoom})`;
+}
+
+// Function to open the gallery modal (optional, depending on your use case)
+function openGallery(imageSrc) {
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryImage = document.getElementById('galleryImage');
+    galleryImage.src = imageSrc;
+    galleryModal.style.display = 'flex';
+}
+
+// Function to close the gallery modal
+function closeGallery() {
+    const galleryModal = document.getElementById('galleryModal');
+    galleryModal.style.display = 'none';
+}
+
     </script>
 </body>
 </html>
