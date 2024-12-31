@@ -183,9 +183,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False  # Disable appending slashes
 
-# Media configuration for production
-MEDIA_URL = 'https://vickyneophotography.com/media/'  # Update with your production domain
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Adjust if using a different storage location
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 THUMBNAIL_ALIASES = {
     "": {
