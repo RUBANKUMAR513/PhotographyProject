@@ -166,22 +166,18 @@ def get_service_images(request):
             if not service_id:
                 return JsonResponse({'status': 'error', 'message': 'Service ID is required'}, status=400)
 
+            # Fetch the service instance
             service = OurService.objects.get(pk=service_id, enable=True)
 
             # Fetch enabled images associated with the service
             images = service.images.filter(enable=True).values_list('image', flat=True)
-            print("Fetched images:", images)  # Check if any images were fetched
+            print("Fetched images:", images)  # Debugging statement
 
-            # Construct the list of image URLs, omitting the first image
-            image_urls = []
-            for image in images[1:]:  # Skip the first image
-                image_url = request.build_absolute_uri(f'/media/{image}')  # Build the full URL
-                print("Image URL:", image_url)  # Debugging statement
-                image_urls.append(image_url)
-            
-            print("All Image URLs (excluding first):", image_urls)  # Debugging statement
-            
-            return JsonResponse({'status': 'success', 'images': image_urls})
+            # Skip the first image and return the relative paths
+            image_paths = list(images[1:])  # Convert queryset to list and skip the first image
+            print("All Image Paths (excluding first):", image_paths)  # Debugging statement
+
+            return JsonResponse({'status': 'success', 'images': image_paths})
 
         except OurService.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Service not found'}, status=404)
@@ -192,6 +188,7 @@ def get_service_images(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
 
 
 
