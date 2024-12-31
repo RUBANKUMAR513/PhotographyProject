@@ -155,27 +155,25 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import OurService
 
-@csrf_exempt  # Temporarily disable CSRF for testing, remove in production
+@csrf_exempt
 def get_service_images(request):
     if request.method == 'POST':
         try:
-            print("Received POST request for service images")  # Debugging statement
+            print("Received POST request for service images")
             data = json.loads(request.body)
             service_id = data.get('service_id')
 
             if not service_id:
                 return JsonResponse({'status': 'error', 'message': 'Service ID is required'}, status=400)
 
-            # Fetch the service instance
             service = OurService.objects.get(pk=service_id, enable=True)
 
-            # Fetch enabled images associated with the service
             images = service.images.filter(enable=True).values_list('image', flat=True)
-            print("Fetched images:", images)  # Debugging statement
+            print("Fetched images:", images)
 
-            # Skip the first image and return the relative paths
-            image_paths = list(images[1:])  # Convert queryset to list and skip the first image
-            print("All Image Paths (excluding first):", image_paths)  # Debugging statement
+            # Prepend MEDIA_URL to each image path
+            image_paths = [f"{settings.MEDIA_URL}{image}" for image in images[1:]]
+            print("All Image Paths (with MEDIA_URL):", image_paths)
 
             return JsonResponse({'status': 'success', 'images': image_paths})
 
@@ -184,7 +182,7 @@ def get_service_images(request):
         except json.JSONDecodeError:
             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
         except Exception as e:
-            print(f"Internal Server Error: {e}")  # Log the error
+            print(f"Internal Server Error: {e}")
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
