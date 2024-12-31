@@ -454,7 +454,7 @@
         function showGalleryImage() {
             const galleryImage = document.getElementById('galleryImage');
             if (galleryImages.length > 0) {
-                console.log("galleryImages[currentImageIndex]");
+                console.log("gallery current index:",galleryImages[currentImageIndex]);
                 galleryImage.src = galleryImages[currentImageIndex];
             } else {
                 console.error("No images to display.");
