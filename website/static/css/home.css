@@ -467,11 +467,11 @@ header {
 /* Responsive Design for smaller devices */
 @media (max-width: 768px) {
     .slider-container {
-        height: 60vh; /* Reduce height for smaller screens */
+        height: 40vh; /* Reduce height for smaller screens */
     }
 
     .slide img {
-        height: 60vh; /* Ensure image fills reduced height */
+        height: 40vh; /* Ensure image fills reduced height */
     }
 
     .prev, .next {
@@ -481,11 +481,11 @@ header {
 
 @media (max-width: 480px) {
     .slider-container {
-        height: 50vh; /* Further reduce height for very small screens */
+        height: 30vh; /* Further reduce height for very small screens */
     }
 
     .slide img {
-        height: 50vh; /* Ensure image fills reduced height */
+        height: 30vh; /* Ensure image fills reduced height */
     }
 } 
 
