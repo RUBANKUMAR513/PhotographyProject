@@ -73,7 +73,7 @@
             {% load static %}
             {% for slider in sliders %}
             <div class="slide">
-                <img src="{{ slider.image.url }}" alt="{{ slider.name }}">
+                <img src="{{ slider.image.url }}" alt="{{ slider.name }}" width="100%">
             </div>
             {% empty %}
             <p>No slides available.</p>
